@@ -33,6 +33,7 @@ class MessageStore(QObject):
 	messageStatusUpdated = QtCore.Signal(str,int,int);
 	messagesReady = QtCore.Signal(dict,bool);
 	conversationReady = QtCore.Signal(dict);
+	conversationsCount = QtCore.Signal(int);
 	conversationExported = QtCore.Signal(str, str); #jid, exportePath
 	conversationMedia = QtCore.Signal(list);
 	conversationGroups = QtCore.Signal(list);
@@ -243,6 +244,8 @@ class MessageStore(QObject):
 
 		convList = sorted(convList, key=lambda k: k['lastdate']);
 		convList.reverse();
+		
+		self.conversationsCount.emit(len(convList));
 
 		for ci in convList:
 			messages = []
