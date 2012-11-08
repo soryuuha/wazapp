@@ -20,9 +20,9 @@ WAPage {
     }
     
     function nextStage() {
-	stage++
 	curProgress=0
 	position=0
+	stage++
     }
 
     function setSubOperation(subop) {
