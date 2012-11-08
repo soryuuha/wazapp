@@ -467,7 +467,7 @@ WAPage {
 						
 						function getHeight() {
 						    var itemsRow = appWindow.inPortrait ? 7 : 12
-						    return parseInt(bubblesCount / itemsRow) + (((bubblesCount % itemsRow) == 0) ? 0 : 1)
+						    return (parseInt(bubblesCount / itemsRow) + (((bubblesCount % itemsRow) == 0) ? 0 : 1)) * cellHeight
 						}
 						
 						Component.onCompleted: {
