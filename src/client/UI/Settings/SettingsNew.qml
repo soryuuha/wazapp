@@ -455,45 +455,33 @@ WAPage {
 						text: qsTr("Bubble color:")
 						height: 50
 					}
-					ButtonRow {
-					    id: br2
-						height: 70
-					    Button {
-					        text: qsTr("Cyan")
-					        checked: mainBubbleColor==1
-							platformStyle: myButtonStyleLeft
-					        onClicked: {
-								MySettings.setSetting("BubbleColor", "1")
-					            mainBubbleColor=1
-					        }
-					    }
-					    Button {
-					        text: qsTr("Green")
-					        checked: mainBubbleColor==4
-							platformStyle: myButtonStyleCenter
-					        onClicked: {
-								MySettings.setSetting("BubbleColor", "4")
-					            mainBubbleColor=4
-					        }
-					    }
-					    Button {
-					        text: qsTr("Pink")
-					        checked: mainBubbleColor==3
-							platformStyle: myButtonStyleCenter
-					        onClicked: {
-								MySettings.setSetting("BubbleColor", "3")
-					            mainBubbleColor=3
-					        }
-					    }
-					    Button {
-					        text: qsTr("Orange")
-					        checked: mainBubbleColor==2
-							platformStyle: myButtonStyleRight
-					        onClicked: {
-								MySettings.setSetting("BubbleColor", "2")
-					            mainBubbleColor=2
-					        }
-					    }
+					GridView {
+						id: gridView
+						width: parent.width
+						cellHeight: 64
+						cellWidth: 64
+						interactive: false
+						property int bubblesCount: 15
+						
+						height: (appWindow.inPortrait? parseInt(bubblesCount / 7) : parseInt(bubblesCount / 12)) * cellHeight
+						
+						Component.onCompleted: {
+						  for (var i=1; i<bubblesCount+1; i++)
+						    gridModel.append({"name":i});
+						}
+
+						model: ListModel { id: gridModel }
+
+						delegate: BubbleColorButton {
+							selected: model.name==mainBubbleColor
+							imagenum: model.name
+							height: gridView.cellHeight
+							width: gridView.cellWidth
+							onClicked: { 
+								MySettings.setSetting("BubbleColor", model.name)
+								mainBubbleColor = model.name
+							}
+						}
 					}
 
 				}
