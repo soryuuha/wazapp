@@ -463,7 +463,12 @@ WAPage {
 						interactive: false
 						property int bubblesCount: 15
 						
-						height: (appWindow.inPortrait? parseInt(bubblesCount / 7) : parseInt(bubblesCount / 12)) * cellHeight
+						height: getHeight()
+						
+						function getHeight() {
+						    var itemsRow = appWindow.inPortrait ? 7 : 12
+						    return parseInt(bubblesCount / itemsRow) + (((bubblesCount % itemsRow) == 0) ? 0 : 1)
+						}
 						
 						Component.onCompleted: {
 						  for (var i=1; i<bubblesCount+1; i++)
