@@ -67,7 +67,6 @@ function populateContacts(contacts)
     console.log("Populating contacts of amount: "+contacts.length);
 
     if(!initializationDone) {
-		splashPage.resetProgress()
 		splashPage.setProgressMax(contacts.length)
 	}
 
@@ -79,7 +78,7 @@ function populateContacts(contacts)
 
         if(!initializationDone){
             splashPage.setSubOperation(contacts[i].jid)
-            splashPage.setProgress(i)
+            splashPage.step()
             breathe()
          }
         else if(i%4 == 0) {

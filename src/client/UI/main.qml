@@ -446,7 +446,14 @@ WAStackWindow {
     }
 
     function setSplashOperation(op) {
-        splashPage.setCurrentOperation(op)
+	if (op=="contacts") 
+	    splashPage.setCurrentOperation("Loading Contacts")
+	else if (op=="convs")
+	    splashPage.setCurrentOperation("Loading Conversations")
+	else if (op=="phone")
+	    splashPage.setCurrentOperation("Loading Phone Contacts")
+
+	splashPage.nextStage()
     }
 
     function onInitDone(){
@@ -811,14 +818,21 @@ WAStackWindow {
 
 
     /****Conversation related slots****/
+    
+    function conversationsCount(max) {
+      if(!initializationDone)
+	splashPage.setProgressMax(max)
+    }
 
     function conversationReady(conv){
         //This should be called if and only if conversation start point is backend
         consoleDebug("Got a conv in conversationReady slot: " + conv.jid);
 
 
-        if(!initializationDone)
+        if(!initializationDone) {
             splashPage.setSubOperation(conv.jid)
+	    splashPage.step()
+	}
 
         breathe()
         var conversation = waChats.getOrCreateConversation(conv.jid);
@@ -990,6 +1004,7 @@ WAStackWindow {
     WASplash{
         id:splashPage
         version:waversion
+        showSubProgress: false
     }
 
     AboutDialog{
