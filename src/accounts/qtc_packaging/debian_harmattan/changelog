@@ -1,3 +1,8 @@
+wazapp (0.9.13~nightly) testing; urgency=high
+    * master_nightly fixies
+
+ -- coderus <coderusinbox[at]gmail[dot]com>  Thu, 15 Nov 2012 14:25:15 +0600
+
 wazapp (0.9.13) testing; urgency=high
     * updated translations
     * Changed Block/Unblock to Ignore/Allow messages
