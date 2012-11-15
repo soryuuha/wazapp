@@ -996,13 +996,18 @@ WAPage {
                 text: qsTr("Remove message")
 				bottomItem: !profileMenuItem.visible
                 onClicked:{
-                    deleteMessage(jid, selectedMessage.msg_id)
-					conv_data.remove(selectedMessageIndex)
-                    if(hasMore) {
-                        loadMoreMessages(1);
-					}
-                    updateLastMessage();
-				}
+			var filePath = typeof(selectedMessage.media.local_path) != "undefined" ? selectedMessage.media.local_path : selectedMessage.media_path
+			if (selectedMessage.from_me == 0 && selectedMessage.mediatype_id > 1 && selectedMessage.mediatype_id != 5 && typeof(filePath) != "undefined" && removeReceivedMedia)
+			{
+				tryDeleteMediaFile(filePath)
+			}
+			deleteMessage(jid, selectedMessage.msg_id)
+			conv_data.remove(selectedMessageIndex)
+			if(hasMore) {
+				loadMoreMessages(1);
+			}
+			updateLastMessage();
+		}
             }
 
             WAMenuItem{
