@@ -313,8 +313,8 @@ class WAUI(QDeclarativeView):
 				self.splashOperationUpdated.emit("contacts")
 
 			
-			contactsFiltered = filter(lambda c: c["jid"]!=self.accountJid, contacts)
-			self.rootObject().pushContacts(mode,contactsFiltered);
+			#contactsFiltered = filter(lambda c: c["jid"]!=self.accountJid, contacts)
+			self.rootObject().pushContacts(mode,contacts);
 
 		#if self.whatsapp is not None:
 		#	self.whatsapp.eventHandler.networkDisconnected()
