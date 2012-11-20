@@ -83,8 +83,8 @@ Window {
     Connections {
 	    target: appWindow
 	    onSetBackground: {
-		    var result = backgroundimg.replace("file://","")
-		    myBackgroundImage = result
+		    myBackgroundImage = WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() // cache hacking
+		    backgroundImage.sourceChanged(myBackgroundImage!="none" ? myBackgroundImage : "")
 	    }
     }
 

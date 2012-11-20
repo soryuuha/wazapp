@@ -71,7 +71,7 @@ WAPage {
 
 		onSetBackground: {
 			var result = backgroundimg.replace("file://","")
-			myBackgroundImage = result
+			myBackgroundImage = WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() // cache hacking
 			MySettings.setSetting("Background", result)
 			backgroundSelector.subtitle = getBackgroundSubtitle()
 		}
@@ -354,7 +354,7 @@ WAPage {
 						id: backgroundSelector
 					    title: qsTr("Image")
 					    subtitle: getBackgroundSubtitle()
-						onClicked: pageStack.push(Qt.resolvedUrl("SetBackground.qml") );
+						onClicked: pageStack.push(setBackgroundPicture);
 					}
 
 					Row {
@@ -772,17 +772,45 @@ WAPage {
     SelectPicture {
         id:setProfilePicture
         onSelected: {
-            pageStack.pop()
-
-            runIfOnline(function(){
-                picture.state = "loading"
-                breathe()
-                setMyProfilePicture(path)
-
-            }, true)
-
+	    resizePicture.maximumSize = 480
+	    resizePicture.minimumSize = 192
+	    resizePicture.picture = path
+	    resizePicture.filename = "temp.jpg"
+	    pageStack.replace(resizePicture)
+        }
+    }
+    
+    SelectPicture {
+        id:setBackgroundPicture
+        noneButtonActive: true
+        onSelected: {
+	    resizeBackground.maximumSize = 840
+	    resizeBackground.minimumSize = 420
+	    resizeBackground.picture = path
+	    resizeBackground.filename = "background.jpg"
+	    pageStack.replace(resizeBackground)
         }
     }
 
+    ResizePicture {
+	id: resizePicture
+	onSelected: {	
+		pageStack.pop()
+		
+		runIfOnline(function(){
+			picture.state = "loading"
+			breathe()
+			setMyProfilePicture()
+		}, true)
+	}
+    }
+
+    ResizePicture {
+	id: resizeBackground
+	onSelected: {	
+		pageStack.pop()
+		setBackground(resizeBackground.picture)
+	}
+    }
 }
 

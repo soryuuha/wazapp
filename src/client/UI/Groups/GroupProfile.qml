@@ -324,10 +324,27 @@ WAPage {
     SelectPicture {
         id:setProfilePicture
         onSelected: {
-            pageStack.pop()
-            breathe();
-            setGroupPicture(jid, path)
+	    breathe()
+            resizePicture.maximumSize = 480
+	    resizePicture.minimumSize = 192
+	    resizePicture.picture = path
+	    resizePicture.filename = "temp.jpg"
+            pageStack.push(resizePicture)
         }
+    }
+    
+    ResizePicture {
+	id: resizePicture
+	onSelected: {		
+		runIfOnline(function(){
+			picture.state = "loading"
+			breathe()
+			setGroupPicture(jid)
+		}, true)
+		
+		pageStack.pop()
+		pageStack.pop()
+	}
     }
 
     ChangeSubject{
