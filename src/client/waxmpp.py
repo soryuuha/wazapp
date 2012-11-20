@@ -1151,7 +1151,7 @@ class WAEventHandler(QObject):
 	
 	def transformPicture(self, filepath, temppath, posX, posY, size, maxSize, rotation):
 		print "Preparing picture " + filepath + " - rotation: " + str(rotation)
-		image = filepath.replace("file://","")=
+		image = filepath.replace("file://","")
 
 		user_img = QImage(image)
 

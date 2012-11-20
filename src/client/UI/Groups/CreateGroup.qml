@@ -433,7 +433,6 @@ WAPage {
 		pageStack.pop()
 		
 		runIfOnline(function(){
-			picture.state = "loading"
 			breathe()
 			selectedPicture = WAConstants.CACHE_PATH+"/"+"temp.jpg"
 			m_rectX = rectX

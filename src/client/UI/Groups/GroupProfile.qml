@@ -337,7 +337,6 @@ WAPage {
 	id: resizePicture
 	onSelected: {		
 		runIfOnline(function(){
-			picture.state = "loading"
 			breathe()
 			setGroupPicture(jid)
 		}, true)
