@@ -673,6 +673,7 @@ class WAUI(QDeclarativeView):
 		self.rootObject().getPicture.connect(whatsapp.eventHandler.getPicture)
 		self.rootObject().setGroupPicture.connect(whatsapp.eventHandler.setGroupPicture)
 		self.rootObject().setMyProfilePicture.connect(whatsapp.eventHandler.setProfilePicture)
+		self.rootObject().transformPicture.connect(whatsapp.eventHandler.transformPicture)
 		self.rootObject().sendMediaImageFile.connect(whatsapp.eventHandler.sendMediaImageFile)
 		self.rootObject().sendMediaVideoFile.connect(whatsapp.eventHandler.sendMediaVideoFile)
 		self.rootObject().sendMediaAudioFile.connect(whatsapp.eventHandler.sendMediaAudioFile)

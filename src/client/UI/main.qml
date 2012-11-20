@@ -134,8 +134,9 @@ WAStackWindow {
     signal getPictureIds(string jids);
     signal getPicture(string jid);
     signal onContactPictureUpdated(string ujid);
-    signal setGroupPicture(string jid, string file);
-    signal setMyProfilePicture(string file);
+    signal setGroupPicture(string jide);
+    signal setMyProfilePicture();
+    signal transformPicture(string file, string newfile, int posX, int posY, int size, int maxSize, int rotation);
     signal sendMediaMessage(string jid, string data, string image, string preview);
     signal sendMediaImageFile(string jid, string file);
     signal sendMediaVideoFile(string jid, string file, string preview);

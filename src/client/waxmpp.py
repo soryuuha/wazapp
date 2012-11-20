@@ -1141,58 +1141,32 @@ class WAEventHandler(QObject):
 		fmsg.save()
 
 		
-	def setGroupPicture(self, jid, filepath):
-		path = self._getPictureForSending(jid, filepath)
+	def setGroupPicture(self, jid):
+		path = WAConstants.CACHE_PATH+"/"+"temp.jpg"
 		self.interfaceHandler.call("group_setPicture", (jid, path))
 		
-	def setProfilePicture(self, filepath):
-		path = self._getPictureForSending(self.jid, filepath)
+	def setProfilePicture(self):
+		path = WAConstants.CACHE_PATH+"/"+"temp.jpg"
 		self.interfaceHandler.call("profile_setPicture", (path,))
 	
-	def _getPictureForSending(self, jid, filepath):
-		print "Preparing picture " + filepath + " for " + jid
+	def transformPicture(self, filepath, temppath, posX, posY, size, maxSize, rotation):
+		print "Preparing picture " + filepath + " - rotation: " + str(rotation)
 		image = filepath.replace("file://","")
-		rotation = 0
-
-		ret = {}
-		im = Image.open(image)
-		try:
-			info = im._getexif()
-			for tag, value in info.items():
-				decoded = TAGS.get(tag, value)
-				ret[decoded] = value
-			if ret['Orientation'] == 6:
-				rotation = 90
-		except:
-			rotation = 0
 
 		user_img = QImage(image)
 
-		if rotation == 90:
+		preimg = user_img.copy(posX,posY,size,size)
+		if size > maxSize:
+			preimg = preimg.scaledToWidth(maxSize, Qt.FastTransformation)
+		if rotation != 0:
 			rot = QTransform()
-			rot = rot.rotate(90)
-			user_img = user_img.transformed(rot)
+			rot = rot.rotate(rotation)
+			preimg = preimg.transformed(rot)
 
-
-		if user_img.height() > user_img.width():
-			preimg = user_img.scaledToWidth(480, Qt.SmoothTransformation)
-			preimg = preimg.copy( 0, preimg.height()/2-240, 480, 480);
-		elif user_img.height() < user_img.width():
-			preimg = user_img.scaledToHeight(480, Qt.SmoothTransformation)
-			preimg = preimg.copy( preimg.width()/2-240, 0, 480, 480);
-		else:
-			preimg = user_img.scaled(480, 480, Qt.KeepAspectRatioByExpanding, Qt.SmoothTransformation)
-
-		preimg.save(WAConstants.CACHE_PATH+"/temp.jpg", "JPG")
-
-		''''f = open(WAConstants.CACHE_PATH+"/temp.jpg", 'r')
-		stream = f.read()
-		stream = bytearray(stream)
-		f.close()
-		'''
+		os.remove(temppath)
+		preimg.save(temppath, "JPG")
 		
-		return WAConstants.CACHE_PATH+"/temp.jpg"
-		
+		return temppath
 
 
 	def sendMediaImageFile(self,jid,image):
