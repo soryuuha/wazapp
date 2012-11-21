@@ -535,12 +535,27 @@ WAPage {
 					id: column3
 					anchors { top: parent.top; left: parent.left; right: parent.right;}
 					spacing: 10
+					
+					GroupSeparator {
+						title: qsTr("Behaviour")
+					}
+					SwitchItem {
+						title: qsTr("Use system Chat notifier")
+						check: MySettings.getSetting("NotifierChatBehaviour", "No")
+						onCheckChanged: {
+							MySettings.setSetting("NotifierChatBehaviour", value)
+							notifierChatBehaviour = value=="Yes"
+							setNotifierChatBehaviour(notifierChatBehaviour)
+						}
+					}
 
 					GroupSeparator {
 						title: qsTr("Personal messages")
+						visible: !notifierChatBehaviour
 					}
 					SelectionItem {
 						id: personalTone
+						visible: !notifierChatBehaviour
 					    title: qsTr("Notification tone")
 					    subtitle: getRingtoneSubtitle(personalRingtone)
 						onClicked: {
@@ -552,6 +567,7 @@ WAPage {
 					SwitchItem {
 						title: qsTr("Vibrate")
 						check: vibraForPersonal
+						visible: !notifierChatBehaviour
 						onCheckChanged: {
 							MySettings.setSetting("PersonalVibrate", value)
 							vibraForPersonal = value=="Yes"
@@ -561,10 +577,12 @@ WAPage {
 
 					GroupSeparator {
 						title: qsTr("Group messages")
+						visible: !notifierChatBehaviour
 					}
 
 					SelectionItem {
 						id: groupTone
+						visible: !notifierChatBehaviour
 					    title: qsTr("Notification tone")
 					    subtitle: getRingtoneSubtitle(groupRingtone)
 						onClicked: {
@@ -575,6 +593,7 @@ WAPage {
 					}
 					SwitchItem {
 						id: groupVibra
+						visible: !notifierChatBehaviour
 						title: qsTr("Vibrate")
 						check: vibraForGroup
 						onCheckChanged: {
