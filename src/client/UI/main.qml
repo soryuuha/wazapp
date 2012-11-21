@@ -62,7 +62,7 @@ WAStackWindow {
         vibraForGroup = MySettings.getSetting("GroupVibrate", "Yes")
         personalRingtone = MySettings.getSetting("PersonalRingtone", "/usr/share/sounds/ring-tones/Message 1.mp3")
         groupRingtone = MySettings.getSetting("GroupRingtone", "/usr/share/sounds/ring-tones/Message 1.mp3")
-        myBackgroundImage = MySettings.getSetting("Background", "none")
+        myBackgroundImage = MySettings.getSetting("Background", "none")=="none"?"":WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() // cache hacking
         myBackgroundOpacity = MySettings.getSetting("BackgroundOpacity", "5")
         setBackground(myBackgroundImage)
     }
