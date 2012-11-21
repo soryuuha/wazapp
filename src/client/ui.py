@@ -307,6 +307,8 @@ class WAUI(QDeclarativeView):
 
 		else:
 			contacts = self.c.getContacts();
+			if len(contacts) == 0:
+				self.c.resync("SYNC","ALL")
 			self._d("POPULATE CONTACTS: " + str(len(contacts)));
 			
 			if not self.initializationDone:
