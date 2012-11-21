@@ -308,6 +308,8 @@ class WAUI(QDeclarativeView):
 				self.splashOperationUpdated.emit("Loading Contacts")
 
 			contacts = self.c.getContacts();
+			if len(contacts) == 0:
+				self.c.resync("SYNC","ALL")
 			self._d("POPULATE CONTACTS: " + str(len(contacts)));
 			
 			
