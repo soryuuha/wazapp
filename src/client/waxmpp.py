@@ -1163,7 +1163,8 @@ class WAEventHandler(QObject):
 			rot = rot.rotate(rotation)
 			preimg = preimg.transformed(rot)
 
-		os.remove(temppath)
+		if os.path.exists(temppath):
+			os.remove(temppath)
 		preimg.save(temppath, "JPG")
 		
 		return temppath
