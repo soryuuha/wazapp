@@ -176,7 +176,7 @@ Item{
                 id: bucketBorder
                 anchors.fill: parent
                 border.width: 4 / image.scale
-                border.color: (bucketMouseArea.pressed || bucketResizeMouseArea.pressed) ? "red" : "lightgray"
+                border.color: (bucketMouseArea.pressed || bucketResizeMouseArea.pressed) ? pressedColor : "lightgray"
                 color: "transparent"
             }
 
