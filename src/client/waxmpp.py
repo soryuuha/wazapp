@@ -120,7 +120,7 @@ class WAEventHandler(QObject):
 		self.account = "";
 
 		self.blockedContacts = [];
-
+		self.profilePictureIds = []
 		self.resizeImages = False;
 		self.disconnectRequested = False
 
@@ -215,7 +215,7 @@ class WAEventHandler(QObject):
 		self.interfaceHandler.connectToSignal("presence_unavailable", self.presence_unavailable_received)
 		self.interfaceHandler.connectToSignal("presence_updated", self.onLastSeen)
 
-		self.interfaceHandler.connectToSignal("contact_gotProfilePictureId", self.onProfilePictureIdReceived)
+		self.interfaceHandler.connectToSignal("contact_gotProfilePictureIds", self.onProfilePictureIdsReceived)
 		self.interfaceHandler.connectToSignal("contact_gotProfilePicture", self.onGetPictureDone)
 		self.interfaceHandler.connectToSignal("contact_typing", self.typing_received)
 		self.interfaceHandler.connectToSignal("contact_paused", self.paused_received)
@@ -1493,17 +1493,24 @@ class WAEventHandler(QObject):
 		self.statusChanged.emit()
 		self.interfaceHandler.call("delivered_ack", (jid, messageId))
 
-	def onProfilePictureIdReceived(self,jid, pictureId):
-		contact = WAXMPP.message_store.store.Contact.getOrCreateContactByJid(jid)
+	def onProfilePictureIdsReceived(self, ids):
+		self.profilePictureIds = ids
+		jid = self.profilePictureIds[0]['jid']
+		pictureId = self.profilePictureIds[0]['id']
 
-		cjid = jid.replace("@s.whatsapp.net","").replace("@g.us","")
+		contact = WAXMPP.message_store.store.Contact.getOrCreateContactByJid(jid)
+		cjid = jid
+		cjid = cjid.replace("@s.whatsapp.net","").replace("@g.us","")
 		if contact.pictureid != str(pictureId) or not os.path.isfile("%s/%s.jpg"%(WAConstants.CACHE_PROFILE, cjid)) or not os.path.isfile("%s/%s.png"%(WAConstants.CACHE_CONTACTS, cjid)):
 			contact.setData({"pictureid":pictureId})
 			contact.save()
 			self.interfaceHandler.call("contact_getProfilePicture", (jid,))
-
-
-		self.getPicturesFinished.emit()
+		else:
+			self.profilePictureIds.pop(0)
+			if len(self.profilePictureIds)>0:
+				self.onProfilePictureIdsReceived(self.profilePictureIds)
+			else:
+				self.getPicturesFinished.emit()
 
 	def onGetPictureDone(self, jid, tmpfile):
 
@@ -1517,7 +1524,12 @@ class WAEventHandler(QObject):
 
 			self.profilePictureUpdated.emit(jid);
 	
-		self.getPicturesFinished.emit()
+		if len(self.profilePictureIds)>0:
+			self.profilePictureIds.pop(0)
+			if len(self.profilePictureIds)>0:
+				self.onProfilePictureIdsReceived(self.profilePictureIds)
+			else:
+				self.getPicturesFinished.emit()
 		
 	def onSetProfilePicture(self):
 		self._d("GETTING MY PICTURE")

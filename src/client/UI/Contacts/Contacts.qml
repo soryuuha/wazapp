@@ -171,7 +171,6 @@ WAPage {
 		anchors.rightMargin: 16
 		anchors.verticalCenter: header.verticalCenter 
 		source: "../common/images/refresh.png"
-        visible:false//for now
 		MouseArea {
 			anchors.fill: parent
 			onClicked: {
@@ -186,14 +185,14 @@ WAPage {
 		anchors.rightMargin: 16
 		anchors.verticalCenter: header.verticalCenter 
         platformStyle: BusyIndicatorStyle { size: "medium";}
-        visible: false//!refreshPics.visible
+        visible: !refreshPics.visible
         running: visible
     }
 
 	Connections {
 		target: appWindow
 		onGetPicturesFinished: {
-            //refreshPics.visible = true
+		refreshPics.visible = true
 		}	
 	}
 
