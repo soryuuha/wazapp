@@ -57,7 +57,7 @@ WAPage {
     /****conversation info properties****/
     property int conversation_id;
     property string jid;
-    property string title:getTitle();
+    property string title: getTitle();
     property string picture:conversation_view.getPicture();
     property variant contacts;
     property variant lastMessage;

@@ -864,7 +864,7 @@ WAStackWindow {
             contact.setConversation(conversation);
 
         }
-
+        if (conversation.title=="") conversation.rebind()
     }
 
     signal reorderConversation(string cjid) //@@THIS IS FUCKING RETARDED!!!!!!!!
@@ -881,7 +881,7 @@ WAStackWindow {
 
         conversation.unreadCount=messages.conversation.unreadCount?messages.conversation.unreadCount:0;
         conversation.remainingMessagesCount = messages.conversation.remainingMessagesCount;
-
+        if (conversation.title=="") conversation.rebind()
         consoleDebug("Adding messages to conv")
         for (var i =0; i< messages.data.length; i++)
         {
