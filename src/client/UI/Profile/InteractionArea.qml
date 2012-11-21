@@ -36,11 +36,12 @@ Item{
         contentHeight: imageContainer.height
         contentWidth: imageContainer.width
         interactive: !bucketMouseArea.pressed && !bucketResizeMouseArea.pressed
+        clip: true
 
         Item{
             id: imageContainer
-            width: Math.max(image.width * image.scale, flickable.width)
-            height: Math.max(image.height * image.scale, flickable.height)
+            width: Math.max(image.getWidth() * image.scale, flickable.width)
+            height: Math.max(image.getHeight() * image.scale, flickable.height)
 
  	     Loader{
         	  anchors.centerIn: parent
@@ -72,7 +73,27 @@ Item{
             Image{
                 id: image
 
-		    function fitToScreen(){
+                function getHeight(){
+		    switch (rotation.angle)
+		    {
+			case 0:
+			case 180:	return image.height
+			case 90:
+			case 270:	return image.width
+		    }
+                }
+                
+                function getWidth(){
+		    switch (rotation.angle)
+		    {
+			case 0:
+			case 180:	return image.width
+			case 90:
+			case 270:	return image.height
+		    }
+                }
+                
+                function fitToScreen(){
                     scale = Math.min(flickable.width / width, flickable.height / height, 1)
                     pinchArea.minScale = scale
                     previousScale = scale
@@ -193,8 +214,6 @@ Item{
 		onPositionChanged: {
 			if (pressed) {
 				var delta = Math.round(Math.min((mouseX - oldMouseX),(mouseY - oldMouseY)))
-				var newSize = bucketContainer.width+delta
-				var maxSize = Math.min(image.sourceSize.height, image.sourceSize.width)
 				var deltaX = 0
 				var deltaY = 0
 				switch (rotation.angle)
@@ -208,14 +227,15 @@ Item{
 						break
 				}
 				if (
-				  (bucketContainer.height + delta <= maxSize) && 
-				  (bucketContainer.width + delta <= maxSize) && 
-				  (newSize >= bucketMinSize) &&
+				  (bucketContainer.height + bucketContainer.x + delta <= image.sourceSize.width) && 
+				  (bucketContainer.width + bucketContainer.y + delta <= image.sourceSize.height) && 
+				  (bucketContainer.width + delta >= bucketMinSize) &&
+				  //(bucketContainer.height + delta >= bucketMinSize) &&
 				  (bucketContainer.x + deltaX >= 0) &&
 				  (bucketContainer.y + deltaY >= 0)
 				) {
-					bucketContainer.height = newSize
-					bucketContainer.width = newSize
+					bucketContainer.height += delta
+					bucketContainer.width += delta
 					bucketContainer.x += deltaX
 					bucketContainer.y += deltaY
 				}
