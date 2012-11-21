@@ -1491,6 +1491,8 @@ class WAEventHandler(QObject):
 	def onGotGroups(self, groups):
 		for g in groups:
 			#print g
+			self.interfaceHandler.call("group_getInfo", (g['gJid'],) )
+			self.interfaceHandler.call("group_getParticipants", (g['gJid'],) )
 			conversation = WAXMPP.message_store.getOrCreateConversationByJid(g['gJid']);
 			if conversation.subject is None:
 				WAXMPP.message_store.updateGroupInfo(g['gJid'],g['ownerJid'],g['subject'],g['subjectOwnerJid'],g['subjectT'],g['creation'])
