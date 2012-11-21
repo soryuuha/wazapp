@@ -1530,6 +1530,8 @@ class WAEventHandler(QObject):
 				self.onProfilePictureIdsReceived(self.profilePictureIds)
 			else:
 				self.getPicturesFinished.emit()
+		else:
+			self.getPicturesFinished.emit()
 		
 	def onSetProfilePicture(self):
 		self._d("GETTING MY PICTURE")
