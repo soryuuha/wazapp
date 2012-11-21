@@ -34,7 +34,7 @@ from waupdater import WAUpdater
 import base64
 import hashlib
 import os
-import shutil, datetime
+import shutil, datetime, time
 import thread
 import Image
 from PIL.ExifTags import TAGS
@@ -184,7 +184,7 @@ class WAEventHandler(QObject):
 		#self.registerInterfaceSignals()
 
 		self.interfaceHandler.call("ready")
-
+		self.interfaceHandler.call("group_getGroups", ("participating",));
 		self.resendUnsent()
 
 	def authComplete(self):
@@ -219,7 +219,7 @@ class WAEventHandler(QObject):
 		self.interfaceHandler.connectToSignal("contact_gotProfilePicture", self.onGetPictureDone)
 		self.interfaceHandler.connectToSignal("contact_typing", self.typing_received)
 		self.interfaceHandler.connectToSignal("contact_paused", self.paused_received)
-
+		self.interfaceHandler.connectToSignal("group_gotGroups", self.onGotGroups)
 		self.interfaceHandler.connectToSignal("group_gotParticipants", self.onGroupParticipants)
 		self.interfaceHandler.connectToSignal("group_createSuccess", self.onGroupCreated)
 		self.interfaceHandler.connectToSignal("group_createFail", lambda errorCode: self.groupCreateFailed.emit(int(errorCode)))
@@ -1488,6 +1488,21 @@ class WAEventHandler(QObject):
 		
 		WAXMPP.message_store.sendConversationReady(jid);
 		
+	def onGotGroups(self, groups):
+		for g in groups:
+			#print g
+			conversation = WAXMPP.message_store.getOrCreateConversationByJid(g['gJid']);
+			if conversation.subject is None:
+				WAXMPP.message_store.updateGroupInfo(g['gJid'],g['ownerJid'],g['subject'],g['subjectOwnerJid'],g['subjectT'],g['creation'])
+
+				timestamp = long(time.time()*1000)
+				owner = WAXMPP.message_store.store.Contact.getOrCreateContactByJid(g['ownerJid'])
+				subjectOwner = WAXMPP.message_store.store.Contact.getOrCreateContactByJid(g['subjectOwnerJid'])
+				key = Key(g['gJid'], False, str(timestamp))
+				msg = WAXMPP.message_store.createMessage(g['gJid'])
+				msg.setData({"timestamp": timestamp,"status":0,"key":key.toString(),"content":self.account,"type":20})
+				msg.contact_id = subjectOwner.id
+				WAXMPP.message_store.pushMessage(g['gJid'],msg)
 	
 	def onProfileSetStatusSuccess(self, jid, messageId):
 		self.statusChanged.emit()
