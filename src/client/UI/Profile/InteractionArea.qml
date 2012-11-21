@@ -149,6 +149,7 @@ Item{
 
      	    height: Math.min(image.sourceSize.width, image.sourceSize.height)
             width: Math.min(image.sourceSize.width, image.sourceSize.height)
+	    transform: Rotation { origin.x: Math.round(bucketContainer.width/2); origin.y:  Math.round(bucketContainer.height/2); angle: 0 - rotation.angle}
 
             Rectangle{
                 id: bucketBorder
@@ -194,20 +195,29 @@ Item{
 				var delta = Math.round(Math.min((mouseX - oldMouseX),(mouseY - oldMouseY)))
 				var newSize = bucketContainer.width+delta
 				var maxSize = Math.min(image.sourceSize.height, image.sourceSize.width)
-				console.log("delta: " + delta)
-				console.log("newSize: " + newSize)
-				console.log("maxSize: " + maxSize)
-				console.log("bucketContainer.y: " + bucketContainer.y)
-				console.log("bucketContainer.x: " + bucketContainer.x)
+				var deltaX = 0
+				var deltaY = 0
+				switch (rotation.angle)
+				{
+				  case 90:	deltaY=-delta
+						break
+				  case 180:	deltaX=-delta
+						deltaY=-delta
+						break
+				  case 270:	deltaX=-delta
+						break
+				}
 				if (
 				  (bucketContainer.height + delta <= maxSize) && 
 				  (bucketContainer.width + delta <= maxSize) && 
-				  (newSize >= bucketMinSize)
-				  && (bucketContainer.y + rectH + delta <= image.sourceSize.height)
-				  && (bucketContainer.x + rectW + delta <= image.sourceSize.width)
+				  (newSize >= bucketMinSize) &&
+				  (bucketContainer.x + deltaX >= 0) &&
+				  (bucketContainer.y + deltaY >= 0)
 				) {
 					bucketContainer.height = newSize
 					bucketContainer.width = newSize
+					bucketContainer.x += deltaX
+					bucketContainer.y += deltaY
 				}
 			}
                 }
