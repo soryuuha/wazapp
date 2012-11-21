@@ -71,7 +71,7 @@ WAPage {
 
 		onSetBackground: {
 			var result = backgroundimg.replace("file://","")
-			myBackgroundImage = WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() // cache hacking
+			myBackgroundImage = result
 			MySettings.setSetting("Background", result)
 			backgroundSelector.subtitle = getBackgroundSubtitle()
 		}

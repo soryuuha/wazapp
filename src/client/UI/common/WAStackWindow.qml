@@ -83,14 +83,15 @@ Window {
     Connections {
 	    target: appWindow
 	    onSetBackground: {
-		    myBackgroundImage = WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() // cache hacking
-		    backgroundImage.sourceChanged(myBackgroundImage!="none" ? myBackgroundImage : "")
+		    var result = backgroundimg.replace("file://","")
+		    myBackgroundImage = result
+		    backgroundImage.sourceChanged(myBackgroundImage)
 	    }
     }
 
     Image {
         id: backgroundImage
-        source: myBackgroundImage!="none" ? myBackgroundImage : ""
+        source: myBackgroundImage!="none" ? WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() : ""
         fillMode: Image.PreserveAspectCrop
         opacity: parseInt(myBackgroundOpacity) / 10.0
         anchors { top: statusBar.bottom; left: parent.left; bottom: parent.bottom; right: parent.right; }

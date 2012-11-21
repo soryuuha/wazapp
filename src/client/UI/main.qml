@@ -64,9 +64,9 @@ WAStackWindow {
         notifierChatBehaviour = MySettings.getSetting("NotifierChatBehaviour", "No")=="Yes"
         personalRingtone = MySettings.getSetting("PersonalRingtone", "/usr/share/sounds/ring-tones/Message 1.mp3")
         groupRingtone = MySettings.getSetting("GroupRingtone", "/usr/share/sounds/ring-tones/Message 1.mp3")
-        myBackgroundImage = WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() // cache hacking
+        myBackgroundImage = MySettings.getSetting("Background", "none")
         myBackgroundOpacity = MySettings.getSetting("BackgroundOpacity", "5")
-        setBackground(MySettings.getSetting("Background", "none"))
+        setBackground(myBackgroundImage)
     }
 
     property string waversiontype:waversion.split('.').length == 4?'developer':'beta'
