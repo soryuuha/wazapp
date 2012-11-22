@@ -5,6 +5,7 @@ import "../common/js/settings.js" as MySettings;
 import "js/emojihelper.js" as EmojiHelper
 import QtMobility.feedback 1.1
 import "Components"
+import "../common"
 
 Dialog {
 	id: emojiSelector
@@ -165,44 +166,44 @@ Dialog {
            // width: emojiSelector.width-30
             y: 10
 
-            Button {
+            WAButton {
                 id: recentEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-left"
                 iconSource: get32("E02C");
                 onClicked: showGrid(recentGrid)
             }
 
-            Button {
+            WAButton {
                 id: peopleEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-center"
                 iconSource: get32("E057");
                 onClicked: showGrid(peopleGrid)
             }
 
-            Button {
+            WAButton {
                 id: natureEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-center"
                 iconSource: get32("E303");
                 onClicked: showGrid(natureGrid)
             }
 
-            Button {
+            WAButton {
                 id: placesEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-center"
                 iconSource: get32("E325")
                 onClicked: showGrid(placesGrid)
             }
 
-            Button {
+            WAButton {
                 id: objectsEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-center"
                 iconSource: get32("E036")
                 onClicked: showGrid(objectsGrid)
             }
 
-            Button {
+            WAButton {
                 id: symbolsEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-right"
                 iconSource: get32("E210")
                 onClicked: showGrid(symbolsGrid)
             }

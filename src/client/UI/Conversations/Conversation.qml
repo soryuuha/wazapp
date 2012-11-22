@@ -919,10 +919,9 @@ WAPage {
 			opacity: 0.4
 		}
 
-		Button
+		WAButton
 		{
 		    id: emoji_button
-		    //platformStyle: ButtonStyle { inverted: true }
 		    width:50
 		    height:50
             iconSource: "../common/images/emoji/32/E415.png"
@@ -937,7 +936,7 @@ WAPage {
 		    }
 		}
 
-		Button {
+		WAButton {
 			id: media_button
 			anchors.left: emoji_button.right
 			anchors.leftMargin: 12
@@ -954,10 +953,9 @@ WAPage {
 			}
 		}
 
-		Button
+		WAButton
 		{
 		    id:send_button
-			platformStyle: ButtonStyle { inverted: true }
 		    width:160
 		    height:50
 			text: qsTr("Send")
@@ -1027,7 +1025,7 @@ WAPage {
             width:conv_items.width
             //height:visible?loadMoreButton.height+20:0;
 			height: Math.max(hasMore?60:0, conv_panel.height -conv_items.contentHeight -myTextArea.height)
-            Button{
+            WAButton{
 				visible: hasMore
 				height: 44
                 id:loadMoreButton

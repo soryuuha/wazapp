@@ -294,7 +294,7 @@ WAPage {
             height: 10
         }
 
-        Button {
+        WAButton {
             id: statusButton
             height: 50
             width: parent.width
@@ -304,7 +304,7 @@ WAPage {
             onClicked: runIfOnline(function(){pageStack.push(groupSubjectChanger)}, true);
         }
 
-        Button {
+        WAButton {
             id: picButton
             height: 50
             width: parent.width
