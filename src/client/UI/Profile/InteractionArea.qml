@@ -27,6 +27,9 @@ Item{
 	rotation.angle = rotation.angle + 90
 	if (rotation.angle == 360)
 	    rotation.angle = 0
+	
+	image.fitToScreen()
+	flickable.returnToBounds()
     }
 
     Flickable{
@@ -94,7 +97,7 @@ Item{
                 }
                 
                 function fitToScreen(){
-                    scale = Math.min(flickable.width / width, flickable.height / height, 1)
+                    scale = Math.min(flickable.width / getWidth(), flickable.height / getHeight(), 1)
                     pinchArea.minScale = scale
                     previousScale = scale
                 }
@@ -168,9 +171,9 @@ Item{
         Item{
             id: bucketContainer
 
-     	    height: Math.min(image.sourceSize.width, image.sourceSize.height)
+            height: Math.min(image.sourceSize.width, image.sourceSize.height)
             width: Math.min(image.sourceSize.width, image.sourceSize.height)
-	    transform: Rotation { origin.x: Math.round(bucketContainer.width/2); origin.y:  Math.round(bucketContainer.height/2); angle: 0 - rotation.angle}
+            transform: Rotation { origin.x: Math.round(bucketContainer.width/2); origin.y:  Math.round(bucketContainer.height/2); angle: 0 - rotation.angle}
 
             Rectangle{
                 id: bucketBorder
@@ -178,6 +181,7 @@ Item{
                 border.width: 4 / image.scale
                 border.color: (bucketMouseArea.pressed || bucketResizeMouseArea.pressed) ? pressedColor : "lightgray"
                 color: "transparent"
+                visible: image.status == Image.Ready
             }
 
             MouseArea{
@@ -196,6 +200,7 @@ Item{
 		source: "/opt/waxmppplugin/bin/wazapp/UI/common/images/imageInteractor.png"
 		height: sourceSize.height / image.scale
 		width: sourceSize.width / image.scale
+		visible: image.status == Image.Ready
             }
             
             MouseArea{
@@ -230,7 +235,7 @@ Item{
 				  (bucketContainer.height + bucketContainer.x + delta <= image.sourceSize.width) && 
 				  (bucketContainer.width + bucketContainer.y + delta <= image.sourceSize.height) && 
 				  (bucketContainer.width + delta >= bucketMinSize) &&
-				  //(bucketContainer.height + delta >= bucketMinSize) &&
+				  (bucketContainer.height + delta >= resizeIndicator.height) &&
 				  (bucketContainer.x + deltaX >= 0) &&
 				  (bucketContainer.y + deltaY >= 0)
 				) {
