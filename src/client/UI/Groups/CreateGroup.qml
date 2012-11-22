@@ -148,7 +148,7 @@ WAPage {
                 imgsource: selectedPicture || defaultGroupPicture
             }
 
-            Button {
+            WAButton {
                 id: picButton
                 height: 50
                 width: parent.width - 10 - 80

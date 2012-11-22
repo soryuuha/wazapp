@@ -921,25 +921,30 @@ WAPage {
 			opacity: 0.4
 		}
 
-		Button
+		WAButton
 		{
 		    id: emoji_button
-		    //platformStyle: ButtonStyle { inverted: true }
 		    width:50
 		    height:50
-            iconSource: "../common/images/emoji/32/E415.png"
+		    iconSource: "../common/images/emoji/32/E415.png"
 		    anchors.left: parent.left
-			anchors.leftMargin: 16
+		    anchors.leftMargin: 16
 		    anchors.verticalCenter: send_button.verticalCenter
-            onClicked: {
+		    onClicked: {
 				sendMediaWindow.opacity = 0
-                emojiDialog.openDialog(chat_text);
+				emojiDialog.openDialog(chat_text);
 				showSendButton=true; 
-                //chat_text.lastPosition = chat_text.cursorPosition
+				//chat_text.lastPosition = chat_text.cursorPosition
+		    }
+		    onPressAndHold: {
+				sendMediaWindow.opacity = 0
+				emojiDialog.openLongDialog(chat_text);
+				showSendButton=true; 
+				//chat_text.lastPosition = chat_text.cursorPosition
 		    }
 		}
 
-		Button {
+		WAButton {
 			id: media_button
 			anchors.left: emoji_button.right
 			anchors.leftMargin: 12
@@ -956,10 +961,9 @@ WAPage {
 			}
 		}
 
-		Button
+		WAButton
 		{
 		    id:send_button
-			platformStyle: ButtonStyle { inverted: true }
 		    width:160
 		    height:50
 			text: qsTr("Send")
@@ -1034,7 +1038,7 @@ WAPage {
             width:conv_items.width
             //height:visible?loadMoreButton.height+20:0;
 			height: Math.max(hasMore?60:0, conv_panel.height -conv_items.contentHeight -myTextArea.height)
-            Button{
+            WAButton{
 				visible: hasMore
 				height: 44
                 id:loadMoreButton

@@ -5,6 +5,7 @@ import "../common/js/settings.js" as MySettings;
 import "js/emojihelper.js" as EmojiHelper
 import QtMobility.feedback 1.1
 import "Components"
+import "../common"
 
 Dialog {
 	id: emojiSelector
@@ -16,6 +17,8 @@ Dialog {
     property string titleText: qsTr("Select Emoji")
     property string emojiPath:"../common/images/emoji/";
     property string emojiRelativePath; //relative to textfield
+    property variant currentGrid: peopleGrid;
+    property bool longDialog: false
 
     /*function setCallback(func){
 
@@ -42,6 +45,11 @@ Dialog {
         var c = ""+code;
         return emojiPath+"24/"+c+".png";
     }
+    
+    function openLongDialog(textarea, relativePath){
+	openDialog(textarea, relativePath)
+	longDialog = true;
+    }
 
     function openDialog(textarea, relativePath){
         if(!textarea){
@@ -55,18 +63,8 @@ Dialog {
         emojiRelativePath = relativePath?relativePath:"/opt/waxmppplugin/bin/wazapp/UI/common/images/emoji"
 
         emojiSelector.open();
-	
-	var emojilist= MySettings.getSetting("RecentEmoji", "")
-	if (emojilist!="")
-	{
-		emojiCategory.checkedButton = recentEmoji
-		showGrid(recentGrid)
-	}
-	else
-	{
-		emojiCategory.checkedButton = peopleEmoji
-		showGrid(peopleGrid)
-	}
+        showGrid(currentGrid)
+        longDialog = false
     }
 
     function getGrids(){
@@ -90,6 +88,7 @@ Dialog {
 
     function showGrid(grid){
         hideAll();
+        currentGrid = grid;
         grid.showEmoji();
     }
     
@@ -165,44 +164,44 @@ Dialog {
            // width: emojiSelector.width-30
             y: 10
 
-            Button {
+            WAButton {
                 id: recentEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-left"
                 iconSource: get32("E02C");
                 onClicked: showGrid(recentGrid)
             }
 
-            Button {
+            WAButton {
                 id: peopleEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-center"
                 iconSource: get32("E057");
                 onClicked: showGrid(peopleGrid)
             }
 
-            Button {
+            WAButton {
                 id: natureEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-center"
                 iconSource: get32("E303");
                 onClicked: showGrid(natureGrid)
             }
 
-            Button {
+            WAButton {
                 id: placesEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-center"
                 iconSource: get32("E325")
                 onClicked: showGrid(placesGrid)
             }
 
-            Button {
+            WAButton {
                 id: objectsEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-center"
                 iconSource: get32("E036")
                 onClicked: showGrid(objectsGrid)
             }
 
-            Button {
+            WAButton {
                 id: symbolsEmoji
-            platformStyle: ButtonStyle { inverted: true }
+                styleSuffix: "-horizontal-right"
                 iconSource: get32("E210")
                 onClicked: showGrid(symbolsGrid)
             }
@@ -281,7 +280,7 @@ Dialog {
 	addRecentEmoji(emojiCode);
 
        // console.log(textarea.text)
-	if (hide)
+	if (hide || !longDialog)
 	{
 	    textarea.forceActiveFocus();
 	    emojiSelector.accept();

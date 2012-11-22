@@ -155,22 +155,6 @@ WAPage {
 		backgroundError: ""
     }
 
-    ButtonStyle {
-        id: myButtonStyleLeft
-        pressedBackground: "image://theme/color3-meegotouch-button-background-pressed-horizontal-left"
-        checkedBackground: "image://theme/color3-meegotouch-button-background-selected-horizontal-left"
-    }
-    ButtonStyle {
-        id: myButtonStyleCenter
-        pressedBackground: "image://theme/color3-meegotouch-button-background-pressed-horizontal-center"
-        checkedBackground: "image://theme/color3-meegotouch-button-background-selected-horizontal-center"
-    }
-    ButtonStyle {
-        id: myButtonStyleRight
-        pressedBackground: "image://theme/color3-meegotouch-button-background-pressed-horizontal-right"
-        checkedBackground: "image://theme/color3-meegotouch-button-background-selected-horizontal-right"
-    }
-
     SliderStyle {
         id: mySliderStyle
         grooveItemBackground: "image://theme/color3-meegotouch-slider-elapsed-background-horizontal"
@@ -407,28 +391,28 @@ WAPage {
 						height: 30
 					}
 					ButtonRow {
-					    Button {
+					    WAButton {
 					        text: qsTr("Automatic")
 					        checked: orientation==0
-							platformStyle: myButtonStyleLeft
+					        styleSuffix: "-horizontal-left"
 					        onClicked: {
 								MySettings.setSetting("Orientation", "0")
 					            orientation=0
 					        }
 					    }
-					    Button {
+					    WAButton {
 					        text: qsTr("Portrait")
 					        checked: orientation==1
-							platformStyle: myButtonStyleCenter
+					        styleSuffix: "-horizontal-center"
 					        onClicked: {
 								MySettings.setSetting("Orientation", "1")
 					            orientation=1
 					        }
 					    }
-					    Button {
+					    WAButton {
 					        text: qsTr("Landscape")
 					        checked: orientation==2
-							platformStyle: myButtonStyleRight
+					        styleSuffix: "-horizontal-right"
 					        onClicked: {
 								MySettings.setSetting("Orientation", "2")
 					            orientation=2
@@ -443,19 +427,19 @@ WAPage {
 					}
 					ButtonRow {
 					    id: br1
-					    Button {
+					    WAButton {
 					        text: qsTr("White")
 					        checked: theme.inverted ? false : true
-					        platformStyle: myButtonStyleLeft
+					        styleSuffix: "-horizontal-left"
 					        onClicked: {
 								MySettings.setSetting("ThemeColor", "White")
 					            theme.inverted = false
 					        }
 					    }
-					    Button {
+					    WAButton {
 					        text: qsTr("Black")
 					        checked: theme.inverted ? true : false
-					        platformStyle: myButtonStyleRight
+					        styleSuffix: "-horizontal-right"
 					        onClicked: {
 								MySettings.setSetting("ThemeColor", "Black")
 					            theme.inverted = true
@@ -468,6 +452,7 @@ WAPage {
 						text: qsTr("Bubble color:")
 						height: 50
 					}
+
 					GridView {
 						id: gridView
 						width: parent.width
@@ -500,6 +485,7 @@ WAPage {
 								mainBubbleColor = model.name
 							}
 						}
+
 					}
 
 				}
@@ -696,9 +682,8 @@ WAPage {
                         text: typeof(myPushName) != "undefined"?myPushName:""
 					}
 
-					Button
+					WAButton
 					{
-						platformStyle: ButtonStyle { inverted: true }
 						width: 160
 						height: 50
                         text: qsTr("Save")
