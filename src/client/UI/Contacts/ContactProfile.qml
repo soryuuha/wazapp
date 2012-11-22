@@ -192,7 +192,7 @@ WAPage {
 
             WAButton {
                 id: statusButton
-                style: "-vertical-top"
+                styleSuffix: "-vertical-top"
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
@@ -207,7 +207,7 @@ WAPage {
 
             WAButton {
                 id: blockButton
-                style: "-vertical-center"
+                styleSuffix: "-vertical-center"
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
@@ -222,7 +222,7 @@ WAPage {
 
             WAButton {
                 height: 50
-                style: "-vertical-center"
+                styleSuffix: "-vertical-center"
                 width: parent.width
                 font.pixelSize: 22
                 text: qsTr("Add to contacts")
@@ -232,7 +232,7 @@ WAPage {
 
             WAButton {
                 id: sendChatButton
-                style: "-vertical-center"
+                styleSuffix: "-vertical-center"
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
@@ -242,7 +242,7 @@ WAPage {
 
             WAButton {
                 id: deleteChatButton
-                style: "-vertical-bottom"
+                styleSuffix: "-vertical-bottom"
                 height: 50
                 width: parent.width
                 font.pixelSize: 22

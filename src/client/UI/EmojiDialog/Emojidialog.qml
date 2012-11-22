@@ -280,7 +280,7 @@ Dialog {
 	addRecentEmoji(emojiCode);
 
        // console.log(textarea.text)
-	if (hide || !longDialog)
+	if (hide && !longDialog)
 	{
 	    textarea.forceActiveFocus();
 	    emojiSelector.accept();
