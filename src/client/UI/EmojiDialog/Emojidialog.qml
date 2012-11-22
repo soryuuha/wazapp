@@ -17,6 +17,8 @@ Dialog {
     property string titleText: qsTr("Select Emoji")
     property string emojiPath:"../common/images/emoji/";
     property string emojiRelativePath; //relative to textfield
+    property variant currentGrid: peopleGrid;
+    property bool longDialog: false
 
     /*function setCallback(func){
 
@@ -43,6 +45,11 @@ Dialog {
         var c = ""+code;
         return emojiPath+"24/"+c+".png";
     }
+    
+    function openLongDialog(textarea, relativePath){
+	openDialog(textarea, relativePath)
+	longDialog = true;
+    }
 
     function openDialog(textarea, relativePath){
         if(!textarea){
@@ -56,18 +63,8 @@ Dialog {
         emojiRelativePath = relativePath?relativePath:"/opt/waxmppplugin/bin/wazapp/UI/common/images/emoji"
 
         emojiSelector.open();
-	
-	var emojilist= MySettings.getSetting("RecentEmoji", "")
-	if (emojilist!="")
-	{
-		emojiCategory.checkedButton = recentEmoji
-		showGrid(recentGrid)
-	}
-	else
-	{
-		emojiCategory.checkedButton = peopleEmoji
-		showGrid(peopleGrid)
-	}
+        showGrid(currentGrid)
+        longDialog = false
     }
 
     function getGrids(){
@@ -91,6 +88,7 @@ Dialog {
 
     function showGrid(grid){
         hideAll();
+        currentGrid = grid;
         grid.showEmoji();
     }
     
@@ -282,7 +280,7 @@ Dialog {
 	addRecentEmoji(emojiCode);
 
        // console.log(textarea.text)
-	if (hide)
+	if (hide || !longDialog)
 	{
 	    textarea.forceActiveFocus();
 	    emojiSelector.accept();

@@ -924,15 +924,21 @@ WAPage {
 		    id: emoji_button
 		    width:50
 		    height:50
-            iconSource: "../common/images/emoji/32/E415.png"
+		    iconSource: "../common/images/emoji/32/E415.png"
 		    anchors.left: parent.left
-			anchors.leftMargin: 16
+		    anchors.leftMargin: 16
 		    anchors.verticalCenter: send_button.verticalCenter
-            onClicked: {
+		    onClicked: {
 				sendMediaWindow.opacity = 0
-                emojiDialog.openDialog(chat_text);
+				emojiDialog.openDialog(chat_text);
 				showSendButton=true; 
-                //chat_text.lastPosition = chat_text.cursorPosition
+				//chat_text.lastPosition = chat_text.cursorPosition
+		    }
+		    onPressAndHold: {
+				sendMediaWindow.opacity = 0
+				emojiDialog.openLongDialog(chat_text);
+				showSendButton=true; 
+				//chat_text.lastPosition = chat_text.cursorPosition
 		    }
 		}
 
