@@ -138,7 +138,7 @@ WAPage {
 			contactShowedName: searchInput.text.length>0 ? replaceText(model.name, searchInput.text) : model.name
             contactStatus: model.status? model.status : ""
             contactNumber: model.number
-			//isNew: model.newContact
+	    isNew: model.newContact
 
 			//isVisible: ((y >= ListView.view.contentY+100 && y <= ListView.view.contentBottom-100) ||
             //           (y+height >= ListView.view.contentY+100 && y+height <= ListView.view.contentBottom-100))

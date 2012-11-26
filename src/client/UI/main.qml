@@ -740,7 +740,7 @@ WAStackWindow {
             for(var j =0; j<contactsModel.count; j++) {
                 if (currentContacts.indexOf(contactsModel.get(j).jid)==-1 ) {
                     currentContacts = currentContacts + "," + contactsModel.get(j).jid
-                    //contactsModel.get(j).newContact = true
+                    contactsModel.get(j).newContact = true
                     newContacts = newContacts +1
                 }
             }
