@@ -663,7 +663,7 @@ WAStackWindow {
               }
 
           }
-
+          updateContactName(jid,pushName);
     }
 
     function updateContactsData(contacts, ujid, npush){
