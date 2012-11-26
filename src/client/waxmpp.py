@@ -431,7 +431,7 @@ class WAEventHandler(QObject):
 				self.setPushName.emit(contact.jid,contact.pushname)
 				
 			
-			pushName = contact.pushname
+			pushName = message.pushname
 			
 			try:
 				contact = WAXMPP.message_store.store.getCachedContacts()[contact.number];
@@ -465,6 +465,7 @@ class WAEventHandler(QObject):
 			contact.setData({"jid":contact.jid,"pushname":pushName})
 			contact.save()
 			message.Contact = contact
+			self.setPushName.emit(contact.jid,pushName)
 
 		if contact.pictureid == None:
 			self.getPictureIds.emit(contact.jid)
