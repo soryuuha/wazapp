@@ -329,20 +329,19 @@ WAPage {
 	    resizePicture.minimumSize = 192
 	    resizePicture.picture = path
 	    resizePicture.filename = "temp.jpg"
-            pageStack.push(resizePicture)
+            pageStack.replace(resizePicture)
         }
     }
     
     ResizePicture {
 	id: resizePicture
 	onSelected: {		
+		pageStack.pop()
+		
 		runIfOnline(function(){
 			breathe()
 			setGroupPicture(jid)
 		}, true)
-		
-		pageStack.pop()
-		pageStack.pop()
 	}
     }
 
