@@ -33,7 +33,7 @@ function Contact(jid){
     this.picture = defaultProfilePicture
     this.status = "";
 	this.pushname = "";
-	//this.newContact = false;
+	this.newContact = false;
 }
 
 
