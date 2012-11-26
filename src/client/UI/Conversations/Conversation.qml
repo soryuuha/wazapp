@@ -691,7 +691,7 @@ WAPage {
 			visible: opened
             onCountChanged: {
                 //do some magic
-            }f
+            }
             header: messagesListHeader
 			
         }
