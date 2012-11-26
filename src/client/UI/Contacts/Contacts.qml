@@ -312,6 +312,16 @@ WAPage {
                 renderSection: fast.sectionExists(section) && searchInput.text===""
                 height:renderSection?50:0
                 currSection: section
+                
+                Connections {
+			target: appWindow
+			onRefreshSuccessed: {
+				fast.listViewChanged()
+				renderSection = fast.sectionExists(section) && searchInput.text===""
+				height = renderSection && searchInput.text===""? 50:0
+			}
+		}
+
             }
 
 			Component.onCompleted: fast.listViewChanged()
