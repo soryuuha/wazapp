@@ -62,7 +62,7 @@ ImplicitSizeItem {
     // Styling for the Button
     property Style platformStyle: ButtonStyle {
 	pressedTextColor: "lightgray"
-	inverted: theme.inverted || colorinverted    
+	inverted: theme.inverted    
         pressedBackground: "image://theme/color3-meegotouch-button" + (theme.inverted ? "-inverted" : "") + "-background-pressed" + styleSuffix
         checkedBackground: "image://theme/color3-meegotouch-button" + (theme.inverted ? "-inverted" : "") + "-background-selected" + styleSuffix
         disabledBackground: "image://theme/meegotouch-button" + (theme.inverted ? "-inverted" : "") + "-background-disabled" + styleSuffix
