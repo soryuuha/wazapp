@@ -237,7 +237,7 @@ Rectangle {
 
             property bool isSelected
             property bool isRemoved
-            property bool render:!model.norender || model.norender == false;
+            property bool render: true//!model.norender || model.norender == false;
 
             //height: filtered ? 80 : 0
             height:!render || isRemoved?0:80
