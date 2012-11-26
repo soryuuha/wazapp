@@ -78,7 +78,7 @@ WAPage {
 
             for(var j=0; j<jids.length; j++){
 
-                if(tmp.jid == jids[j]) {
+                if(tmp.jid == jids[j] && jids[j]!=myAccount) {
                     var modelData = {name:tmp.name, picture:tmp.picture, jid:tmp.jid, relativeIndex:i};
                     participantsModel.append(modelData)
                     ProfileHelper.currentParticipantsJids.push(tmp.jid)
