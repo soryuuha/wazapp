@@ -73,7 +73,7 @@ function populateContacts(contacts)
     for(var i =0; i<contacts.length; i++)
     {
 		//console.log("APPENDING CONTACT: " + contacts[i].jid + " - " + contacts[i].name)
-		//contacts[i].newContact = false;
+	contacts[i].newContact = false;
         contactsModel.append(contacts[i]);
 
         if(!initializationDone){
