@@ -18,6 +18,7 @@ WAPage {
         if(status == PageStatus.Deactivating){
             chat_text.visible = false
 			sendMediaWindow.opacity = 0
+			emojiComponent.visible = false
         }
         else if(status == PageStatus.Activating){
             chat_text.visible = true
@@ -690,7 +691,7 @@ WAPage {
 			visible: opened
             onCountChanged: {
                 //do some magic
-            }
+            }f
             header: messagesListHeader
 			
         }
@@ -744,6 +745,7 @@ WAPage {
                     onSendButtonClicked:{
                         //consoleDebug("SEND CLICKED");
 						sendMediaWindow.opacity = 0
+						emojiComponent.visible = false
 
                         showSendButton=true;
                         forceFocusToChatText()
@@ -827,6 +829,7 @@ WAPage {
 
                     onActiveFocusChanged: {
                         lastPosition = chat_text.cursorPosition
+                        emojiComponent.visible = false
                         //consoleDebug("LAST POSITION: " + lastPosition)
 						conv_items.positionViewAtEnd()
                         showSendButton = chat_text.focus || input_button_holder_area.focus || emoji_button.focus
@@ -848,12 +851,12 @@ WAPage {
 
 	SendMedia {
 		id: sendMediaWindow
-		height: appWindow.inPortrait? 180 : 100
+		height: 80
 		width: parent.width
 		opacity: 0
 		visible: opacity!=0
 		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 90
+		anchors.bottomMargin: 72
 
 		Behavior on opacity {
 		    NumberAnimation { duration: 200 }
@@ -898,7 +901,7 @@ WAPage {
 		anchors.bottom: parent.bottom
 		anchors.left: parent.left
 		width: parent.width
-		height: blockedContacts.indexOf(jid)==-1 && showSendButton ? 72 : 0
+		height: blockedContacts.indexOf(jid)==-1 && showSendButton ? (emojiComponent.height + 72) : 0
 		color: theme.inverted? "#1A1A1A" : "white"
 		clip: true
 		
@@ -929,16 +932,25 @@ WAPage {
 		    iconSource: "../common/images/emoji/32/E415.png"
 		    anchors.left: parent.left
 		    anchors.leftMargin: 16
-		    anchors.verticalCenter: send_button.verticalCenter
+		    anchors.top: parent.top
+		    anchors.topMargin: 8
+		    checked: emojiComponent.visible
 		    onClicked: {
 				sendMediaWindow.opacity = 0
-				emojiDialog.openDialog(chat_text);
+				if (emojiComponent.visible) {
+				    emojiComponent.accept()
+				    forceFocusToChatText() }
+				else {
+				    emojiComponent.open(chat_text)
+				}
+				//emojiDialog.openDialog(chat_text);
 				showSendButton=true; 
 				//chat_text.lastPosition = chat_text.cursorPosition
 		    }
 		    onPressAndHold: {
 				sendMediaWindow.opacity = 0
-				emojiDialog.openLongDialog(chat_text);
+				//emojiDialog.openLongDialog(chat_text);
+				emojiDialog.openDialog(chat_text);
 				showSendButton=true; 
 				//chat_text.lastPosition = chat_text.cursorPosition
 		    }
@@ -948,9 +960,10 @@ WAPage {
 			id: media_button
 			anchors.left: emoji_button.right
 			anchors.leftMargin: 12
-			anchors.verticalCenter: parent.verticalCenter
+			anchors.verticalCenter: emoji_button.verticalCenter
 			width: 50
 			height: width
+			checked: sendMediaWindow.visible
 			iconSource: theme.inverted ? "../common/images/attachment-white.png" : "../common/images/attachment.png"
 
 			onClicked: {
@@ -969,8 +982,17 @@ WAPage {
 			text: qsTr("Send")
 		    anchors.right: parent.right
 			anchors.rightMargin: 16
-			y: 10
+			anchors.verticalCenter: emoji_button.verticalCenter
 		    onClicked: sendButtonClicked();
+		}
+		
+		EmojiComponent{
+		    id: emojiComponent
+		    height: emojiComponent.visible? (appWindow.inPortrait? 360 : 200) : 0
+		    width: parent.width
+		    anchors.bottom: parent.bottom
+		    inverted: theme.inverted
+		    visible: false
 		}
 
 	}
