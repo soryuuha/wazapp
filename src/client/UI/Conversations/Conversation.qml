@@ -549,6 +549,23 @@ WAPage {
 		else return resp.split('@')[0]
     }
 
+    function getPushName(inputText) {
+	if (inputText==myAccount)
+		return qsTr("You")
+        var resp = inputText;
+	var founded = false
+        for(var i =0; i<contactsModel.count; i++)
+        {
+		if(resp == contactsModel.get(i).jid) {
+		    founded = true
+			    resp = contactsModel.get(i).pushname;
+			    break;
+		}
+        }
+	if (founded) return resp
+		else return resp.split('@')[0]
+    }
+
     function getAuthorPicture(inputText) {
         var resp = inputText;
         var picture;
