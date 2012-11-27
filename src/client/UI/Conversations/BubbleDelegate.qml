@@ -28,6 +28,7 @@ Item {
     property int progress: 0
 
     signal optionsRequested()
+    signal nameClicked()
 
     anchors.right: from_me==1?this.right:parent.right
     anchors.left: from_me!=1?this.left:parent.left
