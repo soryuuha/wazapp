@@ -28,6 +28,7 @@ function Contact(jid){
     this.jid = jid;
 
     var tmp = jid.split('@');
+    this.isSelected = false;
     this.number = tmp[0];
     this.name = this.number;
     this.picture = defaultProfilePicture
@@ -73,7 +74,9 @@ function populateContacts(contacts)
     for(var i =0; i<contacts.length; i++)
     {
 		//console.log("APPENDING CONTACT: " + contacts[i].jid + " - " + contacts[i].name)
+
 	contacts[i].newContact = false;
+        contacts[i].isSelected = false;
         contactsModel.append(contacts[i]);
 
         if(!initializationDone){
