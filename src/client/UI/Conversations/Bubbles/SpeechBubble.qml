@@ -24,6 +24,7 @@ Rectangle {
 
 	signal optionsRequested();
     signal clicked();
+    signal nameClicked();
 
 	width: appWindow.inPortrait ? 480 : 854
 	height: from_me==20 || from_me==21 || from_me==22 || from_me==23? bubbleContent.children[0].height + 30 :
@@ -102,6 +103,11 @@ Rectangle {
 		anchors.leftMargin: from_me==1 ? (20+(mediatype_id==1?0:66)) : (80-(mediatype_id==1?0:66))
 		horizontalAlignment: Text.AlignRight
 		visible: name!="" && from_me==0
+		
+		MouseArea {
+		    anchors.fill: parent
+		    onClicked: bubble.nameClicked()
+		}
 	}
 
 	Item{

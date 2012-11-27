@@ -105,6 +105,10 @@ Item {
            onOptionsRequested: {
                delegateContainer.optionsRequested()
            }
+           
+           onNameClicked: {
+               delegateContainer.nameClicked()
+           }
 
   		}
     }
@@ -164,6 +168,10 @@ Item {
 
 			onOptionsRequested: {
 		   		delegateContainer.optionsRequested()
+			}
+           
+			onNameClicked: {
+				delegateContainer.nameClicked()
 			}
 
 			onClicked: {

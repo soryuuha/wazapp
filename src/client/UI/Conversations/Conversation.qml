@@ -586,6 +586,8 @@ WAPage {
 				color = groupMembers.count
 			}
         }
+		while (color > 15)
+		    color -= 15
 		return color;
 	}
 
@@ -618,6 +620,15 @@ WAPage {
                 selectedMessageIndex = index
 				showContactDetails = model.type==0 && name==model.author.jid.split('@')[0]
 				bubbleMenu.open();
+			}
+			
+			onNameClicked: {
+			    var pos = chat_text.cursorPosition
+			    var pushname = getPushName(model.author.jid).split('@')[0]
+			    console.log("bubble name clicked: " + pushname)
+			    chat_text.insert("@"+pushname+" ")
+			    chat_text.cursorPosition = pos + pushname.length + 2
+			    chat_text.forceActiveFocus()
 			}
 			
 			Connections {
