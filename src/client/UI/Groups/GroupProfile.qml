@@ -129,10 +129,10 @@ WAPage {
         if(status == PageStatus.Activating){
 
             if(!loaded){
-                //getInfo()
                 loaded = true
             }
-
+	    
+            getInfo()
             genericSyncedContactsSelector.tools = participantsSelectorTools
         }
     }
