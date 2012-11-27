@@ -293,7 +293,7 @@ WAPage {
             spacing: 1
 			cacheBuffer: 30000 // contactsModel.count * 81 --> this should work too.
 			highlightFollowsCurrentItem: false
-            section.property: "name"
+            section.property: "alphabet"
             section.criteria: ViewSection.FirstCharacter
 
             /*section.delegate: GroupSeparator {
@@ -311,7 +311,7 @@ WAPage {
                 width:parent.width-44
                 renderSection: fast.sectionExists(section) && searchInput.text===""
                 height:renderSection?50:0
-                currSection: section
+                currSection: section.toUpperCase()
                 
                 Connections {
 			target: appWindow
