@@ -309,7 +309,7 @@ class WAUI(QDeclarativeView):
 
 			contacts = self.c.getContacts();
 			if len(contacts) == 0:
-				self.eventHandler.getGroups()
+				self.whatsapp.eventHandler.getGroups()
 			self._d("POPULATE CONTACTS: " + str(len(contacts)));
 			
 			
