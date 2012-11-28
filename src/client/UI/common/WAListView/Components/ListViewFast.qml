@@ -20,7 +20,7 @@ Item {
         cacheBuffer: 30000
         highlightFollowsCurrentItem: false
 
-        section.property: "name"
+        section.property: "alphabet"
         section.criteria: ViewSection.FirstCharacter
 
         section.delegate: SectionDelegate{
