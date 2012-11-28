@@ -49,6 +49,7 @@ Rectangle {
     }
 
 	BorderImage {
+		id: bubbleImage
 		anchors.top: parent.top
 		anchors.topMargin: from_me==1? 8 : from_me==2? 2 : 1
 		anchors.left: parent.left
@@ -106,7 +107,10 @@ Rectangle {
 		visible: name!="" && from_me==0
 		
 		MouseArea {
-		    anchors.fill: parent
+		    anchors.top: parent.top
+		    anchors.right: parent.right
+		    width: bubbleImage.width
+		    height: parent.height
 		    onClicked: bubble.nameClicked()
 		    onPressAndHold: bubble.nameHolded()
 		}
