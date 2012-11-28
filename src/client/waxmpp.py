@@ -184,7 +184,6 @@ class WAEventHandler(QObject):
 		#self.registerInterfaceSignals()
 
 		self.interfaceHandler.call("ready")
-		self.interfaceHandler.call("group_getGroups", ("participating",));
 		self.resendUnsent()
 
 	def authComplete(self):
@@ -1487,6 +1486,9 @@ class WAEventHandler(QObject):
 			conversation.addContact(contact.id);
 		
 		WAXMPP.message_store.sendConversationReady(jid);
+		
+	def getGroups(self):
+		self.interfaceHandler.call("group_getGroups", ("participating",));
 		
 	def onGotGroups(self, groups):
 		for g in groups:
