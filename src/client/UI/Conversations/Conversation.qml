@@ -640,12 +640,9 @@ WAPage {
 			}
 			
 			onNameClicked: {
-			    var pos = chat_text.cursorPosition
-			    var pushname = getPushName(model.author.jid).split('@')[0]
-			    console.log("bubble name clicked: " + pushname)
-			    chat_text.insert("@"+pushname+" ")
-			    chat_text.cursorPosition = pos + pushname.length + 2
+			    chat_text.insert("@"+model.pushname+" ")
 			    chat_text.forceActiveFocus()
+			    chat_text.cursorPosition += model.pushname.length  +1
 			}
 			
 			onNameHolded: {
