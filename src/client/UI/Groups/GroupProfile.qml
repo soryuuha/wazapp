@@ -72,12 +72,10 @@ WAPage {
         console.log("SHOULD PUSH "+jids)
         jids = jids.split(",")
         ProfileHelper.currentParticipantsJids.length = 0;
-        for(var i=0; i<contactsModel.count; i++) {
-
-            var tmp = contactsModel.get(i)
-
-            for(var j=0; j<jids.length; j++){
-
+        for(var j=0; j<jids.length; j++){
+            waContacts.getOrCreateContact({"jid":jids[j]});
+            for(var i=0; i<contactsModel.count; i++) {
+                var tmp = contactsModel.get(i)
                 if(tmp.jid == jids[j] && jids[j]!=myAccount) {
                     var modelData = {name:tmp.name, picture:tmp.picture, jid:tmp.jid, relativeIndex:i};
                     participantsModel.append(modelData)
