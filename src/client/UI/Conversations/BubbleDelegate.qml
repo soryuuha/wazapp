@@ -29,6 +29,7 @@ Item {
 
     signal optionsRequested()
     signal nameClicked()
+    signal nameHolded()
 
     anchors.right: from_me==1?this.right:parent.right
     anchors.left: from_me!=1?this.left:parent.left
@@ -110,6 +111,10 @@ Item {
            onNameClicked: {
                delegateContainer.nameClicked()
            }
+           
+           onNameHolded: {
+	       delegateContainer.nameHolded()
+	   }
 
   		}
     }
@@ -173,6 +178,10 @@ Item {
            
 			onNameClicked: {
 				delegateContainer.nameClicked()
+			}
+			
+			onNameHolded: {
+				delegateContainer.nameHolded()
 			}
 
 			onClicked: {

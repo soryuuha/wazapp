@@ -25,6 +25,7 @@ Rectangle {
 	signal optionsRequested();
     signal clicked();
     signal nameClicked();
+    signal nameHolded();
 
 	width: appWindow.inPortrait ? 480 : 854
 	height: from_me==20 || from_me==21 || from_me==22 || from_me==23? bubbleContent.children[0].height + 30 :
@@ -107,6 +108,7 @@ Rectangle {
 		MouseArea {
 		    anchors.fill: parent
 		    onClicked: bubble.nameClicked()
+		    onPressAndHold: bubble.nameHolded()
 		}
 	}
 

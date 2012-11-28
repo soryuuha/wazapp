@@ -648,6 +648,13 @@ WAPage {
 			    chat_text.forceActiveFocus()
 			}
 			
+			onNameHolded: {
+			    var cont = waContacts.getOrCreateContact({"jid":model.author.jid});
+			    var conv = waChats.getOrCreateConversation(model.author.jid);
+			    conv.addContact(cont);
+			    conv.open();
+			}
+			
 			Connections {
 				target: appWindow
 
