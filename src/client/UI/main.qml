@@ -741,12 +741,6 @@ WAStackWindow {
         //This should be called if and only if conversation start point is backend
         consoleDebug("Got a conv in conversationReady slot: " + conv.jid);
 
-
-        if(!initializationDone) {
-            splashPage.setSubOperation(conv.jid)
-	    splashPage.step()
-	}
-
         breathe()
         var conversation = waChats.getOrCreateConversation(conv.jid);
 
@@ -774,6 +768,10 @@ WAStackWindow {
 
         }
 
+        if(!initializationDone) {
+            splashPage.setSubOperation(conv.jid)
+	    splashPage.step()
+	}
     }
 
     signal reorderConversation(string cjid) //@@THIS IS FUCKING RETARDED!!!!!!!!
