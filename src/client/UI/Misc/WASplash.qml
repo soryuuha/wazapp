@@ -20,9 +20,10 @@ WAPage {
     }
     
     function nextStage() {
-	curProgress=0
-	position=0
+	curProgress=1
 	stage++
+	position=1
+	console.log("nextStage: " + stage)
     }
 
     function setSubOperation(subop) {
@@ -34,15 +35,22 @@ WAPage {
     }
     
     function step() {
-	if (position+1 < maximumValue) {
+	if (position+1 <= maximumValue) {
 	    position++
 	    setProgress(position)
+	    setOpacity(position)
 	}
     }
 
     function setProgress(val) {
 	    var part = 100/maximumValue
 	    curProgress = parseInt(part*val /10)
+	    console.log("setProgress: " + curProgress)
+    }
+
+    function setOpacity(val) {
+	    var part = myBackgroundOpacity/maximumValue/10.0
+	    background.opacity = part*val
     }
 
     onStatusChanged: {
@@ -58,7 +66,15 @@ WAPage {
     Rectangle {
 	id: name
 	anchors.fill: parent
-	color: "black"
+	color: theme.inverted?"black":"white"
+	
+	Image {
+	    id: background
+	    anchors.fill: parent
+	    source: myBackgroundImage!="none" ? WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() : ""
+	    fillMode: Image.PreserveAspectCrop
+	    opacity: 0
+	}
 	
 	Image {
 	    id: progress
@@ -68,11 +84,18 @@ WAPage {
 	    anchors.top: parent.top
 	    anchors.topMargin: 246
 	    anchors.leftMargin: 150
-	    source: "images/" + stage + curProgress + "0.png"
+	    source: getSource()
+	    
+	    function getSource() {
+		var img = "images/" + stage + curProgress + "0.png"
+		console.log(img)
+		return img
+	    }
 	}
     }
 
     Column{
+	id: textColumn
         width:parent.width
 	spacing: 20
         y:450
@@ -95,6 +118,7 @@ WAPage {
     }
 
     Label{
+	id: verlabel
         text:version
         width:parent.width
         horizontalAlignment: Text.AlignHCenter
