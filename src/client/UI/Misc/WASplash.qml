@@ -3,7 +3,6 @@ import QtQuick 1.1
 import "../common"
 import com.nokia.meego 1.0
 WAPage {
-
     property string operation:qsTr("Initializing")
     property string subOperation:""
     property string version
@@ -23,7 +22,6 @@ WAPage {
 	curProgress=1
 	stage++
 	position=1
-	console.log("nextStage: " + stage)
     }
 
     function setSubOperation(subop) {
@@ -45,7 +43,6 @@ WAPage {
     function setProgress(val) {
 	    var part = 100/maximumValue
 	    curProgress = parseInt(part*val /10)
-	    console.log("setProgress: " + curProgress)
     }
 
     function setOpacity(val) {
@@ -74,6 +71,8 @@ WAPage {
 	    source: myBackgroundImage!="none" ? WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() : ""
 	    fillMode: Image.PreserveAspectCrop
 	    opacity: 0
+	    
+	    Behavior on opacity { SmoothedAnimation { velocity: 50 } }
 	}
 	
 	Image {
@@ -84,13 +83,7 @@ WAPage {
 	    anchors.top: parent.top
 	    anchors.topMargin: 246
 	    anchors.leftMargin: 150
-	    source: getSource()
-	    
-	    function getSource() {
-		var img = "images/" + stage + curProgress + "0.png"
-		console.log(img)
-		return img
-	    }
+	    source: "images/" + stage + curProgress + "0.png"
 	}
     }
 
