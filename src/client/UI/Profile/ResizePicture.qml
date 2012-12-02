@@ -7,13 +7,10 @@ import "../common"
 WAPage {
     id: container
     
-    Binding { target: container; property: "width"; value: mainPage.parent.width }
-    Binding { target: container; property: "height"; value: mainPage.parent.height }
-    Binding { target: container; property: "orientationLock"; value: mainPage.orientationLock}
-    
     property string picture
     property int maximumSize
     property int minimumSize
+    property bool avatar: false
     
     property string filename
     
@@ -39,7 +36,7 @@ WAPage {
             id: doneButton
             platformIconId: "toolbar-done"
 	    onClicked: {
-	      transformPicture(picture, WAConstants.CACHE_PATH+"/"+filename, pinch.rectX, pinch.rectY, pinch.rectW, maximumSize, pinch.angle)
+	      transformPicture(picture, WAConstants.CACHE_PATH+"/"+filename, pinch.rectX, pinch.rectY, pinch.rectW, pinch.rectH, maximumSize, pinch.angle)
 	      selected()
 	    }
 	}
@@ -47,12 +44,10 @@ WAPage {
 
     InteractionArea {
 	id: pinch
-	anchors.top: parent.top
-	anchors.topMargin: 73
-	height: parent.height -73
-	width: parent.width
+	anchors.fill: parent
+	anchors.topMargin: -36
+	avatar: container.avatar
 	source: picture
-	bucketMaxSize: maximumSize
 	bucketMinSize: minimumSize
     }
     
