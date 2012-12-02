@@ -18,12 +18,13 @@ Item {
     
     property variant emojiTextArea
     property bool inverted: true
+    property bool backspaceButton: false
     
     signal selected()
     
     ThemeEffect {
       id: feedbackEffect
-      effect: "BasicButton"
+      effect: ThemeEffect.BasicButton
     }
 
     function get32(code){
@@ -52,12 +53,14 @@ Item {
 ButtonRow {
     id: emojiCategory
     checkedButton: peopleEmoji
-    anchors.horizontalCenter: parent.horizontalCenter
-    width: parent.width
+    anchors.left: parent.left
+    
+    width: parent.width - (backspaceButton?(parent.width/7):0)
 
-    EmojiTabButton {
+    WAButton {
 	id: recentEmoji
 	iconSource: get32("E02C");
+	exclusiveposition: "horizontal-center"
 	inverted: emojiSelector.inverted
 	onClicked: {
 	    emojiList.offset = 0.0
@@ -65,9 +68,10 @@ ButtonRow {
 	}
     }
 
-    EmojiTabButton {
+    WAButton {
 	id: peopleEmoji
 	iconSource: get32("E057");
+	exclusiveposition: "horizontal-center"
 	inverted: emojiSelector.inverted
 	onClicked: {
 	    emojiList.offset = 5.0
@@ -75,9 +79,10 @@ ButtonRow {
 	}
     }
 
-    EmojiTabButton {
+    WAButton {
 	id: natureEmoji
 	iconSource: get32("E303");
+	exclusiveposition: "horizontal-center"
 	inverted: emojiSelector.inverted
 	onClicked: {
 	    emojiList.offset = 4.0
@@ -85,9 +90,10 @@ ButtonRow {
 	}
     }
 
-    EmojiTabButton {
+    WAButton {
 	id: placesEmoji
 	iconSource: get32("E325")
+	exclusiveposition: "horizontal-center"
 	inverted: emojiSelector.inverted
 	onClicked: {
 	    emojiList.offset = 3.0
@@ -95,9 +101,10 @@ ButtonRow {
 	}
     }
 
-    EmojiTabButton {
+    WAButton {
 	id: objectsEmoji
 	iconSource: get32("E036")
+	exclusiveposition: "horizontal-center"
 	inverted: emojiSelector.inverted
 	onClicked: {
 	    emojiList.offset = 2.0
@@ -105,14 +112,30 @@ ButtonRow {
 	}
     }
 
-    EmojiTabButton {
+    WAButton {
 	id: symbolsEmoji
 	iconSource: get32("E210")
+	exclusiveposition: "horizontal-center"
 	inverted: emojiSelector.inverted
 	onClicked: {
 	    emojiList.offset = 1.0
 	    emojiList.loadEmoji()
 	}
+    }
+}
+    
+EmojiTabButton {
+    id: backspace
+    anchors.left: emojiCategory.right
+    height: emojiCategory.height
+    width: (parent.width/7)
+    visible: backspaceButton
+    checkable: false
+    inverted: emojiSelector.inverted
+    iconSource: "/usr/share/themes/blanco/meegotouch/icons/icon-m-toolbar-backspace" + (inverted?"-white":"") + ".png"
+    onClicked: {
+	feedbackEffect.play()
+	emojiSelector.emojiTextArea.backspace()
     }
 }
 
@@ -133,12 +156,12 @@ Rectangle {
 	preferredHighlightEnd: 2/6
 	offset: 0.0
 	model: ListModel {
-	    ListElement { emjstart:0; emjend:0; recent: true; col: "red" }
-	    ListElement { emjstart:0; emjend:188; recent: false; col: "green" }
-	    ListElement { emjstart:189; emjend:304; recent: false; col: "blue" }
-	    ListElement { emjstart:305; emjend:534; recent: false; col: "cyan" }
-	    ListElement { emjstart:535; emjend:636; recent: false; col: "magneta" }
-	    ListElement { emjstart:637; emjend:845; recent: false; col: "yellow" }
+	    ListElement { emjstart:0; emjend:0; recent: true }
+	    ListElement { emjstart:0; emjend:188; recent: false }
+	    ListElement { emjstart:189; emjend:304; recent: false }
+	    ListElement { emjstart:305; emjend:534; recent: false }
+	    ListElement { emjstart:535; emjend:636; recent: false }
+	    ListElement { emjstart:637; emjend:845; recent: false }
 	}
 	delegate: EmojiView {
 	    id: myDelegate
@@ -165,10 +188,7 @@ Rectangle {
 	
 	onMovementEnded: loadEmoji()
 	
-	function loadEmoji() {
-	    console.log("loadEmoji index: " + currentIndex)
-	    console.log("loadEmoji offset: " + emojiList.offset)
-	    
+	function loadEmoji() {	    
 	    switch (emojiList.offset) {
 		    case 0: recentEmoji.checked = true; break
 		    case 5: peopleEmoji.checked = true; break
