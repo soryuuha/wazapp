@@ -79,8 +79,8 @@ function populateContacts(contacts)
             breathe()
          }
 		//console.log("APPENDING CONTACT: " + contacts[i].jid + " - " + contacts[i].name)
-		//contacts[i].newContact = false;
-        contactsModel.append(contacts[i]);
+	contacts[i].newContact = false;
+	contactsModel.append(contacts[i]);
 
         var cachedConv =   conversations[contacts[i].jid];
         if(cachedConv){
