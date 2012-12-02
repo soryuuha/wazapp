@@ -346,11 +346,16 @@ class WAEventHandler(QObject):
 						media.save()
 			else:
 				try:
-					msgId = self.interfaceHandler.call("message_send", (jid, m.content.encode('utf-8')))
-					m.key = Key(jid, True, msgId).toString()
-					m.save()
-				except UnicodeDecodeError:
-					self._d("skipped sending an old message because UnicodeDecodeError")
+					try:
+						msgId = self.interfaceHandler.call("message_send", (jid, m.content.encode('utf-8'))) #maybe useless now?
+						m.key = Key(jid, True, msgId).toString()
+						m.save()
+					except UnicodeDecodeError:
+						msgId = self.interfaceHandler.call("message_send", (jid, m.content))
+						m.key = Key(jid, True, msgId).toString()
+						m.save()
+				except:
+					self._d("skipped sending an old message because of i don't know why!")
 
 		self._d("Resending old messages done")
 
