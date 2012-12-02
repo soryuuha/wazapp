@@ -22,6 +22,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
+import QtMobility.feedback 1.1
 
 import "Chats"
 import "common"
@@ -1184,4 +1185,18 @@ WAStackWindow {
         onAccepted: appWindow.pageStack.push(updatePage);
     }
 
+    ThemeEffect {
+      id: popupEffect
+      effect: ThemeEffect.PopupOpen
+    }
+    
+    ThemeEffect {
+      id: pressEffect
+      effect: ThemeEffect.PopUp
+    }
+    
+    ThemeEffect {
+      id: clickEffect
+      effect: ThemeEffect.BasicButton
+    }
 }

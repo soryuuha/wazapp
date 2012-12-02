@@ -608,15 +608,41 @@ WAPage {
             bubbleColor: from_me==1 ? 1 : isGroup ? getBubbleColor(model.author.jid) : mainBubbleColor
 
 			onOptionsRequested: {
-
+				popupEffect.play()
 				consoleDebug("options requested ") // + ConversationHelper.getContact(model.author.jid).contactName)
-                copy_facilitator.text = model.content.replace(/<br \/>/g, "\n").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"").replace(/&amp;/g, "&");
-                selectedMessage = model;
-                selectedMessageIndex = index
+				copy_facilitator.text = model.content.replace(/<br \/>/g, "\n").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"").replace(/&amp;/g, "&");
+				selectedMessage = model;
+				selectedMessageIndex = index
 				showContactDetails = model.type==0 && name==model.author.jid.split('@')[0]
 				bubbleMenu.open();
 			}
 			
+			onNameClicked: {
+			    chat_text.insert("@"+model.pushname+" ")
+			    chat_text.forceActiveFocus()
+			    chat_text.cursorPosition += model.pushname.length  +1
+			}
+			
+			onNameHolded: {
+			    pressEffect.play()
+			    var cont = waContacts.getOrCreateContact({"jid":model.author.jid});
+			    var conv = waChats.getOrCreateConversation(model.author.jid);
+			    conv.addContact(cont);
+			    conv.open();
+			}
+			
+			onClickOutside: {
+			    if (showSendButton) {
+				emojiComponent.visible = false
+				showSendButton = false
+			    }
+			}
+			onHoldOutside: {
+			    pressEffect.play()
+			    console.log("long press supported: " + pressEffect.supported)
+			    conv_items.positionViewAtEnd()
+			}
+
 			Connections {
 				target: appWindow
 

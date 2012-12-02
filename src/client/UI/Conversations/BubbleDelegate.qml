@@ -27,6 +27,11 @@ Item {
     property int progress: 0
 
     signal optionsRequested()
+    signal nameClicked()
+    signal nameHolded()
+    signal clickOutside()
+    signal holdOutside()
+
 
     anchors.right: from_me==1?this.right:parent.right
     anchors.left: from_me!=1?this.left:parent.left
@@ -101,9 +106,11 @@ Item {
            state_status:delegateContainer.state_status
            bubbleColor: delegateContainer.bubbleColor;
 
-           onOptionsRequested: {
-               delegateContainer.optionsRequested()
-           }
+           onOptionsRequested: delegateContainer.optionsRequested()
+           onNameClicked: delegateContainer.nameClicked()
+           onNameHolded: delegateContainer.nameHolded()	   
+           onClickOutside: delegateContainer.clickOutside()
+           onHoldOutside: delegateContainer.holdOutside()
 
   		}
     }
@@ -160,9 +167,11 @@ Item {
 
 			}
 
-			onOptionsRequested: {
-		   		delegateContainer.optionsRequested()
-			}
+			onOptionsRequested: delegateContainer.optionsRequested()
+			onNameClicked: delegateContainer.nameClicked()
+			onNameHolded: delegateContainer.nameHolded()
+			onClickOutside: delegateContainer.clickOutside()
+			onHoldOutside: delegateContainer.holdOutside()
 
 			onClicked: {
 		   		if(from_me==0 && transferState!="success")
