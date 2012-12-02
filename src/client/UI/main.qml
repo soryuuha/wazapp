@@ -900,7 +900,7 @@ WAStackWindow {
         onPaused(messages.jid)
 
         if(!initializationDone) {
-            splashPage.setSubOperation(conv.jid)
+            splashPage.setSubOperation(messages.jid)
 	    splashPage.step()
 	}
     }
