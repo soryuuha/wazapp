@@ -2,31 +2,30 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 
 Item{
-    id: root	
+    id: root
 
-    width: parent.width 
-    height: parent.height 
-
-    property double finalScale: Math.round(image.scale*1000)/1000
+    width: parent.width
+    height: parent.height
 
     property color pressedColor: "#7727a01b"
     property alias source: image.source
+    property bool avatar: true
     
-    property int rectX: Math.round(bucketContainer.x)
-    property int rectY: Math.round(bucketContainer.y)
-    property int rectW: bucketContainer.width
-    property int rectH: bucketContainer.height
-    property int angle: rotation.angle
+    property int rectX: avatar?Math.round(bucketContainer.x):(image.rotatedSourceWidth * flickable.visibleArea.xPosition)
+    property int rectY: avatar?Math.round(bucketContainer.y):(image.rotatedSourceHeight * flickable.visibleArea.yPosition)
+    property int rectW: avatar?bucketContainer.width:(image.rotatedSourceWidth * flickable.visibleArea.widthRatio)
+    property int rectH: avatar?bucketContainer.height:(orientation==1?Math.round(rectW*1.779):Math.round(rectW*0.562))
+    property int angle: image.rotation
     
-    property int bucketMaxSize
     property int bucketMinSize
+    property int oldOrientation
     
     onHeightChanged: image.fitToScreen()
     
     function rotate() {
-	rotation.angle = rotation.angle + 90
-	if (rotation.angle == 360)
-	    rotation.angle = 0
+	image.rotation = image.rotation + 90
+	if (image.rotation == 360)
+	    image.rotation = 0
 	
 	image.fitToScreen()
 	flickable.returnToBounds()
@@ -35,7 +34,9 @@ Item{
     Flickable{
         id: flickable
 	
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
+        anchors.centerIn: parent
         contentHeight: imageContainer.height
         contentWidth: imageContainer.width
         interactive: !bucketMouseArea.pressed && !bucketResizeMouseArea.pressed
@@ -43,8 +44,8 @@ Item{
 
         Item{
             id: imageContainer
-            width: Math.max(image.getWidth() * image.scale, flickable.width)
-            height: Math.max(image.getHeight() * image.scale, flickable.height)
+            width: image.rotatedWidth * image.scale
+            height: image.rotatedHeight * image.scale
 
  	     Loader{
         	  anchors.centerIn: parent
@@ -75,36 +76,19 @@ Item{
 
             Image{
                 id: image
-
-                function getHeight(){
-		    switch (rotation.angle)
-		    {
-			case 0:
-			case 180:	return image.height
-			case 90:
-			case 270:	return image.width
-		    }
-                }
-                
-                function getWidth(){
-		    switch (rotation.angle)
-		    {
-			case 0:
-			case 180:	return image.width
-			case 90:
-			case 270:	return image.height
-		    }
-                }
+                property int rotatedWidth: (image.rotation%180==90)?height:width
+                property int rotatedHeight: (image.rotation%180==90)?width:height
+                property int rotatedSourceWidth: (image.rotation%180==90)?sourceSize.height:sourceSize.width
+                property int rotatedSourceHeight: (image.rotation%180==90)?sourceSize.width:sourceSize.height
                 
                 function fitToScreen(){
-                    scale = Math.min(flickable.width / getWidth(), flickable.height / getHeight(), 1)
+                    scale = Math.min(flickable.width / rotatedWidth, flickable.height / rotatedHeight, 1)
                     pinchArea.minScale = scale
                     previousScale = scale
                 }
 
                 property real previousScale
                 
-                transform: Rotation {id: rotation; origin.x: Math.round(image.sourceSize.width / 2); origin.y: Math.round(image.sourceSize.height / 2); angle: 0 }
                 smooth: true
 
                 asynchronous: true
@@ -114,6 +98,7 @@ Item{
                 onStatusChanged: {
                     if(status === Image.Ready) {
 			     console.log("image loaded")
+			     image.rotation = 0
 			     image.fitToScreen()
 			     bucketContainer.height = Math.min(image.sourceSize.width, image.sourceSize.height)
 			     bucketContainer.width = Math.min(image.sourceSize.width, image.sourceSize.height)
@@ -136,121 +121,121 @@ Item{
                     previousScale = scale
                 }
          
-        PinchArea{
-            id: pinchArea
+		PinchArea{
+		    id: pinchArea
 
-            property real minScale: 1.0
-            property real maxScale: 2.0
+		    property real minScale: 1.0
+		    property real maxScale: 2.0
 
-            anchors.fill: parent
-            pinch.target: image
-            pinch.minimumScale: minScale * 0.5
-            pinch.maximumScale: maxScale * 1.5
+		    anchors.fill: parent
+		    pinch.target: image
+		    pinch.minimumScale: minScale * 0.5
+		    pinch.maximumScale: maxScale * 1.5
 
-            onPinchFinished: {
-                flickable.returnToBounds()
-                if(image.scale < pinchArea.minScale){
-                    bounceBackAnimation.to = pinchArea.minScale
-                    bounceBackAnimation.start()
-                }
-                else if(image.scale > pinchArea.maxScale){
-                    bounceBackAnimation.to = pinchArea.maxScale
-                    bounceBackAnimation.start()
-                }
-            }
+		    onPinchFinished: {
+			flickable.returnToBounds()
+			if(image.scale < pinchArea.minScale){
+			    bounceBackAnimation.to = pinchArea.minScale
+			    bounceBackAnimation.start()
+			}
+			else if(image.scale > pinchArea.maxScale){
+			    bounceBackAnimation.to = pinchArea.maxScale
+			    bounceBackAnimation.start()
+			}
+		    }
 
-            NumberAnimation{
-                id: bounceBackAnimation
-                target: image
-                duration: 250
-                property: "scale"
-                from: image.scale
-            }
-        }
-        
-        Item{
-            id: bucketContainer
-
-            height: Math.min(image.sourceSize.width, image.sourceSize.height)
-            width: Math.min(image.sourceSize.width, image.sourceSize.height)
-            transform: Rotation { origin.x: Math.round(bucketContainer.width/2); origin.y:  Math.round(bucketContainer.height/2); angle: 0 - rotation.angle}
-
-            Rectangle{
-                id: bucketBorder
-                anchors.fill: parent
-                border.width: 4 / image.scale
-                border.color: (bucketMouseArea.pressed || bucketResizeMouseArea.pressed) ? pressedColor : "lightgray"
-                color: "transparent"
-                visible: image.status == Image.Ready
-            }
-
-            MouseArea{
-                id: bucketMouseArea
-                anchors.fill: parent
-                drag.target: bucketContainer
-                drag.minimumX: 0
-                drag.minimumY: 0
-                drag.maximumX: image.width - bucketBorder.width - 4 
-                drag.maximumY: image.height - bucketBorder.height - 4
-            }
-            
-            Image{
-		id: resizeIndicator
-		anchors{ right: parent.right; bottom: parent.bottom }
-		source: "/opt/waxmppplugin/bin/wazapp/UI/common/images/imageInteractor.png"
-		height: sourceSize.height / image.scale
-		width: sourceSize.width / image.scale
-		visible: image.status == Image.Ready
-            }
-            
-            MouseArea{
-		id: bucketResizeMouseArea
-
-		property int oldMouseX
-		property int oldMouseY
-		  
-		anchors.fill: resizeIndicator
-
-        	onPressed: {
-			oldMouseX = mouseX
-			oldMouseY = mouseY
+		    NumberAnimation{
+			id: bounceBackAnimation
+			target: image
+			duration: 250
+			property: "scale"
+			from: image.scale
+		    }
 		}
+        
+		Item{
+		    id: bucketContainer
 
-		onPositionChanged: {
-			if (pressed) {
-				var delta = Math.round(Math.min((mouseX - oldMouseX),(mouseY - oldMouseY)))
-				var deltaX = 0
-				var deltaY = 0
-				switch (rotation.angle)
-				{
-				  case 90:	deltaY=-delta
-						break
-				  case 180:	deltaX=-delta
-						deltaY=-delta
-						break
-				  case 270:	deltaX=-delta
-						break
-				}
-				if (
-				  (bucketContainer.height + bucketContainer.x + delta <= image.sourceSize.width) && 
-				  (bucketContainer.width + bucketContainer.y + delta <= image.sourceSize.height) && 
-				  (bucketContainer.width + delta >= bucketMinSize) &&
-				  (bucketContainer.height + delta >= resizeIndicator.height) &&
-				  (bucketContainer.x + deltaX >= 0) &&
-				  (bucketContainer.y + deltaY >= 0)
-				) {
-					bucketContainer.height += delta
-					bucketContainer.width += delta
-					bucketContainer.x += deltaX
-					bucketContainer.y += deltaY
+		    height: Math.min(image.sourceSize.width, image.sourceSize.height)
+		    width: Math.min(image.sourceSize.width, image.sourceSize.height)
+		    rotation: 0 - image.rotation
+		    visible: avatar
+
+		    Rectangle{
+			id: bucketBorder
+			anchors.fill: parent
+			border.width: 4 / image.scale
+			border.color: (bucketMouseArea.pressed || bucketResizeMouseArea.pressed) ? pressedColor : "lightgray"
+			color: "transparent"
+			visible: image.status == Image.Ready
+		    }
+
+		    MouseArea{
+			id: bucketMouseArea
+			anchors.fill: parent
+			drag.target: bucketContainer
+			drag.minimumX: 0
+			drag.minimumY: 0
+			drag.maximumX: image.width - bucketBorder.width - 4 
+			drag.maximumY: image.height - bucketBorder.height - 4
+		    }
+		    
+		    Image{
+			id: resizeIndicator
+			anchors{ right: parent.right; bottom: parent.bottom }
+			source: "/opt/waxmppplugin/bin/wazapp/UI/common/images/imageInteractor.png"
+			height: sourceSize.height / image.scale
+			width: sourceSize.width / image.scale
+			visible: image.status == Image.Ready
+		    }
+		    
+		    MouseArea{
+			id: bucketResizeMouseArea
+
+			property int oldMouseX
+			property int oldMouseY
+			
+			anchors.fill: resizeIndicator
+
+			onPressed: {
+				oldMouseX = mouseX
+				oldMouseY = mouseY
+			}
+
+			onPositionChanged: {
+				if (pressed) {
+					var delta = Math.round(Math.min((mouseX - oldMouseX),(mouseY - oldMouseY)))
+					var deltaX = 0
+					var deltaY = 0
+					switch (image.rotation)
+					{
+					case 90:	deltaY=-delta
+							break
+					case 180:	deltaX=-delta
+							deltaY=-delta
+							break
+					case 270:	deltaX=-delta
+							break
+					}
+					if (
+					(bucketContainer.height + bucketContainer.x + delta <= image.sourceSize.width) && 
+					(bucketContainer.width + bucketContainer.y + delta <= image.sourceSize.height) && 
+					(bucketContainer.width + delta >= bucketMinSize) &&
+					(bucketContainer.height + delta >= resizeIndicator.height) &&
+					(bucketContainer.x + deltaX >= 0) &&
+					(bucketContainer.y + deltaY >= 0)
+					) {
+						bucketContainer.height += delta
+						bucketContainer.width += delta
+						bucketContainer.x += deltaX
+						bucketContainer.y += deltaY
+					}
 				}
 			}
-                }
-	    }
-        }
-    }
+		    }
 		}
+	    }
 	}
-	ScrollDecorator{ flickableItem: flickable }
+    }
+    ScrollDecorator{ flickableItem: flickable }
 }
-

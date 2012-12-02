@@ -1153,19 +1153,24 @@ class WAEventHandler(QObject):
 		path = WAConstants.CACHE_PATH+"/"+"temp.jpg"
 		self.interfaceHandler.call("profile_setPicture", (path,))
 	
-	def transformPicture(self, filepath, temppath, posX, posY, size, maxSize, rotation):
+	def transformPicture(self, filepath, temppath, posX, posY, sizeW, sizeH, maxSize, rotation):
 		print "Preparing picture " + filepath + " - rotation: " + str(rotation)
 		image = filepath.replace("file://","")
 
-		user_img = QImage(image)
+		preimg = QImage(image)
 
-		preimg = user_img.copy(posX,posY,size,size)
-		if size > maxSize:
-			preimg = preimg.scaledToWidth(maxSize, Qt.FastTransformation)
+		if sizeW==sizeH:
+			preimg = preimg.copy(posX,posY,sizeW,sizeH)
+			if sizeW > maxSize:
+				preimg = preimg.scaledToWidth(maxSize, Qt.FastTransformation)
 		if rotation != 0:
 			rot = QTransform()
 			rot = rot.rotate(rotation)
 			preimg = preimg.transformed(rot)
+		if sizeW!=sizeH:
+			preimg = preimg.copy(posX,posY,sizeW,sizeH)
+			if sizeW > maxSize:
+				preimg = preimg.scaledToWidth(maxSize, Qt.FastTransformation)
 
 		if os.path.exists(temppath):
 			os.remove(temppath)

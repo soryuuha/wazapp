@@ -71,8 +71,7 @@ WAPage {
 
 		onSetBackground: {
 			var result = backgroundimg.replace("file://","")
-			myBackgroundImage = result
-			MySettings.setSetting("Background", result)
+			MySettings.setSetting("Background"+(appWindow.inPortrait?"Portrait":"Landscape"), result)
 			backgroundSelector.subtitle = getBackgroundSubtitle()
 		}
 
@@ -89,10 +88,14 @@ WAPage {
 				personalTone.subtitle = getRingtoneSubtitle(ringtonevalue)
 			}
 		}
+		
+		onOrientationChangeStarted: {
+			setBackground(MySettings.getSetting("Background"+(appWindow.inPortrait?"Portrait":"Landscape"), "none"))
+		}
 	}
 
 	function getBackgroundSubtitle() {
-		var res = MySettings.getSetting("Background", "none")
+		var res = MySettings.getSetting("Background"+(appWindow.inPortrait?"Portrait":"Landscape"), "none")
 		res = res.split('/')
 		res = res[res.length-1]
 		res = res.charAt(0).toUpperCase() + res.slice(1);
@@ -791,12 +794,18 @@ WAPage {
     
     SelectPicture {
         id:setBackgroundPicture
+        property int oldOrientation
         noneButtonActive: true
         onSelected: {
-	    resizeBackground.maximumSize = 840
-	    resizeBackground.minimumSize = 420
+	    oldOrientation = orientation
+	    if (appWindow.inPortrait)
+		orientation=1
+	    else
+		orientation=2
+	    resizeBackground.maximumSize = appWindow.inPortrait?480:854
 	    resizeBackground.picture = path
-	    resizeBackground.filename = "background.jpg"
+	    resizeBackground.avatar = false
+	    resizeBackground.filename = "background"+(appWindow.inPortrait?"-portrait":"-landscape")+".jpg"
 	    pageStack.replace(resizeBackground)
         }
     }
@@ -819,6 +828,7 @@ WAPage {
 	onSelected: {	
 		pageStack.pop()
 		setBackground(resizeBackground.picture)
+		orientation = setBackgroundPicture.oldOrientation
 	}
     }
 }

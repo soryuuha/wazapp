@@ -65,7 +65,7 @@ WAStackWindow {
         notifierChatBehaviour = MySettings.getSetting("NotifierChatBehaviour", "No")=="Yes"
         personalRingtone = MySettings.getSetting("PersonalRingtone", "/usr/share/sounds/ring-tones/Message 1.mp3")
         groupRingtone = MySettings.getSetting("GroupRingtone", "/usr/share/sounds/ring-tones/Message 1.mp3")
-        myBackgroundImage = MySettings.getSetting("Background", "none")
+        myBackgroundImage = MySettings.getSetting("Background"+(appWindow.inPortrait?"Portrait":"Landscape"), "none")
         myBackgroundOpacity = MySettings.getSetting("BackgroundOpacity", "5")
         setBackground(myBackgroundImage)
     }
@@ -139,7 +139,7 @@ WAStackWindow {
     signal onContactPictureUpdated(string ujid);
     signal setGroupPicture(string jide);
     signal setMyProfilePicture();
-    signal transformPicture(string file, string newfile, int posX, int posY, int size, int maxSize, int rotation);
+    signal transformPicture(string file, string newfile, int posX, int posY, int sizeW, int sizeH, int maxSize, int rotation);
     signal sendMediaMessage(string jid, string data, string image, string preview);
     signal sendMediaImageFile(string jid, string file);
     signal sendMediaVideoFile(string jid, string file, string preview);
