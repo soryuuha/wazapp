@@ -104,17 +104,11 @@ Item {
            state_status:delegateContainer.state_status
            bubbleColor: delegateContainer.bubbleColor;
 
-           onOptionsRequested: {
-               delegateContainer.optionsRequested()
-           }
-           
-           onNameClicked: {
-               delegateContainer.nameClicked()
-           }
-           
-           onNameHolded: {
-	       delegateContainer.nameHolded()
-	   }
+           onOptionsRequested: delegateContainer.optionsRequested()
+           onNameClicked: delegateContainer.nameClicked()
+           onNameHolded: delegateContainer.nameHolded()	   
+           onClickOutside: delegateContainer.clickOutside()
+           onHoldOutside: delegateContainer.holdOutside()
 
   		}
     }
@@ -172,17 +166,11 @@ Item {
 
 			}
 
-			onOptionsRequested: {
-		   		delegateContainer.optionsRequested()
-			}
-           
-			onNameClicked: {
-				delegateContainer.nameClicked()
-			}
-			
-			onNameHolded: {
-				delegateContainer.nameHolded()
-			}
+			onOptionsRequested: delegateContainer.optionsRequested()
+			onNameClicked: delegateContainer.nameClicked()
+			onNameHolded: delegateContainer.nameHolded()
+			onClickOutside: delegateContainer.clickOutside()
+			onHoldOutside: delegateContainer.holdOutside()
 
 			onClicked: {
 		   		if(from_me==0 && transferState!="success")
