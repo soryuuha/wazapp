@@ -30,6 +30,8 @@ Item {
     signal optionsRequested()
     signal nameClicked()
     signal nameHolded()
+    signal clickOutside()
+    signal holdOutside()
 
     anchors.right: from_me==1?this.right:parent.right
     anchors.left: from_me!=1?this.left:parent.left
