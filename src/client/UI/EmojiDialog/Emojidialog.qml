@@ -166,42 +166,36 @@ Dialog {
 
             WAButton {
                 id: recentEmoji
-                styleSuffix: "-horizontal-left"
                 iconSource: get32("E02C");
                 onClicked: showGrid(recentGrid)
             }
 
             WAButton {
                 id: peopleEmoji
-                styleSuffix: "-horizontal-center"
                 iconSource: get32("E057");
                 onClicked: showGrid(peopleGrid)
             }
 
             WAButton {
                 id: natureEmoji
-                styleSuffix: "-horizontal-center"
                 iconSource: get32("E303");
                 onClicked: showGrid(natureGrid)
             }
 
             WAButton {
                 id: placesEmoji
-                styleSuffix: "-horizontal-center"
                 iconSource: get32("E325")
                 onClicked: showGrid(placesGrid)
             }
 
             WAButton {
                 id: objectsEmoji
-                styleSuffix: "-horizontal-center"
                 iconSource: get32("E036")
                 onClicked: showGrid(objectsGrid)
             }
 
             WAButton {
                 id: symbolsEmoji
-                styleSuffix: "-horizontal-right"
                 iconSource: get32("E210")
                 onClicked: showGrid(symbolsGrid)
             }
