@@ -382,7 +382,6 @@ WAPage {
 					    WAButton {
 					        text: qsTr("Automatic")
 					        checked: orientation==0
-					        styleSuffix: "-horizontal-left"
 					        onClicked: {
 								MySettings.setSetting("Orientation", "0")
 					            orientation=0
@@ -391,7 +390,6 @@ WAPage {
 					    WAButton {
 					        text: qsTr("Portrait")
 					        checked: orientation==1
-					        styleSuffix: "-horizontal-center"
 					        onClicked: {
 								MySettings.setSetting("Orientation", "1")
 					            orientation=1
@@ -400,7 +398,6 @@ WAPage {
 					    WAButton {
 					        text: qsTr("Landscape")
 					        checked: orientation==2
-					        styleSuffix: "-horizontal-right"
 					        onClicked: {
 								MySettings.setSetting("Orientation", "2")
 					            orientation=2
@@ -418,7 +415,6 @@ WAPage {
 					    WAButton {
 					        text: qsTr("White")
 					        checked: theme.inverted ? false : true
-					        styleSuffix: "-horizontal-left"
 					        onClicked: {
 								MySettings.setSetting("ThemeColor", "White")
 					            theme.inverted = false
@@ -427,7 +423,6 @@ WAPage {
 					    WAButton {
 					        text: qsTr("Black")
 					        checked: theme.inverted ? true : false
-					        styleSuffix: "-horizontal-right"
 					        onClicked: {
 								MySettings.setSetting("ThemeColor", "Black")
 					            theme.inverted = true
@@ -446,7 +441,6 @@ WAPage {
 					    WAButton {
 					        text: qsTr("Cyan")
 					        checked: mainBubbleColor==1
-					        styleSuffix: "-horizontal-left"
 					        onClicked: {
 								MySettings.setSetting("BubbleColor", "1")
 					            mainBubbleColor=1
@@ -455,7 +449,6 @@ WAPage {
 					    WAButton {
 					        text: qsTr("Green")
 					        checked: mainBubbleColor==4
-					        styleSuffix: "-horizontal-center"
 					        onClicked: {
 								MySettings.setSetting("BubbleColor", "4")
 					            mainBubbleColor=4
@@ -464,7 +457,6 @@ WAPage {
 					    WAButton {
 					        text: qsTr("Pink")
 					        checked: mainBubbleColor==3
-					        styleSuffix: "-horizontal-center"
 					        onClicked: {
 								MySettings.setSetting("BubbleColor", "3")
 					            mainBubbleColor=3
@@ -473,7 +465,6 @@ WAPage {
 					    WAButton {
 					        text: qsTr("Orange")
 					        checked: mainBubbleColor==2
-					        styleSuffix: "-horizontal-right"
 					        onClicked: {
 								MySettings.setSetting("BubbleColor", "2")
 					            mainBubbleColor=2
