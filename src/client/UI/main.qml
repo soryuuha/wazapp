@@ -767,11 +767,6 @@ WAStackWindow {
             contact.setConversation(conversation);
 
         }
-
-        if(!initializationDone) {
-            splashPage.setSubOperation(conv.jid)
-	    splashPage.step()
-	}
     }
 
     signal reorderConversation(string cjid) //@@THIS IS FUCKING RETARDED!!!!!!!!
@@ -806,6 +801,10 @@ WAStackWindow {
         if(messages.data.length == 1 && messages.data[0].type == 0)
         onPaused(messages.jid)
 
+        if(!initializationDone) {
+            splashPage.setSubOperation(conv.jid)
+	    splashPage.step()
+	}
     }
 
     function checkUnreadMessages() {
