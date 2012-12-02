@@ -1,4 +1,3 @@
-// import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 1.1
 import "../common"
 import com.nokia.meego 1.0
@@ -19,9 +18,8 @@ WAPage {
     }
     
     function nextStage() {
-	curProgress=1
 	stage++
-	position=1
+	position=0
     }
 
     function setSubOperation(subop) {
@@ -43,11 +41,13 @@ WAPage {
     function setProgress(val) {
 	    var part = 100/maximumValue
 	    curProgress = parseInt(part*val /10)
+	    progress.source = "images/" + stage + curProgress + "0.png"
     }
 
     function setOpacity(val) {
-	    var part = myBackgroundOpacity/maximumValue/10.0
-	    background.opacity = part*val
+	    if (!theme.inverted)
+		blackbg.opacity = 1.0 - (1.0/maximumValue) * val
+	    background.opacity = (myBackgroundOpacity/maximumValue/10.0) * val
     }
 
     onStatusChanged: {
@@ -61,30 +61,55 @@ WAPage {
     }
     
     Rectangle {
-	id: name
+	id: whitebg
 	anchors.fill: parent
-	color: theme.inverted?"black":"white"
+	color: "white"
+    }
+    
+    Rectangle {
+	id: blackbg
+	anchors.fill: parent
+	color: "black"
+	opacity: 1.0
 	
-	Image {
-	    id: background
-	    anchors.fill: parent
-	    source: myBackgroundImage!="none" ? WAConstants.CACHE_PATH+"/"+"background.jpg" + "?ran=" + Math.random() : ""
-	    fillMode: Image.PreserveAspectCrop
-	    opacity: 0
-	    
-	    Behavior on opacity { SmoothedAnimation { velocity: 50 } }
+	transitions: Transition {
+	    NumberAnimation {
+		target: blackbg
+		property: "opacity"
+		from: blackbg.opacity
+		alwaysRunToEnd: true
+		duration: 7000
+	    }
 	}
+    }
 	
-	Image {
-	    id: progress
-	    width: 180
-	    height: 180
-	    anchors.left: parent.left
-	    anchors.top: parent.top
-	    anchors.topMargin: 246
-	    anchors.leftMargin: 150
-	    source: "images/" + stage + curProgress + "0.png"
+    Image {
+	id: background
+	anchors.fill: parent
+	source: myBackgroundImage!="none" ? (WAConstants.CACHE_PATH+"/"+"background-portrait.jpg" + "?ran=" + Math.random()) : ""
+	fillMode: Image.PreserveAspectCrop
+	opacity: 0
+	
+	transitions: Transition {
+	    NumberAnimation {
+		target: background
+		property: "opacity"
+		from: background.opacity
+		alwaysRunToEnd: true
+		duration: 7000
+	    }
 	}
+    }
+    
+    Image {
+	id: progress
+	width: 180
+	height: 180
+	anchors.left: parent.left
+	anchors.top: parent.top
+	anchors.topMargin: 246
+	anchors.leftMargin: 150
+	source: "images/100.png"
     }
 
     Column{
