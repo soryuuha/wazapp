@@ -990,7 +990,10 @@ WAPage {
 		    anchors.right: parent.right
 			anchors.rightMargin: 16
 			y: 10
-		    onClicked: sendButtonClicked();
+		    onClicked: {
+			clickEffect.play()
+			sendButtonClicked();
+		    }
 		}
 
 	}
