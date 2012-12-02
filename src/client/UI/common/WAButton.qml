@@ -52,6 +52,9 @@ ImplicitSizeItem {
     property alias text: label.text
     property url iconSource
     property alias platformMouseAnchors: mouseArea.anchors
+    property bool focusable: true
+    property string exclusiveposition
+    property bool inverted: theme.inverted
 
     signal clicked
     signal pressAndHold
@@ -61,15 +64,14 @@ ImplicitSizeItem {
 
     // Styling for the Button
     property Style platformStyle: ButtonStyle {
-	pressedTextColor: "lightgray"
-	inverted: theme.inverted    
-        pressedBackground: "image://theme/color3-meegotouch-button" + (theme.inverted ? "-inverted" : "") + "-background-pressed" + styleSuffix
-        checkedBackground: "image://theme/color3-meegotouch-button" + (theme.inverted ? "-inverted" : "") + "-background-selected" + styleSuffix
-        disabledBackground: "image://theme/meegotouch-button" + (theme.inverted ? "-inverted" : "") + "-background-disabled" + styleSuffix
-        checkedDisabledBackground: "image://theme/color3-meegotouch-button" + (theme.inverted ? "-inverted" : "") + "-background-disabled-selected" + styleSuffix
+        pressedTextColor: focusable?"lightgray":"black"
+        inverted: button.inverted
+        background: "image://theme/meegotouch-button" + (inverted ? "-inverted" : "") + "-background" + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
+        pressedBackground: "image://theme/color3-meegotouch-button" + (inverted ? "-inverted" : "") + "-background-pressed" + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
+        checkedBackground: "image://theme/" + (focusable?"color3-":"") + "meegotouch-button" + (inverted ? "-inverted" : "") + "-background" + (focusable?"-selected":"") + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
+        disabledBackground: "image://theme/meegotouch-button" + (inverted ? "-inverted" : "") + "-background-disabled" + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
+        checkedDisabledBackground: "image://theme/color3-meegotouch-button" + (inverted ? "-inverted" : "") + "-background-disabled" + (focusable?"-selected":"") + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
     }
-
-    property string styleSuffix: ""
 
     implicitWidth: platformStyle.buttonWidth
     implicitHeight: platformStyle.buttonHeight
@@ -148,8 +150,12 @@ ImplicitSizeItem {
         }
 	onClicked: if (button.checkable) button.checked = !button.checked
     }
+    
     Component.onCompleted: {
 	mouseArea.clicked.connect(clicked)
-	mouseArea.pressAndHold.connect(pressAndHold)
+	if (platformStyle.position == "")
+		mouseArea.pressAndHold.connect(pressAndHold)
+	else
+		mouseArea.pressAndHold.connect(clicked)
     }
 }
