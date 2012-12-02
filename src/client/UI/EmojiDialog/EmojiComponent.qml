@@ -124,7 +124,7 @@ ButtonRow {
     }
 }
     
-EmojiTabButton {
+WAButton {
     id: backspace
     anchors.left: emojiCategory.right
     height: emojiCategory.height
@@ -133,6 +133,7 @@ EmojiTabButton {
     checkable: false
     inverted: emojiSelector.inverted
     iconSource: "/usr/share/themes/blanco/meegotouch/icons/icon-m-toolbar-backspace" + (inverted?"-white":"") + ".png"
+    exclusiveposition: "horizontal-center"
     onClicked: {
 	feedbackEffect.play()
 	emojiSelector.emojiTextArea.backspace()
