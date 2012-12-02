@@ -1037,6 +1037,7 @@ WAPage {
 		    width: parent.width
 		    anchors.bottom: parent.bottom
 		    inverted: theme.inverted
+		    backspaceButton: true
 		    visible: false
 		}
 
