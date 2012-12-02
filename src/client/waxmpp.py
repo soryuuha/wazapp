@@ -446,6 +446,8 @@ class WAEventHandler(QObject):
 
 			if message.wantsReceipt:
 				self.interfaceHandler.call("message_ack", (conversation.getJid(), eval(message.key).id))
+				
+			QtCore.QCoreApplication.processEvents()
 
 		return wrapped
 	
