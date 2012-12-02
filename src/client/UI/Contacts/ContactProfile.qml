@@ -196,6 +196,7 @@ WAPage {
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
+                focusable: false
                 text: qsTr("Update status")
                 onClicked: {
                         updateSingleStatus=true //@@retarded
@@ -211,6 +212,7 @@ WAPage {
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
+                focusable: false
                 text: blockedContacts.indexOf(contactJid)==-1? qsTr("Ignore messages") : qsTr("Allow messages")
                 onClicked: {
                     if (blockedContacts.indexOf(contactJid)==-1)
@@ -225,6 +227,7 @@ WAPage {
                 styleSuffix: "-vertical-center"
                 width: parent.width
                 font.pixelSize: 22
+                focusable: false
                 text: qsTr("Add to contacts")
                 visible: !inContacts
                 onClicked: Qt.openUrlExternally("tel:"+contactNumber)
@@ -236,6 +239,7 @@ WAPage {
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
+                focusable: false
                 text: qsTr("Send chat history")
                 onClicked: { exportConversation(contactJid); }
             }
@@ -246,6 +250,7 @@ WAPage {
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
+                focusable: false
                 text: qsTr("Delete chat history")
                 onClicked: {
                     chatHistoryDelete.open()

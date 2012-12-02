@@ -294,25 +294,30 @@ WAPage {
             height: 10
         }
 
-        WAButton {
-            id: statusButton
-            height: 50
-            width: parent.width
-            font.pixelSize: 22
-            text: qsTr("Change group subject")
-            enabled: !working && groupSubjectOwner!=""
-            onClicked: runIfOnline(function(){pageStack.push(groupSubjectChanger)}, true);
-        }
+        ButtonColumn {
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.leftMargin: 16
+		anchors.rightMargin: 16
+		
+		WAButton {
+		    id: statusButton
+		    font.pixelSize: 22
+		    text: qsTr("Change group subject")
+		    enabled: !working && groupSubjectOwner!=""
+		    focusable: false
+		    onClicked: runIfOnline(function(){pageStack.push(groupSubjectChanger)}, true);
+		}
 
-        WAButton {
-            id: picButton
-            height: 50
-            width: parent.width
-            font.pixelSize: 22
-            text: qsTr("Change group picture")
-            enabled: !working
-            onClicked: runIfOnline(function(){pageStack.push(setProfilePicture)}, true);
-        }
+		WAButton {
+		    id: picButton
+		    font.pixelSize: 22
+		    text: qsTr("Change group picture")
+		    enabled: !working
+		    focusable: false
+		    onClicked: runIfOnline(function(){pageStack.push(setProfilePicture)}, true);
+		}
+	}
 
         Separator {
             width: parent.width
