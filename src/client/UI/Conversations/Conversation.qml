@@ -1028,7 +1028,10 @@ WAPage {
 		    anchors.right: parent.right
 			anchors.rightMargin: 16
 			anchors.verticalCenter: emoji_button.verticalCenter
-		    onClicked: sendButtonClicked();
+		    onClicked: {
+			clickEffect.play()
+			sendButtonClicked();
+		    }
 		}
 		
 		EmojiComponent{
