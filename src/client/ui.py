@@ -470,6 +470,7 @@ class WAUI(QDeclarativeView):
 		self.filelist = []
 		data = ["mp3","MP3","wav","WAV"]
 		self.processFiles("/usr/share/sounds/ring-tones/", data) #, ignored)
+		self.processFiles("/home/user/.ring-tones/", data) #, ignored)
 		self.processFiles("/home/user/MyDocs/Ringtones", data) #, ignored)
 
 		myfiles = []
