@@ -192,7 +192,6 @@ WAPage {
 
             WAButton {
                 id: statusButton
-                styleSuffix: "-vertical-top"
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
@@ -208,7 +207,6 @@ WAPage {
 
             WAButton {
                 id: blockButton
-                styleSuffix: "-vertical-center"
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
@@ -224,7 +222,6 @@ WAPage {
 
             WAButton {
                 height: 50
-                styleSuffix: "-vertical-center"
                 width: parent.width
                 font.pixelSize: 22
                 focusable: false
@@ -235,7 +232,6 @@ WAPage {
 
             WAButton {
                 id: sendChatButton
-                styleSuffix: "-vertical-center"
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
@@ -246,7 +242,6 @@ WAPage {
 
             WAButton {
                 id: deleteChatButton
-                styleSuffix: "-vertical-bottom"
                 height: 50
                 width: parent.width
                 font.pixelSize: 22
