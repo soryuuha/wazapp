@@ -389,18 +389,18 @@ class WAEventHandler(QObject):
 			jid = args[1]
 			
 			try:
-				self.blockedContacts.index(jid);
-				#self.interfaceHandler.call("message_ack", (jid, messageId))
-				self._d("BLOCKED MESSAGE FROM " + jid)
+				if '-' in jid:
+					self.blockedContacts.index(args[2]);
+					self._d("BLOCKED MESSAGE FROM " + args[2])
+				else:
+					self.blockedContacts.index(jid);
+					self._d("BLOCKED MESSAGE FROM " + jid)
 				return
 			except ValueError:
 				pass
 
 			if WAXMPP.message_store.messageExists(jid, messageId):
 				self.interfaceHandler.call("message_ack", (jid, messageId))
-				return
-
-
 
 			key = Key(jid,False,messageId);
 			msg = WAXMPP.message_store.createMessage(jid)
