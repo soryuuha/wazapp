@@ -398,6 +398,10 @@ class WAEventHandler(QObject):
 				return
 			except ValueError:
 				pass
+			    
+			if WAXMPP.message_store.messageExists(jid, messageId):
+				self.interfaceHandler.call("message_ack", (jid, messageId))
+				return
 
 			if WAXMPP.message_store.messageExists(jid, messageId):
 				self.interfaceHandler.call("message_ack", (jid, messageId))
