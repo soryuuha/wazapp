@@ -311,7 +311,6 @@ class WAUI(QDeclarativeView):
 			contacts = self.c.getContacts();
 			if len(contacts) == 0:
 				self.c.resync("SYNC","ALL")
-				self.whatsapp.eventHandler.getGroups()
 			self._d("POPULATE CONTACTS: " + str(len(contacts)));
 			
 			if not self.initializationDone:
@@ -669,6 +668,7 @@ class WAUI(QDeclarativeView):
 		self.rootObject().uploadMedia.connect(whatsapp.eventHandler.uploadMedia)
 		self.rootObject().uploadGroupMedia.connect(whatsapp.eventHandler.uploadGroupMedia)
 		self.rootObject().getGroupInfo.connect(whatsapp.eventHandler.getGroupInfo)
+		self.rootObject().getServerGroups.connect(whatsapp.eventHandler.getGroups)
 		self.rootObject().createGroupChat.connect(whatsapp.eventHandler.createGroupChat)
 		self.rootObject().addParticipants.connect(whatsapp.eventHandler.addParticipants)
 		self.rootObject().removeParticipants.connect(whatsapp.eventHandler.removeParticipants)
