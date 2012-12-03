@@ -45,7 +45,8 @@ WAPage {
     InteractionArea {
 	id: pinch
 	anchors.fill: parent
-	anchors.topMargin: avatar?header.height:-36
+	anchors.topMargin: avatar?header.height:-appWindow.__statusBarHeight
+	anchors.bottomMargin: avatar?0:-appWindow.platformToolBarHeight
 	avatar: container.avatar
 	source: picture
 	bucketMinSize: minimumSize
