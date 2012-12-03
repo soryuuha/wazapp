@@ -873,6 +873,8 @@ WAStackWindow {
     function messagesReady(messages,reorder){
         consoleDebug("GOT MESSAGES SIGNAL");
         var conversation = waChats.getOrCreateConversation(messages.jid);
+        var contact = waContacts.getOrCreateContact({jid:messages.jid});
+        conversation.addContact(contact);
         consoleDebug("proceed to check validity of conv")
         if(!conversation){
             consoleDebug("FATAL UI ERROR, HOW COME CONV IS NOT HERE?!!");
