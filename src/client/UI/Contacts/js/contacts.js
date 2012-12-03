@@ -80,6 +80,7 @@ function populateContacts(contacts)
          }
 		//console.log("APPENDING CONTACT: " + contacts[i].jid + " - " + contacts[i].name)
 	contacts[i].newContact = false;
+	contacts[i].isSelected = false;
 	contactsModel.append(contacts[i]);
 
         var cachedConv =   conversations[contacts[i].jid];
