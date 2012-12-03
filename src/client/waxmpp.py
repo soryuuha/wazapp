@@ -454,7 +454,7 @@ class WAEventHandler(QObject):
 
 		contact = WAXMPP.message_store.store.Contact.getOrCreateContactByJid(message.getContact().jid)
 
-		if contact.pushname!=pushName and pushName!="":
+		if contact.pushname!=pushName and pushName!="" and pushName!=contact.jid.split("@")[0]:
 			self._d("Setting Push Name: "+pushName+" to "+contact.jid)
 			contact.setData({"jid":contact.jid,"pushname":pushName})
 			contact.save()
