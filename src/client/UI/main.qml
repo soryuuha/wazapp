@@ -119,6 +119,7 @@ WAStackWindow {
     signal sendSMS(string num)
     signal makeCall(string num)
     signal getGroupInfo(string jid);
+    signal getServerGroups();
     signal createGroupChat(string subject);
     signal addParticipants(string gjid, string participants);
     signal addedParticipants();
@@ -527,6 +528,8 @@ WAStackWindow {
         //tabGroups.currentTab=waContacts;
         appWindow.pageStack.push(loadingPage);
         refreshContacts("SYNC","ALL");
+        getServerGroups()
+
     }
 
     signal refreshSuccessed
