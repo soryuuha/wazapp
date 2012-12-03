@@ -70,7 +70,7 @@ ImplicitSizeItem {
         pressedBackground: "image://theme/color3-meegotouch-button" + (inverted ? "-inverted" : "") + "-background-pressed" + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
         checkedBackground: "image://theme/" + (focusable?"color3-":"") + "meegotouch-button" + (inverted ? "-inverted" : "") + "-background" + (focusable?"-selected":"") + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
         disabledBackground: "image://theme/meegotouch-button" + (inverted ? "-inverted" : "") + "-background-disabled" + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
-        checkedDisabledBackground: "image://theme/color3-meegotouch-button" + (inverted ? "-inverted" : "") + "-background-disabled" + (focusable?"-selected":"") + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
+        checkedDisabledBackground: "image://theme/color3-meegotouch-button" + (inverted ? "-inverted" : "") + "-background-disabled-selected" + ((exclusiveposition||position)?"-" + (exclusiveposition||position):"")
     }
 
     implicitWidth: platformStyle.buttonWidth
