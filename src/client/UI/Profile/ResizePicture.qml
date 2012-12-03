@@ -10,7 +10,7 @@ WAPage {
     property string picture
     property int maximumSize
     property int minimumSize
-    property bool avatar: false
+    property bool avatar: true
     
     property string filename
     
@@ -45,13 +45,15 @@ WAPage {
     InteractionArea {
 	id: pinch
 	anchors.fill: parent
-	anchors.topMargin: -36
+	anchors.topMargin: avatar?header.height:-appWindow.__statusBarHeight
+	anchors.bottomMargin: avatar?0:-appWindow.platformToolBarHeight
 	avatar: container.avatar
 	source: picture
 	bucketMinSize: minimumSize
     }
     
     WAHeader{
+	id: header
 	title: qsTr("Change picture")
 	anchors.top:parent.top
 	width:parent.width
