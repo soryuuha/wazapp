@@ -58,9 +58,7 @@ GridView{
         return "../../common/images/emoji/32/"+c+".png";
     }
      
-    function loadRecentEmoji(){
-	console.log("loadRecentEmoji")
-	
+    function loadRecentEmoji(){	
 	var emojilist= MySettings.getSetting("RecentEmoji", "")
 
 	var emoji = []
@@ -76,7 +74,6 @@ GridView{
     }
      
     function loadEmojiPage() {
-	console.log("loadEmojiPage end: " + end + " start: " + start)
 	var myend = end+1
 	for (var i=start; i<myend; i++)
 	{

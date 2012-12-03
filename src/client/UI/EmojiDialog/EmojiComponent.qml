@@ -59,12 +59,27 @@ ButtonRow {
 
     WAButton {
 	id: recentEmoji
+	property bool readyToFlush: false
 	iconSource: get32("E02C");
 	exclusiveposition: "horizontal-center"
 	inverted: emojiSelector.inverted
 	onClicked: {
 	    emojiList.offset = 0.0
-            emojiList.loadEmoji()
+	    emojiList.loadEmoji()
+	}
+	onPressAndHold: {
+	    feedbackEffect.play()
+	    if (readyToFlush){
+		flushRecentEmoji()
+		readyToFlush = false
+		emojiList.offset = 0.0
+		emojiList.loadEmoji()
+		feedbackEffect.play()
+	    }
+	    else
+		emojiList.offset = 0.0
+		emojiList.loadEmoji()
+		readyToFlush = true
 	}
     }
 
@@ -175,7 +190,11 @@ Rectangle {
 	    
 	    inverted: emojiSelector.inverted
 	    
-	    onSelected: selectEmoji(code)
+	    onSelected: {
+		selectEmoji(code)
+		if (showRecent)
+		    emojiList.loadEmoji()
+	    }
 	}
 	
 	path: Path {
@@ -198,7 +217,7 @@ Rectangle {
 		    case 2: objectsEmoji.checked = true; break
 		    case 1: symbolsEmoji.checked = true; break
 		}
-		
+	    recentEmoji.readyToFlush = false
 	    emojiList.childAt(100, emojiList.height - 20).load()
 	}
 	
@@ -218,5 +237,29 @@ Rectangle {
 	
 	selected()
     }
+    
+    function addRecentEmoji(emojicode) {
 
+	var emoji = []
+	var emojilist = MySettings.getSetting("RecentEmoji", "")
+
+	if (emojilist!="")
+		emoji = emojilist.split(',')
+
+	for (var i=0; i<emoji.length; ++i) {
+		if (emoji[i]==emojicode) {
+			emoji.splice(i,1)
+			break;
+		}
+	}
+	emoji.push(emojicode)
+	if (emoji.length > 50) {
+	    emoji = emoji.slice(emoji.length - 50, emoji.length)
+	}
+	MySettings.setSetting("RecentEmoji", emoji.toString())
+    }
+    
+    function flushRecentEmoji() {
+	MySettings.setSetting("RecentEmoji", "")
+    }
 }
