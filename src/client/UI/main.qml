@@ -62,7 +62,7 @@ WAStackWindow {
         vibraForGroup = MySettings.getSetting("GroupVibrate", "Yes")
         personalRingtone = MySettings.getSetting("PersonalRingtone", "/usr/share/sounds/ring-tones/Message 1.mp3")
         groupRingtone = MySettings.getSetting("GroupRingtone", "/usr/share/sounds/ring-tones/Message 1.mp3")
-        myBackgroundImage = MySettings.getSetting("Background"+(appWindow.inPortrait?"Portrait":"Landscape"), "none")
+        myBackgroundImage = MySettings.getSetting("Background"+(screen.currentOrientation==Screen.Portrait?"Portrait":"Landscape"), "none")
         myBackgroundOpacity = MySettings.getSetting("BackgroundOpacity", "5")
         setBackground(myBackgroundImage)
     }

@@ -90,7 +90,7 @@ WAPage {
 		}
 		
 		onOrientationChangeStarted: {
-			setBackground(MySettings.getSetting("Background"+(appWindow.inPortrait?"Portrait":"Landscape"), "none"))
+			setBackground(MySettings.getSetting("Background"+(screen.currentOrientation==Screen.Portrait?"Portrait":"Landscape"), "none"))
 		}
 	}
 
