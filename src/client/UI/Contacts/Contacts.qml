@@ -177,7 +177,6 @@ WAPage {
 			    runIfOnline(function(){
 				refreshPics.visible = false
 				getPictures()
-                           }
 			    }, true);
 			}
 		}
