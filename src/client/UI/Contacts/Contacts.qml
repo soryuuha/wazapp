@@ -174,8 +174,11 @@ WAPage {
 		MouseArea {
 			anchors.fill: parent
 			onClicked: {
+			    runIfOnline(function(){
 				refreshPics.visible = false
 				getPictures()
+                           }
+			    }, true);
 			}
 		}
 	}
