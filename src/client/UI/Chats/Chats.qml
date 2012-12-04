@@ -153,7 +153,7 @@ WAPage {
 	    Component.onCompleted: {
                 setConversation(model.conversation);
             }
-	    height: filtered ? 80 : 0
+	    height: filtered ? 102 : 0
 	    visible: height!=0
             width:chatsContainer.width
             onOptionsRequested: {
