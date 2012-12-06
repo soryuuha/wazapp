@@ -41,9 +41,9 @@ WAPage {
 		}
 		else if(status == PageStatus.Inactive){
 			while (conv_data.count>19) conv_data.remove(0)
-			//conv_items.positionViewAtEnd() #no need to scrool to bottom on page returning
 			loadMoreMessages(1)
 			//opened = false
+			conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
 		}   
     }
 
