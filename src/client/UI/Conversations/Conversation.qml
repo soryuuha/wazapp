@@ -401,10 +401,14 @@ WAPage {
 		ConvScript.addMessage(loadReverse,positionToAdd,message);
 		positionToAdd = positionToAdd+1
 		updateLastMessage()
-		if (!loadReverse) appWindow.checkUnreadMessages();
-		else
-		if (conv_items.atYEnd)
-			conv_items.bottomIndex = conv_items.count-1
+		if (!loadReverse)
+		    appWindow.checkUnreadMessages();
+		else {
+			if (conv_items.atYEnd)
+				conv_items.bottomIndex = conv_items.count-1
+			else
+				conv_items.bottomIndex = conv_items.indexAt(100, conv_items.contentY + conv_items.height - 10)
+		}
 	}
 
     function getNameForBubble(uname)
@@ -784,6 +788,8 @@ WAPage {
                         if (res != "") {
                             appWindow.sendMessage(jid, Helpers.unicodeEscape(res));
                             chat_text.text = "";
+                            conv_items.positionViewAtEnd()
+                            conv_items.bottomIndex = conv_items.count-1
                         }
                         forceFocusToChatText()
 
