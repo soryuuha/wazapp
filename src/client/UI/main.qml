@@ -735,6 +735,7 @@ WAStackWindow {
     function conversationsCount(max) {
       if(!initializationDone)
 	splashPage.setProgressMax(max)
+	splashPage.step()
     }
 
     function conversationReady(conv){
