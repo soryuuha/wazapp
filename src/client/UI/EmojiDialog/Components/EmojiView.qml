@@ -83,6 +83,7 @@ GridView{
     }
     
     function load() {
+	var oldY = emojiView.contentY
 	emojiModel.clear()
 	if (showRecent)
 	    loadRecentEmoji()
@@ -90,6 +91,7 @@ GridView{
 	    loadEmojiPage()
 
 	visible = true
+	emojiView.contentY = oldY
     }
     
     function hide() {

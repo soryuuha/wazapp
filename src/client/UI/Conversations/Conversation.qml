@@ -1057,7 +1057,8 @@ WAPage {
 		
 		EmojiComponent{
 		    id: emojiComponent
-		    height: emojiComponent.visible? (appWindow.inPortrait? 360 : 200) : 0
+		    property bool ready: false
+		    height: emojiComponent.visible? (appWindow.inPortrait? 378 : 176) : 0
 		    width: parent.width
 		    anchors.bottom: parent.bottom
 		    inverted: theme.inverted
