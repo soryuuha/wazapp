@@ -402,6 +402,7 @@ WAPage {
 		positionToAdd = positionToAdd+1
 		updateLastMessage()
 		if (!loadReverse) appWindow.checkUnreadMessages();
+		else
 		if (conv_items.atYEnd)
 			conv_items.bottomIndex = conv_items.count-1
 	}
