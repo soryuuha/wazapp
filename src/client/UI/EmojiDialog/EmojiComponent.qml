@@ -76,10 +76,11 @@ ButtonRow {
 		emojiList.loadEmoji()
 		feedbackEffect.play()
 	    }
-	    else
+	    else {
 		emojiList.offset = 0.0
 		emojiList.loadEmoji()
 		readyToFlush = true
+	    }
 	}
     }
 
