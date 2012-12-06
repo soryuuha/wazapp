@@ -823,7 +823,16 @@ WAPage {
 						}
 					}
 
-					onInputPanelChanged: conv_items.positionViewAtEnd()
+					onSoftwareInputPanelVisibleChanged: {
+						if (emojiComponent.ready && !chat_text.softwareInputPanelVisible) {
+						    consoleDebug("emojiComponent.ready: " + emojiComponent.ready)
+						    emojiComponent.open(chat_text) 
+						    
+						}
+						else {
+						    emojiComponent.accept()
+						}
+					}
 
                     onActiveFocusChanged: {
                         lastPosition = chat_text.cursorPosition
@@ -953,22 +962,16 @@ WAPage {
 		    checked: emojiComponent.visible
 		    onClicked: {
 				sendMediaWindow.opacity = 0
-				if (emojiComponent.visible) {
-				    emojiComponent.accept()
-				    forceFocusToChatText() }
-				else {
-				    emojiComponent.open(chat_text)
-				}
-				//emojiDialog.openDialog(chat_text);
+				emojiComponent.ready = !emojiComponent.ready
+				if (!emojiComponent.ready)
+					forceFocusToChatText()
+
 				showSendButton=true; 
-				//chat_text.lastPosition = chat_text.cursorPosition
 		    }
 		    onPressAndHold: {
 				sendMediaWindow.opacity = 0
-				//emojiDialog.openLongDialog(chat_text);
 				emojiDialog.openDialog(chat_text);
 				showSendButton=true; 
-				//chat_text.lastPosition = chat_text.cursorPosition
 		    }
 		}
 
