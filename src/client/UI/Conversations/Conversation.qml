@@ -41,7 +41,7 @@ WAPage {
 		}
 		else if(status == PageStatus.Inactive){
 			while (conv_data.count>19) conv_data.remove(0)
-			conv_items.positionViewAtEnd()
+			//conv_items.positionViewAtEnd() #no need to scrool to bottom on page returning
 			loadMoreMessages(1)
 			//opened = false
 		}   
@@ -402,6 +402,8 @@ WAPage {
 		positionToAdd = positionToAdd+1
 		updateLastMessage()
 		if (!loadReverse) appWindow.checkUnreadMessages();
+		if (conv_items.atYEnd)
+			conv_items.bottomIndex = conv_items.count-1
 	}
 
     function getNameForBubble(uname)
@@ -703,6 +705,7 @@ WAPage {
 
         ListView{
             id:conv_items
+            property int bottomIndex: -1
             spacing: 6
             delegate: myDelegate
             model: conv_data
@@ -714,6 +717,9 @@ WAPage {
 			visible: opened
             onCountChanged: {
                 //do some magic
+            }
+            onMovementEnded: {
+                bottomIndex = conv_items.indexAt(100, conv_items.contentY + conv_items.height - 10)
             }
             header: messagesListHeader
 			
@@ -801,9 +807,10 @@ WAPage {
 						//consoleDebug("TEXT AREA HEIGHT: " + parseInt(chat_text.height))
 						currentTextHeight = chat_text.height<72 ? 72 : chat_text.height+12
 						textHeightChanged()
-						if (conversation_view.status == PageStatus.Active)
-							conv_items.positionViewAtEnd()
+						//if (conversation_view.status == PageStatus.Active)
+						//	conv_items.positionViewAtEnd()
 						//input_holder.height = currentTextHeight
+						conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
 					}
 
 					onTextPasted: {
@@ -847,17 +854,21 @@ WAPage {
 						}
 					}
 
-					onInputPanelChanged: conv_items.positionViewAtEnd()
+					onSoftwareInputPanelVisibleChanged: {
+						if (conv_items.bottomIndex > -1) {
+						    conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
+						}
+					}
 
                     onActiveFocusChanged: {
                         lastPosition = chat_text.cursorPosition
                         //consoleDebug("LAST POSITION: " + lastPosition)
-						conv_items.positionViewAtEnd()
+			//			conv_items.positionViewAtEnd()
                         showSendButton = chat_text.focus || input_button_holder_area.focus || emoji_button.focus
                         if (showSendButton) {
                             if (!alreadyFocused) {
                                 alreadyFocused = true
-                                goToEndOfList()
+                                //goToEndOfList()
                             }
                         } else {
                             alreadyFocused = false
