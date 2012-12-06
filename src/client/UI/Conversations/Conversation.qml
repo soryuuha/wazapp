@@ -880,6 +880,7 @@ WAPage {
 					onSoftwareInputPanelVisibleChanged: {
 						if (conv_items.bottomIndex > -1) {
 						    conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
+						}
 
 						if (emojiComponent.ready && !chat_text.softwareInputPanelVisible) {
 						    consoleDebug("emojiComponent.ready: " + emojiComponent.ready)
