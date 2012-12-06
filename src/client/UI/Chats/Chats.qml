@@ -199,7 +199,7 @@ WAPage {
 		id: searchbar
 		width: parent.width
 		height: 0
-		anchors.top: header.bottom
+		anchors.top: parent.top
 		anchors.topMargin: wa_notifier.height
 		color: "transparent"
 		clip: true
