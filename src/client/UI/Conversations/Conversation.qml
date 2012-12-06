@@ -402,9 +402,10 @@ WAPage {
 		ConvScript.addMessage(loadReverse,positionToAdd,message);
 		positionToAdd = positionToAdd+1
 		updateLastMessage()
-		if (!loadReverse)
+		if (!loadReverse) {
 		    appWindow.checkUnreadMessages();
-		else {
+		    conv_items.bottomIndex = conv_items.count-1
+		} else {
 			if (conv_items.atYEnd)
 				conv_items.bottomIndex = conv_items.count-1
 			else
