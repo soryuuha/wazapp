@@ -403,12 +403,6 @@ WAPage {
 		updateLastMessage()
 		if (!loadReverse) {
 		    appWindow.checkUnreadMessages();
-		    conv_items.bottomIndex = conv_items.count-1
-		} else {
-			if (conv_items.atYEnd)
-				conv_items.bottomIndex = conv_items.count-1
-			else
-				conv_items.bottomIndex = conv_items.indexAt(100, conv_items.contentY + conv_items.height - 10)
 		}
 	}
 
@@ -722,8 +716,14 @@ WAPage {
             cacheBuffer: 10000
 			visible: opened
             onCountChanged: {
-                //do some magic
+                if (conv_items.atYEnd)
+			conv_items.bottomIndex = conv_items.count-1
+		else
+			conv_items.bottomIndex = conv_items.indexAt(100, conv_items.contentY + conv_items.height - 10)
             }
+            onHeightChanged: {
+		conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
+	    }
             onMovementEnded: {
                 bottomIndex = conv_items.indexAt(100, conv_items.contentY + conv_items.height - 10)
             }
@@ -812,13 +812,8 @@ WAPage {
                     property bool alreadyFocused: false
 
 					onHeightChanged: {
-						//consoleDebug("TEXT AREA HEIGHT: " + parseInt(chat_text.height))
 						currentTextHeight = chat_text.height<72 ? 72 : chat_text.height+12
 						textHeightChanged()
-						//if (conversation_view.status == PageStatus.Active)
-						//	conv_items.positionViewAtEnd()
-						//input_holder.height = currentTextHeight
-						conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
 					}
 
 					onTextPasted: {
