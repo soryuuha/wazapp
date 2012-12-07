@@ -38,13 +38,19 @@ WAPage {
 				loadMoreMessages(19)
 				opened = true
 				conv_items.positionViewAtEnd()
+				conv_items.bottomIndex = conv_items.count-1
 			}
 		}
 		else if(status == PageStatus.Inactive){
 			while (conv_data.count>19) conv_data.remove(0)
 			loadMoreMessages(1)
 			//opened = false
-			conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
+			if (conv_items.bottomIndex > -1)
+				conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
+			else {
+				conv_items.positionViewAtBeginning()
+				conv_items.bottomIndex = 0
+			}
 		}   
     }
 
@@ -415,6 +421,7 @@ WAPage {
 
     function goToEndOfList(){
         conv_items.positionViewAtIndex(conv_items.count-1, ListView.Contain)
+        conv_items.bottomIndex = conv_items.count-1
     }
 
 
@@ -663,8 +670,8 @@ WAPage {
 			}
 			onHoldOutside: {
 			    pressEffect.play()
-			    console.log("long press supported: " + pressEffect.supported)
 			    conv_items.positionViewAtEnd()
+			    conv_items.bottomIndex = conv_items.count-1
 			}
 
 			Connections {
@@ -738,7 +745,7 @@ WAPage {
             cacheBuffer: 10000
 			visible: opened
             onCountChanged: {
-                if (conv_items.atYEnd)
+		if (conv_items.atYEnd)
 			conv_items.bottomIndex = conv_items.count-1
 		else
 			conv_items.bottomIndex = conv_items.indexAt(100, conv_items.contentY + conv_items.height - 10)
@@ -1136,6 +1143,7 @@ WAPage {
 					var cval = conv_items.count
                     loadMoreMessages(20);
 					conv_items.positionViewAtIndex(conv_items.count -cval,ListView.Beginning)
+					conv_items.bottomIndex = conv_items.count -cval
 					conv_items.contentY = conv_items.contentY - 60
                 }
                 anchors.horizontalCenter:parent.horizontalCenter
