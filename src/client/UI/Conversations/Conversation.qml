@@ -462,10 +462,10 @@ WAPage {
 				onClicked: { 
                     //chatsTabButton.clicked()
 					if (conv_items.count > 20) {
-						if (conv_items.bottomIndex - 20 < 0)
+						if (conv_items.bottomIndex < conv_items.count - 20)
 							conv_items.bottomIndex = 0
 						else
-							conv_items.bottomIndex = conv_items.bottomIndex - 20
+							conv_items.bottomIndex -= conv_items.count - 20
 					}
 					appWindow.setActiveConv("")
 					appWindow.pageStack.pop(1)
@@ -510,10 +510,10 @@ WAPage {
 				width: 84
 				onClicked: { 
 					if (conv_items.count > 20) {
-						if (conv_items.bottomIndex - 20 < 0)
+						if (conv_items.bottomIndex < conv_items.count - 20)
 							conv_items.bottomIndex = 0
 						else
-							conv_items.bottomIndex = conv_items.bottomIndex - 20
+							conv_items.bottomIndex -= conv_items.count - 20
 					}
 					if (!conversation_view.isGroup()) {
                         var contact = waContacts.getOrCreateContact({"jid":conversation_view.jid});
@@ -733,10 +733,12 @@ WAPage {
             cacheBuffer: 10000
 			visible: opened
             onCountChanged: {
-		if (conv_items.atYEnd)
-			conv_items.bottomIndex = conv_items.count-1
-		else
-			conv_items.bottomIndex = conv_items.indexAt(100, conv_items.contentY + conv_items.height - 10)
+		if (conversation_view.status == PageStatus.Active) {
+			if (conv_items.atYEnd)
+				conv_items.bottomIndex = conv_items.count-1
+			else
+				conv_items.bottomIndex = conv_items.indexAt(100, conv_items.contentY + conv_items.height - 10)
+		}
             }
             onHeightChanged: {
 		conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
