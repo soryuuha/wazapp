@@ -195,6 +195,8 @@ class WAEventHandler(QObject):
 		print err
 		if self.connMonitor.isOnline():
 			QTimer.singleShot(5000, lambda: self.networkAvailable() if self.connMonitor.isOnline() else False)
+		else:
+			self.connMonitor.createSession()
 
 
 	def authFail(self, username, err):
@@ -920,6 +922,7 @@ class WAEventHandler(QObject):
 			if self.connMonitor.isOnline():
 				self.networkAvailable()
 			elif reason == "network":
+				self.connMonitor.createSession()
 				self.sleeping.emit()
 		#@@TODO ADD reason another connection
 		

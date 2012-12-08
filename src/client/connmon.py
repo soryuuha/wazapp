@@ -50,37 +50,54 @@ class ConnMonitor(QObject):
 		self.session =  QNetworkSession(self.manager.defaultConfiguration());
 		self.session.stateChanged.connect(self.sessionStateChanged)
 		self.session.closed.connect(self.disconnected);
-		#self.session.opened.connect(self.connected);
+		self.session.opened.connect(self.connected);
 		#self.createSession();
 		#self.session.waitForOpened(-1)
 	
 	
 	def sessionStateChanged(self,state):
-		self._d("state changed "+str(state));
+		self._d("ConnMonitor.sessionStateChanged "+str(state));
+	
+	def sessionState(self):
+		return self.session.state()
 	
 	def createSession(self):
-		
+		self._d("ConnMonitor.createSession")
 		#self.session.setSessionProperty("ConnectInBackground", True);
-		self.session.open();
+		if self.manager.isOnline():
+			self._d("Already connected!")
+			self.connected.emit()
+			return
+		if self.session.state() == 5:
+			self.session.open();
+			if self.session.waitForOpened(-1):
+				self._d("Network session opened!")
+				self.connected.emit()
 	
 	def isOnline(self):
-		return self.manager.isOnline()
+		myonline = self.manager.isOnline()
+		self._d("ConnMonitor.isOnline: " + str(myonline))
+		if not myonline:
+			self.createSession()
+		return myonline
 	
 	def onConfigurationChanged(self,config):
+		self._d("ConnMonitor.onConfigurationChanged")
 		if self.manager.isOnline() and config.state() == PySide.QtNetwork.QNetworkConfiguration.StateFlag.Active:
 			if self.config is None:
 				self.config = config
 			else:
 				self.createSession();
-				self.connected.emit()
 		
 	def onOnlineStateChanged(self,state):
+		self._d("ConnMonitor.onOnlineStateChanged")
 		self.online = state
 		if state:
 			self.connected.emit()
 		elif not self.isOnline():
 			self.config = None
 			self.disconnected.emit()
+			self.createSession()
 	
 	def onOnline(self):
 		self._d("ONLINE")
@@ -88,7 +105,7 @@ class ConnMonitor(QObject):
 	
 	def onOffline(self):
 		self._d("OFFLINE");
-	
+		self.createSession();
 
 		
 		
