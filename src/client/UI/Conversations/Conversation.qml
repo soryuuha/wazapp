@@ -44,12 +44,10 @@ WAPage {
 			while (conv_data.count>19) conv_data.remove(0)
 			loadMoreMessages(1)
 			//opened = false
-			if (conv_items.bottomIndex > -1)
+			if (conv_items.bottomIndex > 0)
 				conv_items.positionViewAtIndex(conv_items.bottomIndex, ListView.End)
-			else {
+			else
 				conv_items.positionViewAtBeginning()
-				conv_items.bottomIndex = 0
-			}
 		}   
     }
 
@@ -463,6 +461,12 @@ WAPage {
 				width: 130
 				onClicked: { 
                     //chatsTabButton.clicked()
+					if (conv_items.count > 20) {
+						if (conv_items.bottomIndex - 20 < 0)
+							conv_items.bottomIndex = 0
+						else
+							conv_items.bottomIndex = conv_items.bottomIndex - 20
+					}
 					appWindow.setActiveConv("")
 					appWindow.pageStack.pop(1)
 					if (conv_data.count==0 && !isGroup()) {
@@ -505,6 +509,12 @@ WAPage {
 				height: 73
 				width: 84
 				onClicked: { 
+					if (conv_items.count > 20) {
+						if (conv_items.bottomIndex - 20 < 0)
+							conv_items.bottomIndex = 0
+						else
+							conv_items.bottomIndex = conv_items.bottomIndex - 20
+					}
 					if (!conversation_view.isGroup()) {
                         var contact = waContacts.getOrCreateContact({"jid":conversation_view.jid});
                         contact.openProfile();
