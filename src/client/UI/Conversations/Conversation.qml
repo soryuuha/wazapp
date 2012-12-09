@@ -19,6 +19,7 @@ WAPage {
             chat_text.visible = false
 			sendMediaWindow.opacity = 0
 			emojiComponent.visible = false
+			emojiComponent.ready = false
         }
         else if(status == PageStatus.Activating){
             chat_text.visible = true
@@ -821,6 +822,7 @@ WAPage {
                         //consoleDebug("SEND CLICKED");
 						sendMediaWindow.opacity = 0
 						emojiComponent.visible = false
+						emojiComponent.ready = false
 
                         showSendButton=true;
                         forceFocusToChatText()
@@ -915,6 +917,7 @@ WAPage {
                     onActiveFocusChanged: {
                         lastPosition = chat_text.cursorPosition
                         emojiComponent.visible = false
+                        emojiComponent.ready = false
                         //consoleDebug("LAST POSITION: " + lastPosition)
 			//			conv_items.positionViewAtEnd()
                         showSendButton = chat_text.focus || input_button_holder_area.focus || emoji_button.focus
