@@ -91,8 +91,7 @@ Window {
 
     Image {
         id: backgroundImage
-        anchors.top: parent.top
-        width: parent.width
+        anchors.fill: parent
         source: myBackgroundImage!="none" ? (WAConstants.CACHE_PATH+"/"+"background"+(screen.currentOrientation==Screen.Portrait?"-portrait":"-landscape")+".jpg" + "?ran=" + Math.random()) : ""
         fillMode: Image.PreserveAspectCrop
         opacity: parseInt(myBackgroundOpacity) / 10.0
