@@ -528,7 +528,6 @@ WAStackWindow {
         //tabGroups.currentTab=waContacts;
         appWindow.pageStack.push(loadingPage);
         refreshContacts("SYNC","ALL");
-        getServerGroups()
 
     }
 
