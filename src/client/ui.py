@@ -468,7 +468,7 @@ class WAUI(QDeclarativeView):
 	def getRingtones(self):
 		print "GETTING RING TONES..."
 		self.filelist = []
-		data = ["mp3","MP3","wav","WAV"]
+		data = ["mp3","MP3","wav","WAV", "aac", "AAC", "amr", "AMR"]
 		self.processFiles("/usr/share/sounds/ring-tones/", data) #, ignored)
 		self.processFiles("/home/user/MyDocs/Ringtones", data) #, ignored)
 
