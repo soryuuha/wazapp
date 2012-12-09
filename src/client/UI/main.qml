@@ -535,11 +535,16 @@ WAStackWindow {
     signal refreshSuccessed
     function onRefreshSuccess(){
         if(!updateSingleStatus) {
-            appWindow.pageStack.pop();
+	    loadingPage.operation = qsTr("Loading groups...");
+	    getServerGroups()
             //getPictures()
         }
         updateSingleStatus = false
+    }
+    
+    function onGotServerGroups(){
         refreshSuccessed()
+        appWindow.pageStack.pop();
     }
 
     signal refreshFailed

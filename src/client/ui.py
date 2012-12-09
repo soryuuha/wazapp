@@ -634,6 +634,7 @@ class WAUI(QDeclarativeView):
 
 		whatsapp.eventHandler.setPushName.connect(self.updatePushName);
 		whatsapp.eventHandler.statusChanged.connect(self.rootObject().onProfileStatusChanged);
+		whatsapp.eventHandler.gotServerGroups.connect(self.rootObject().onGotServerGroups);
 		#whatsapp.eventHandler.setPushName.connect(self.rootObject().updatePushName);
 		#whatsapp.eventHandler.profilePictureUpdated.connect(self.rootObject().onPictureUpdated);
 

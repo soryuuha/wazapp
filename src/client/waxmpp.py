@@ -103,6 +103,7 @@ class WAEventHandler(QObject):
 	changeStatus = QtCore.Signal(str);
 	setMyPushName = QtCore.Signal(str);
 	statusChanged = QtCore.Signal();
+	gotServerGroups = QtCore.Signal();
 	doQuit = QtCore.Signal();
 
 	def __init__(self,conn):
@@ -1507,6 +1508,7 @@ class WAEventHandler(QObject):
 				msg.setData({"timestamp": timestamp,"status":0,"key":key.toString(),"content":self.account,"type":20})
 				msg.contact_id = subjectOwner.id
 				WAXMPP.message_store.pushMessage(g['gJid'],msg)
+		self.gotServerGroups.emit()
 	
 	def onProfileSetStatusSuccess(self, jid, messageId):
 		self.statusChanged.emit()
