@@ -675,6 +675,7 @@ WAPage {
 			onClickOutside: {
 			    if (showSendButton) {
 				emojiComponent.visible = false
+				emojiComponent.ready = false
 				showSendButton = false
 			    }
 			}
