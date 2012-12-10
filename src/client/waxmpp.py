@@ -406,9 +406,6 @@ class WAEventHandler(QObject):
 				self.interfaceHandler.call("message_ack", (jid, messageId))
 				return
 
-			if WAXMPP.message_store.messageExists(jid, messageId):
-				self.interfaceHandler.call("message_ack", (jid, messageId))
-
 			key = Key(jid,False,messageId);
 			msg = WAXMPP.message_store.createMessage(jid)
 
