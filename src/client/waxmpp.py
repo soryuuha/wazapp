@@ -482,7 +482,6 @@ class WAEventHandler(QObject):
 			contact.setData({"jid":contact.jid,"pushname":pushName})
 			contact.save()
 			message.Contact = contact
-			self.setPushName.emit(contact.jid,pushName)
 
 		if contact.pictureid == None:
 			self.getPictureIds.emit(contact.jid)
