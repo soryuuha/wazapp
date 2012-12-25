@@ -28,7 +28,6 @@ from PySide.phonon import Phonon
 from wadebug import NotifierDebug
 import dbus
 
-
 class Notifier(QObject):
 	def __init__(self,audio=True,vibra=True):
 		super(Notifier,self).__init__();
@@ -102,7 +101,7 @@ class Notifier(QObject):
 		reply = nface.get_value(profile,"ringing.alert.volume");
 		self.currentProfile = profile
 		replyf = int(reply) / 100.0
-    
+
 		newMax = 0.5
 		newMin = 0.1
 		oldMax = 1.0
@@ -223,7 +222,7 @@ class Notifier(QObject):
 			action = lambda: self.notificationCallback(jid)
 			
 			n.setAction(action);			
-				
+
 			if(n.publish()):
 				nId = n.id;
 				self.saveNotification(jid,{"id":nId,"callback":callback,"count":count});

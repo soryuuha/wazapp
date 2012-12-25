@@ -104,7 +104,6 @@ class WAEventHandler(QObject):
 	setMyPushName = QtCore.Signal(str);
 	statusChanged = QtCore.Signal();
 	gotServerGroups = QtCore.Signal();
-	doQuit = QtCore.Signal();
 
 	def __init__(self,conn):
 		
@@ -287,7 +286,6 @@ class WAEventHandler(QObject):
 		#del self.conn
 		WAXMPP.contextproperty.setValue('offline')
 		self.interfaceHandler.call("disconnect")
-		self.doQuit.emit();
 		
 	
 	def initialConnCheck(self):
@@ -445,6 +443,7 @@ class WAEventHandler(QObject):
 				contact = WAXMPP.message_store.store.getCachedContacts()[contact.number];
 			except:
 				pass
+
 
 
 

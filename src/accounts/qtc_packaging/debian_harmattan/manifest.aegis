@@ -14,5 +14,6 @@
             <for path="/opt/waxmppplugin/bin/wazapp/wazapp_init" />
             <for path="python-minimal::/usr/bin/python" />
             <for path="python2.6-minimal::/usr/bin/python2.6" />
+            <for path="/opt/waxmppplugin/bin/wazapp/wareg" />
         </request>
 </aegis>

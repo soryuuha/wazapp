@@ -236,7 +236,7 @@ WAPage {
 							setResizeImages(resizeImages)
 						}
 					}
-					
+
 					GroupSeparator {
 						title: qsTr("Message removing")
 					}
@@ -550,8 +550,8 @@ WAPage {
 					}
 					SwitchItem {
 						title: qsTr("Vibrate")
-						check: vibraForPersonal
 						visible: !notifierChatBehaviour
+						check: vibraForPersonal
 						onCheckChanged: {
 							MySettings.setSetting("PersonalVibrate", value)
 							vibraForPersonal = value=="Yes"
@@ -693,7 +693,7 @@ WAPage {
                                 push_text.text = push_text.pushNameCached
                                 return
                             }
-
+					
                             setMyPushName(push_text.text);
                             showNotification(qsTr("Push name updated"));
                         }
@@ -779,6 +779,7 @@ WAPage {
     SelectPicture {
         id:setProfilePicture
         onSelected: {
+<<<<<<< HEAD
 	    resizePicture.maximumSize = 480
 	    resizePicture.minimumSize = 192
 	    resizePicture.picture = path
@@ -802,6 +803,17 @@ WAPage {
 	    resizeBackground.avatar = false
 	    resizeBackground.filename = "background"+(appWindow.inPortrait?"-portrait":"-landscape")+".jpg"
 	    pageStack.replace(resizeBackground)
+=======
+            pageStack.pop()
+
+            runIfOnline(function(){
+            picture.state = "loading"
+            breathe()
+            setMyProfilePicture(path)
+
+            }, true)
+
+>>>>>>> dev
         }
     }
 

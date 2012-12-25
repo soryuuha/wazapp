@@ -642,7 +642,7 @@ WAPage {
             from_me: model.type
             progress: model.progress
 			msg_id: model.msg_id
-            name: mediatype_id==10 || from_me==1 || !isGroup? "" : model.type==22? model.author.jid : getAuthor(model.author.jid) //WHAT THE FUCK IS model type 22?!!!!
+            name: mediatype_id==10 || from_me==1 || !isGroup? "" : model.type==22? model.author.jid : getAuthor(model.author.jid)
             author: model.author
 		 	state_status: isGroup && model.status == "pending"? "delivered" : model.status
 			isGroup: conversation_view.isGroup()
@@ -1115,13 +1115,13 @@ WAPage {
 			{
 				tryDeleteMediaFile(filePath)
 			}
-			deleteMessage(jid, selectedMessage.msg_id)
-			conv_data.remove(selectedMessageIndex)
-			if(hasMore) {
-				loadMoreMessages(1);
-			}
-			updateLastMessage();
-		}
+                    deleteMessage(jid, selectedMessage.msg_id)
+					conv_data.remove(selectedMessageIndex)
+                    if(hasMore) {
+                        loadMoreMessages(1);
+					}
+                    updateLastMessage();
+				}
             }
 
             WAMenuItem{
