@@ -78,6 +78,8 @@ PageStackWindow {
     }
 
     Component.onCompleted: {
+	theme.inverted = true
+	screen.allowedOrientations = Screen.Portrait
         if(initType == 2)
         {
             editPage.phoneNumber=currPhoneNumber;
