@@ -216,7 +216,7 @@ class WAEventHandler(QObject):
 		self.interfaceHandler.connectToSignal("presence_unavailable", self.presence_unavailable_received)
 		self.interfaceHandler.connectToSignal("presence_updated", self.onLastSeen)
 
-		#self.interfaceHandler.connectToSignal("contact_gotProfilePictureIds", self.onProfilePictureIdsReceived)
+		self.interfaceHandler.connectToSignal("contact_gotProfilePictureIds", self.onProfilePictureIdsReceived)
 		self.interfaceHandler.connectToSignal("contact_gotProfilePicture", self.onGetPictureDone)
 		self.interfaceHandler.connectToSignal("contact_typing", self.typing_received)
 		self.interfaceHandler.connectToSignal("contact_paused", self.paused_received)
