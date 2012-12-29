@@ -37,7 +37,7 @@ class Account():
 		self.price_expiration = None
 		
 		print "ACCOUNT INFO"
-		print pushName
+		print pushName.encode('utf-8')
 		print cc
 		print phoneNumber
 		print self.jid
