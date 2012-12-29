@@ -72,11 +72,13 @@ WAPage {
         console.log("SHOULD PUSH "+jids)
         jids = jids.split(",")
         ProfileHelper.currentParticipantsJids.length = 0;
-        for(var j=0; j<jids.length; j++){
-            waContacts.getOrCreateContact({"jid":jids[j]});
-            for(var i=0; i<contactsModel.count; i++) {
-                var tmp = contactsModel.get(i)
-                if(tmp.jid == jids[j] && jids[j]!=myAccount) {
+	for(var i=0; i<contactsModel.count; i++) {
+
+	    var tmp = contactsModel.get(i)
+
+	    for(var j=0; j<jids.length; j++){
+
+                if(tmp.jid == jids[j]) {
                     var modelData = {name:tmp.name, picture:tmp.picture, jid:tmp.jid, relativeIndex:i};
                     participantsModel.append(modelData)
                     ProfileHelper.currentParticipantsJids.push(tmp.jid)
@@ -408,8 +410,8 @@ WAPage {
                         for(var i=0; i<participantsModel.count; i++){
                            var p = participantsModel.get(i)
 
-                            if (typeof(p.jid) != "undefined" )
-                                genericSyncedContactsSelector.selectByJid(p.jid)
+                            if(p.relativeIndex >= 0)
+                                genericSyncedContactsSelector.select(participantsModel.get(i).relativeIndex)
                         }
 
                         genericSyncedContactsSelector.multiSelectmode = true
@@ -430,17 +432,9 @@ WAPage {
             anchors.left: parent.left
             anchors.right: parent.right
             allowRemove: myAccount==groupOwnerJid
-            allowSelect: true
+            allowSelect: false
             allowFastScroll: false
             emptyLabelText: qsTr("No participants")
-
-            onSelected: {
-                if (selectedItem.jid != myAccount) {
-                    var c = waContacts.getOrCreateContact({"jid":selectedItem.jid});
-                    if(c)
-                        c.openProfile();
-                }
-            }
 
             onRemoved: {
 
@@ -543,10 +537,10 @@ WAPage {
                 var modelData;
                 for(var i=0; i<selected.length; i++) {
                     consoleDebug("Appending")
-                    if (selected[i].data.jid != myAccount) {
-                        modelData = {name:selected[i].data.name, picture:selected[i].data.picture, jid:selected[i].data.jid, relativeIndex:selected[i].selectedIndex};
-                        participantsModel.append(modelData)
-                    }
+		    
+		    modelData = {name:selected[i].data.name, picture:selected[i].data.picture, jid:selected[i].data.jid, relativeIndex:selected[i].selectedIndex};
+
+                   participantsModel.append(modelData)
                 }
 
                 participantsModel.append({name:qsTr("You"), picture:currentProfilePicture || defaultProfilePicture, noremove:true})

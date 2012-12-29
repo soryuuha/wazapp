@@ -103,6 +103,7 @@ Rectangle {
 
     function reset(){
         _removedCount=0
+        //WAlvhelper.items = new Array()
         resetSelections()
         positionViewAtBeginning()
 
@@ -120,8 +121,6 @@ Rectangle {
         }
 
          WAlvhelper.selectedIndices = new Array()
-	 WAlvhelper.items = new Array()
-	 
     }
 
     function getItems(){
@@ -130,34 +129,27 @@ Rectangle {
 
 
     function select(ind){
-        if(isSelected(ind) || (model.get(ind).jid == myAccount))
+        if(isSelected())
             return
 
         WAlvhelper.selectedIndices.push(ind)
-        model.setProperty(ind, "isSelected", true)
-    }
-    
-    function selectByJid(jid) {
-	for(var i=0; i<model.count; i++) {
-	    var current = model.get(i)
-            if(current.jid == jid) {
-                model.setProperty(i, "isSelected", true)
-		WAlvhelper.selectedIndices.push(i)
-                return
-	    }
-        }
+
+        if(ind < WAlvhelper.items.length)
+            WAlvhelper.items[ind].isSelected = true
+
     }
 
     function unSelect(ind){
-	if (model.get(ind).jid == myAccount)
-	    return
 
         var tmpind = WAlvhelper.selectedIndices.indexOf(ind)
         if(tmpind >= 0) {
             WAlvhelper.selectedIndices.splice(tmpind,1)
         }
 
-        model.setProperty(ind, "isSelected", false)
+        if(ind < WAlvhelper.items.length) {
+            WAlvhelper.items[ind].isSelected = false
+
+         }
     }
 
     function isSelected(ind){
@@ -165,11 +157,11 @@ Rectangle {
     }
 
     function getSelected(){
+       //return WAlvhelper.selectedItems;
         var selectedItems = new Array();
-        for(var i=0; i<model.count; i++) {
-	    var current = model.get(i)
-            if(current.isSelected)
-                selectedItems.push({selectedIndex:i, data:{"jid":current.jid, "name":current.name, "picture":current.picture} })
+        for(var i=0; i<WAlvhelper.items.length; i++) {
+            if(WAlvhelper.items[i].isSelected)
+                selectedItems.push({selectedIndex:i, data:WAlvhelper.items[i].modelData})
         }
 
         return selectedItems;
@@ -193,7 +185,6 @@ Rectangle {
     Component{
         id:listviewsimple
         ListViewSimple {
-	    id: lvsimple
             model: walistviewroot.model
             delegate:listDelegate
             anchors.fill: parent
@@ -203,7 +194,6 @@ Rectangle {
     Component{
         id:listviewfast
         ListViewFast {
-	    id: lvfast
              model:walistviewroot.model
              delegate: listDelegate
              anchors.fill: parent
@@ -232,17 +222,22 @@ Rectangle {
         {
             id:item
 
+            Component.onCompleted: {
+                    WAlvhelper.items.push(item)
+                    item.isSelected = walistviewroot.isSelected(index);
+            }
+
             property variant modelData: model
-            //property bool filtered: model.name.match(new RegExp(sear chInput.text,"i")) != null
+            //property bool filtered: model.name.match(new RegExp(searchInput.text,"i")) != null
 
             property string itemName: model.name
             //property string showContactName: searchInput.text.length>0 ? replaceText(model.name, searchInput.text) : model.name
             property string itemPicture: model.picture || defaultPicture
             property string itemDescription:model.description || ""
 
-            property bool isSelected: model.jid!=myAccount?(typeof(model.isSelected)!="undefined"? model.isSelected : false) : (allowSelect?true:false)
+            property bool isSelected
             property bool isRemoved
-            property bool render: true//!model.norender || model.norender == false;
+            property bool render:!model.norender || model.norender == false;
 
             //height: filtered ? 80 : 0
             height:!render || isRemoved?0:80

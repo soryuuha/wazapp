@@ -14,10 +14,6 @@ WAPage{
         return contactlist.getSelected()
     }
 
-    function selectByJid(jid){
-        contactlist.selectByJid(jid)
-    }
-
     function resetSelections(){
         contactlist.resetSelections()
     }
