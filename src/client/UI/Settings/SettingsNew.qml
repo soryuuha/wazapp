@@ -779,7 +779,6 @@ WAPage {
     SelectPicture {
         id:setProfilePicture
         onSelected: {
-<<<<<<< HEAD
 	    resizePicture.maximumSize = 480
 	    resizePicture.minimumSize = 192
 	    resizePicture.picture = path
@@ -803,17 +802,6 @@ WAPage {
 	    resizeBackground.avatar = false
 	    resizeBackground.filename = "background"+(appWindow.inPortrait?"-portrait":"-landscape")+".jpg"
 	    pageStack.replace(resizeBackground)
-=======
-            pageStack.pop()
-
-            runIfOnline(function(){
-            picture.state = "loading"
-            breathe()
-            setMyProfilePicture(path)
-
-            }, true)
-
->>>>>>> dev
         }
     }
 
