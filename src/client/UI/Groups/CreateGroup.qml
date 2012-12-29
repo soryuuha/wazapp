@@ -233,7 +233,7 @@ WAPage {
             onRemoved: {
                 consoleDebug(index)
                 var rmItem = participantsModel.get(index)
-                genericSyncedContactsSelector.unSelect(rmItem.relativeIndex)
+                genericSyncedContactsSelector.unSelect(rmItem.jid)
 
             }
 

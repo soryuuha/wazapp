@@ -78,7 +78,7 @@ WAPage {
 
 	    for(var j=0; j<jids.length; j++){
 
-                if(tmp.jid == jids[j]) {
+                if(tmp.jid == jids[j] && jids[j]!=myAccount) {
                     var modelData = {name:tmp.name, picture:tmp.picture, jid:tmp.jid, relativeIndex:i};
                     participantsModel.append(modelData)
                     ProfileHelper.currentParticipantsJids.push(tmp.jid)
@@ -411,7 +411,7 @@ WAPage {
                            var p = participantsModel.get(i)
 
                             if(p.relativeIndex >= 0)
-                                genericSyncedContactsSelector.select(participantsModel.get(i).relativeIndex)
+                                genericSyncedContactsSelector.select(participantsModel.get(i).jid)
                         }
 
                         genericSyncedContactsSelector.multiSelectmode = true
@@ -432,15 +432,23 @@ WAPage {
             anchors.left: parent.left
             anchors.right: parent.right
             allowRemove: myAccount==groupOwnerJid
-            allowSelect: false
+            allowSelect: true
             allowFastScroll: false
             emptyLabelText: qsTr("No participants")
+
+            onSelected: {
+                if (selectedItem.jid != myAccount) {
+                    var c = waContacts.getOrCreateContact({"jid":selectedItem.jid});
+                    if(c)
+                        c.openProfile();
+                }
+            }
 
             onRemoved: {
 
                 var rmItem = participantsModel.get(index)
 
-                genericSyncedContactsSelector.unSelect(rmItem.relativeIndex)
+                genericSyncedContactsSelector.unSelect(rmItem.jid)
 
 
                 if(ProfileHelper.currentParticipantsJids.indexOf(rmItem.jid) >= 0 ) {
@@ -537,10 +545,10 @@ WAPage {
                 var modelData;
                 for(var i=0; i<selected.length; i++) {
                     consoleDebug("Appending")
-		    
-		    modelData = {name:selected[i].data.name, picture:selected[i].data.picture, jid:selected[i].data.jid, relativeIndex:selected[i].selectedIndex};
-
-                   participantsModel.append(modelData)
+                    if (selected[i].data.jid != myAccount) {
+                        modelData = {name:selected[i].data.name, picture:selected[i].data.picture, jid:selected[i].data.jid, relativeIndex:selected[i].selectedIndex};
+                        participantsModel.append(modelData)
+                    }
                 }
 
                 participantsModel.append({name:qsTr("You"), picture:currentProfilePicture || defaultProfilePicture, noremove:true})
