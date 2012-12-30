@@ -1,8 +1,13 @@
 #from QtMobility.SystemInfo import QSystemDeviceInfo,QSystemNetworkInfo
-from QtMobility.Messaging import QMessageManager, QMessage, QMessageFilter
+#from QtMobility.Messaging import QMessageManager, QMessage, QMessageFilter
 from PySide.QtCore import QObject
 from PySide import QtCore
 from wadebug import WADebug
+import dbus
+import dbus.mainloop
+import dbus.glib
+import re
+
 class SMSHandler(QObject):
     
     gotCode = QtCore.Signal(str)
@@ -12,23 +17,28 @@ class SMSHandler(QObject):
 
         super(SMSHandler, self).__init__()
         
-    def messageAdded(self, messageId, matchingFilterIds):
-        self._d("GOT A MESSAGE!")
-        self._d(matchingFilterIds)
-        
-        print self.manager.message(messageId).textContent()
-    
-    
     def initManager(self):
-        self.manager = QMessageManager();
-        self.manager.messageAdded.connect(self.messageAdded)
+        self._d("INIT MANAGER!")        
+        dbus_main_loop = dbus.glib.DBusGMainLoop(set_as_default=True)
+        bus = dbus.SessionBus(dbus_main_loop)
+        mybus = bus.get_object('org.freedesktop.Telepathy.ConnectionManager.ring', '/org/freedesktop/Telepathy/Connection/ring/tel/ring/text13')
+        self.nface = dbus.Interface(mybus, 'org.freedesktop.Telepathy.Channel.Interface.Messages')
+        self.nface.connect_to_signal("MessageReceived", self.messageReceived)
         
-        
-        self.filters = [self.manager.registerNotificationFilter(
-                    QMessageFilter.byType(QMessage.Sms) & QMessageFilter.byStandardFolder(QMessage.InboxFolder)
-                    )]
-        
-        self._d(self.filters)
+    def messageReceived(self, arrayData):
+        self._d("MESSAGE RECEIVED!")
+        message=(arrayData[1]['content'].title())
+        self._d(message)
+        try:
+            message.lower().index("whatsapp code")
+            result=re.search('\d{3}-\d{3}', message)
+            if result!=None:
+                code=result.group(0).replace("-","")
+                self._d("GOT CODE!")
+                self._d(code)
+                self.gotCode.emit(code)
+        except ValueError:
+            return
 
     def stopListener(self):
         pass
