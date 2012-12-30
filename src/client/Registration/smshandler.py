@@ -19,13 +19,17 @@ class SMSHandler(QObject):
     def initManager(self):
         self._d("INIT MANAGER!")        
         dbus_main_loop = dbus.glib.DBusGMainLoop(set_as_default=True)
-        bus = dbus.SessionBus(dbus_main_loop)
-        mybus = bus.get_object('com.nokia.CommHistory', '/CommHistoryModel')
-        self.nface = dbus.Interface(mybus, 'com.nokia.commhistory')
-        self.nface.connect_to_signal("eventsAdded", self.messageStored)
+        self.bus = dbus.SessionBus(dbus_main_loop)
+        commhistorybus = self.bus.get_object('com.nokia.CommHistory', '/CommHistoryModel')
+        self.commhistorynface = dbus.Interface(commhistorybus, 'com.nokia.commhistory')
+        self.commhistorynface.connect_to_signal("eventsAdded", self.messageStored)
+        
+        telepathybus = self.bus.get_object('org.freedesktop.Telepathy.ConnectionManager.ring', '/org/freedesktop/Telepathy/Connection/ring/tel/ring')
+        self.requestsnface = dbus.Interface(telepathybus, 'org.freedesktop.Telepathy.Connection.Interface.Requests')
+        self.requestsnface.connect_to_signal("NewChannels", self.pathReceived)
         
     def messageStored(self, arrayData):
-        self._d("MESSAGE RECEIVED!")
+        self._d("MESSAGE STORED!")
         try:
             arrayData[0].index("/org/freedesktop/Telepathy/Account/ring/tel/ring")
             message=arrayData[0][15]
@@ -35,7 +39,30 @@ class SMSHandler(QObject):
                 code=result.group(0).replace("-","")
                 self._d("GOT CODE!")
                 self._d(code)
-                self.gotCode.emit(code)
+                #self.gotCode.emit(code)
+        except:
+            return
+
+    def pathReceived(self, arrayData):
+        self._d("PATH RECEIVED!")
+        self._d(arrayData[0][0])
+        
+        channelbus = self.bus.get_object('org.freedesktop.Telepathy.ConnectionManager.ring', arrayData[0][0])
+        self.channelnface = dbus.Interface(channelbus, 'org.freedesktop.Telepathy.Channel.Interface.Messages')
+        self.channelnface.connect_to_signal("MessageReceived", self.messageReceived)
+
+    def messageReceived(self, arrayData):
+        self._d("MESSAGE RECEIVED!")
+        try:
+            if arrayData[1].has_key('content'):
+                message=arrayData[1]['content'].title()
+                message.lower().index("whatsapp code")
+                result=re.search('\d{3}-\d{3}', message)
+                if result!=None:
+                    code=result.group(0).replace("-","")
+                    self._d("GOT CODE!")
+                    self._d(code)
+                    self.gotCode.emit(code)
         except:
             return
 
