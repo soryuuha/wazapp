@@ -14,22 +14,21 @@ class SMSHandler(QObject):
     
     def __init__(self):
         WADebug.attach(self)
-
         super(SMSHandler, self).__init__()
         
     def initManager(self):
         self._d("INIT MANAGER!")        
         dbus_main_loop = dbus.glib.DBusGMainLoop(set_as_default=True)
         bus = dbus.SessionBus(dbus_main_loop)
-        mybus = bus.get_object('org.freedesktop.Telepathy.ConnectionManager.ring', '/org/freedesktop/Telepathy/Connection/ring/tel/ring/text13')
-        self.nface = dbus.Interface(mybus, 'org.freedesktop.Telepathy.Channel.Interface.Messages')
-        self.nface.connect_to_signal("MessageReceived", self.messageReceived)
+        mybus = bus.get_object('com.nokia.CommHistory', '/CommHistoryModel')
+        self.nface = dbus.Interface(mybus, 'com.nokia.commhistory')
+        self.nface.connect_to_signal("eventsAdded", self.messageStored)
         
-    def messageReceived(self, arrayData):
+    def messageStored(self, arrayData):
         self._d("MESSAGE RECEIVED!")
-        message=(arrayData[1]['content'].title())
-        self._d(message)
         try:
+            arrayData[0].index("/org/freedesktop/Telepathy/Account/ring/tel/ring")
+            message=arrayData[0][15]
             message.lower().index("whatsapp code")
             result=re.search('\d{3}-\d{3}', message)
             if result!=None:
@@ -37,7 +36,7 @@ class SMSHandler(QObject):
                 self._d("GOT CODE!")
                 self._d(code)
                 self.gotCode.emit(code)
-        except ValueError:
+        except:
             return
 
     def stopListener(self):
