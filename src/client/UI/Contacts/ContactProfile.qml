@@ -341,12 +341,14 @@ WAPage {
 						anchors.fill: parent
 						onClicked: {
 							var prefix = ""
+							var postfix = ""
 							if (parent.prefixType == 5) {
 								prefix = "geo:"
+								postfix = "?action=showOnMap"
 							} else {
 								prefix = "file://"
 							}
-							Qt.openUrlExternally(prefix+local_path)
+							Qt.openUrlExternally(prefix+local_path+postfix)
 						}
 					}
 				}
