@@ -88,7 +88,6 @@ WAPage {
         }
 
         participantsModel.append({name:qsTr("You"), picture:currentProfilePicture || defaultProfilePicture, noremove:true})
-        partText.text = qsTr("Group participants:") + " " + participantsModel.count
 
         groupParticipants.model = participantsModel
         groupParticipants.state = "loaded"
