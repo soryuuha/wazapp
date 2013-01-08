@@ -179,14 +179,14 @@ Item {
 		   			return;
 
 		   		var prefix = "";
-
+				var postfix = ""
 	   			switch(delegateContainer.media.mediatype_id) {
-					case 5:prefix = "geo:"; break;
+					case 5:prefix = "geo:"; postfix = "?action=showOnMap"; break;
 					default: prefix = "file://"; break;
 		   		}
 
-				consoleDebug("OPENING: " + prefix + decodeURIComponent(localPath))
-				Qt.openUrlExternally( prefix + decodeURIComponent(localPath) );
+				consoleDebug("OPENING: " + prefix + decodeURIComponent(localPath) + postfix)
+				Qt.openUrlExternally( prefix + decodeURIComponent(localPath) + postfix);
 			}
 
 			onUploadClicked: {
