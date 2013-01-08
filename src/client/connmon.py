@@ -23,6 +23,8 @@ from PySide.QtNetwork import QNetworkSession, QNetworkConfigurationManager,QNetw
 import sys
 import PySide
 
+import dbus
+
 from wadebug import ConnMonDebug;
 
 class ConnMonitor(QObject):
@@ -42,6 +44,11 @@ class ConnMonitor(QObject):
 		self.manager = QNetworkConfigurationManager()
 		self.config = self.manager.defaultConfiguration() if self.manager.isOnline() else None
 		
+		self.mobiledata = True
+		self.cellular = True
+		
+		self.wasForceRequest = False
+		
 		self.manager.onlineStateChanged.connect(self.onOnlineStateChanged)
 		self.manager.configurationChanged.connect(self.onConfigurationChanged)
 		
@@ -51,13 +58,40 @@ class ConnMonitor(QObject):
 		self.session.stateChanged.connect(self.sessionStateChanged)
 		#self.session.closed.connect(self.disconnected);
 		#self.session.opened.connect(self.connected);
+		
+		self.bus = dbus.SystemBus()
+		mcebus = self.bus.get_object('com.nokia.mce', '/com/nokia/mce/signal')
+		self.mcenface = dbus.Interface(mcebus, 'com.nokia.mce.signal')
+		self.mcenface.connect_to_signal("radio_states_ind", self.mceStateChanged)
+		
+		self.mceStateChanged(open("/var/lib/mce/radio_states.online", "r").read())
 	
-	
+	def mceStateChanged(self,state):
+		if int(state)&4:
+			self.mobiledata = True
+			self.wasForceRequest = False
+			self._d("mce mobile data enabled. can connect to network now")
+		else:
+			self.mobiledata = False
+			
+		if int(state)&2:
+			self.cellular = True
+		else:
+			self.cellular = False
+		
 	def sessionStateChanged(self,state):
 		self._d("ConnMonitor.sessionStateChanged "+str(state));
 		if state==5: #QNetworkSession::Disconnected
 			self.disconnected.emit()
-			self.createSession()
+			if not self.mobiledata and not self.wasForceRequest:
+				self.wasForceRequest = True
+				self.createSession()
+			elif self.wasForceRequest:
+				self._d("force connection request already used. cant auto connect to network now")
+			if self.mobiledata:
+				self.createSession()
+		if state==3:
+			self.connected.emit();
 	
 	def sessionState(self):
 		return self.session.state()
