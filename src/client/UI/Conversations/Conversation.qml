@@ -667,7 +667,7 @@ WAPage {
 			onNameHolded: {
 			    pressEffect.play()
 			    var conv = waChats.getOrCreateConversation(model.author.jid);
-			    if conv
+			    if (conv)
 				conv.open();
 			}
 			
