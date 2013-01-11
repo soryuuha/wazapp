@@ -666,10 +666,9 @@ WAPage {
 			
 			onNameHolded: {
 			    pressEffect.play()
-			    var cont = waContacts.getOrCreateContact({"jid":model.author.jid});
 			    var conv = waChats.getOrCreateConversation(model.author.jid);
-			    conv.addContact(cont);
-			    conv.open();
+			    if conv
+				conv.open();
 			}
 			
 			onClickOutside: {
