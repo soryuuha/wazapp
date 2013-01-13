@@ -1003,13 +1003,13 @@ WAStackWindow {
 
     WASplash{
         id:splashPage
-        version:waversion
+        version:waversion+wabuild
         showSubProgress: false
     }
 
     AboutDialog{
         id:aboutDialog
-        wazappVersion: waversion
+        wazappVersion: waversion+wabuild
         yowsupVersion: typeof(interfaceVersion)!="undefined"?interfaceVersion:"0.0"
     }
 
