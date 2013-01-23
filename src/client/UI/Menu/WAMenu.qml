@@ -55,6 +55,15 @@ Menu {
 	}
 	
 	MenuItem{
+	    text: qsTr("Broadcast message")
+	    onClicked:  {
+		broadcastMessage.resetEdits()
+		pageStack.push(broadcastMessage);
+	    }
+	}
+
+	
+	MenuItem{
 	    text: qsTr("Settings")
 	    onClicked:  pageStack.push(settingsPage);
 	}
