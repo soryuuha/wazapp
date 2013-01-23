@@ -105,12 +105,13 @@ WAPage {
 		    if (res != "") {
 			for(var i=0; i<participantsModel.count; i++){
 			    broadcastNumber++
+			    appWindow.sendTyping(participantsModel.get(i).jid)
 			    if (broadcastNumber==5){
 				sleep(1)
 				broadcastNumber=0
 			    }
-			    appWindow.sendTyping(participantsModel.get(i).jid)
-                           appWindow.sendMessage(participantsModel.get(i).jid, Helpers.unicodeEscape(res))
+			    appWindow.sendMessage(participantsModel.get(i).jid, Helpers.unicodeEscape(res))
+			    appWindow.sendPaused(participantsModel.get(i).jid)
                         }
 		    }		    
 		    
