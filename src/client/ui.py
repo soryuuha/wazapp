@@ -650,6 +650,7 @@ class WAUI(QDeclarativeView):
 		
 		
 		#whatsapp.eventHandler.new_message.connect(self.rootObject().newMessage)
+		self.rootObject().forwardMessage.connect(whatsapp.eventHandler.forwardMessage)
 		self.rootObject().sendMessage.connect(whatsapp.eventHandler.sendMessage)
 		self.rootObject().sendTyping.connect(whatsapp.eventHandler.sendTyping)
 		self.rootObject().sendPaused.connect(whatsapp.eventHandler.sendPaused);

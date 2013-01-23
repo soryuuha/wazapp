@@ -105,6 +105,7 @@ WAStackWindow {
     signal consoleDebug(string text);
 
     signal changeStatus(string new_status)
+    signal forwardMessage(string jid, string msgjid, int msg_id)
     signal sendMessage(string jid, string msg);
     signal requestPresence(string jid);
     signal refreshContacts(string mode, string jid);
