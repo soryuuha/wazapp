@@ -1055,6 +1055,10 @@ WAStackWindow {
     LoadingPage{
         id:loadingPage
     }
+    
+    Broadcast{
+	id: broadcastMessage
+    }
 
     ListModel{
         id:conversationsModel
