@@ -999,7 +999,7 @@ Menu {
 		genericSyncedContactsSelector.positionViewAtBeginning()
 		
 		genericSyncedContactsSelector.multiSelectmode = false
-		genericSyncedContactsSelector.showGroups = true
+		genericSyncedContactsSelector.setMixedModel()
 		genericSyncedContactsSelector.title = qsTr("Forward to")
 		
 		genericSyncedContactsSelector.selected.connect(contactSelected)

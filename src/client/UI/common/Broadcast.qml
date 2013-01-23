@@ -226,7 +226,7 @@ WAPage {
                         genericSyncedContactsSelector.resetSelections()
                         genericSyncedContactsSelector.unbindSlots()
                         genericSyncedContactsSelector.positionViewAtBeginning()
-                        genericSyncedContactsSelector.showGroups = true
+                        genericSyncedContactsSelector.setMixedModel()
 
                         for(var i=0; i<participantsModel.count; i++){
                            var p = participantsModel.get(i)
