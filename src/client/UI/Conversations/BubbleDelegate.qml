@@ -178,7 +178,8 @@ Item {
 		   		}
 
 				consoleDebug("OPENING: " + prefix + decodeURIComponent(localPath))
-				Qt.openUrlExternally( prefix + decodeURIComponent(localPath) );
+				if (decodeURIComponent(localPath) != "")
+					Qt.openUrlExternally( prefix + decodeURIComponent(localPath) );
 			}
 
 			onUploadClicked: {
