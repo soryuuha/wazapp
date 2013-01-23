@@ -76,6 +76,7 @@ class WAUI(QDeclarativeView):
 		self.accountPushName = None;
 
 		self.rootContext().setContextProperty("waversion", Utilities.waversion);
+		self.rootContext().setContextProperty("wabuild", Utilities.wabuild);
 		self.rootContext().setContextProperty("WAConstants", WAConstants.getAllProperties());
 		self.rootContext().setContextProperty("myAccount", accountJid);
 		
