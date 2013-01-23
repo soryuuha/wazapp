@@ -130,12 +130,12 @@ Rectangle {
             return
 
         WAlvhelper.selectedIndices.push(jid)
-        for(var i=0; i<WAlvhelper.items.length; i++) {
-            if(WAlvhelper.items[i].modelData.jid == jid) {
-		WAlvhelper.items[i].isSelected = true
-		break
-	    }
-	}
+        //for(var i=0; i<WAlvhelper.items.length; i++) {
+        //    if(WAlvhelper.items[i].modelData.jid == jid) {
+	//	WAlvhelper.items[i].isSelected = true
+	//	break
+	//    }
+	//}
         walistviewroot.selectedChanged()
     }
 
@@ -145,12 +145,12 @@ Rectangle {
             WAlvhelper.selectedIndices.splice(tmpind,1)
         }
 
-        for(var i=0; i<WAlvhelper.items.length; i++) {
-            if(WAlvhelper.items[i].modelData.jid == jid) {
-		WAlvhelper.items[i].isSelected = false
-		break
-	    }
-	}
+        //for(var i=0; i<WAlvhelper.items.length; i++) {
+        //    if(WAlvhelper.items[i].modelData.jid == jid) {
+	//	WAlvhelper.items[i].isSelected = false
+	//	break
+	//    }
+	//}
         walistviewroot.selectedChanged()
     }
 
@@ -225,17 +225,17 @@ Rectangle {
             id:item
 
             Component.onCompleted: {
+		    item.isSelected = walistviewroot.isSelected(jid);
 		    if(WAlvhelper.items.indexOf(item) < 0)
 			WAlvhelper.items.push(item)
-		    item.isSelected = walistviewroot.isSelected(jid);
             }
             
             Connections {
                     target: walistviewroot
                     onSelectedChanged: {
+			item.isSelected = walistviewroot.isSelected(jid);
 			if(WAlvhelper.items.indexOf(item) < 0)
 			    WAlvhelper.items.push(item)
-			item.isSelected = walistviewroot.isSelected(jid);
 		    }
             }
 
