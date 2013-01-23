@@ -7,7 +7,6 @@ WAPage{
     id:contactsSelectorPage
     property alias title:header.title
     property alias multiSelectmode:contactlist.multiSelectMode
-    property bool showGroups: false
     
     signal selected(variant selectedItem);
     
@@ -17,10 +16,6 @@ WAPage{
     
     function resetSelections(){
 	contactlist.resetSelections()
-	consoleDebug("test contactsModel")
-	for(var j =0; j<contactsModel.count; j++) {
-	    consoleDebug(contactsModel.get(j).jid)
-	}
     }
     
     function positionViewAtBeginning (){
@@ -29,43 +24,28 @@ WAPage{
     
     function unbindSlots(){
 	selected.disconnect()
-	showGroups = false
+	contactlist.model = getContacts()
     }
     
-    function getContactsModel(){
-	selectorModel.clear()
-	var contactsmodel = getContacts()
-	for (var i=0; i<contactsmodel.count; i++){
-	    selectorModel.append(contactsmodel.get(i))
-	}
-	return selectorModel;
-    }
-    
-    function getMixedModel(){
-	selectorModel.clear()
+    function setMixedModel(){
+	consoleDebug("setMixedModel called")
+	mixedModel.clear()
 	var contactsmodel = getContacts()
 	var groupsmodel = getGroups()
 	for (var i=0; i<contactsmodel.count; i++){
-	    selectorModel.append(contactsmodel.get(i))
+	    mixedModel.append(contactsmodel.get(i))
 	}
 	for (var i=0; i<groupsmodel.count; i++){
-	    selectorModel.append(groupsmodel.get(i))
+	    mixedModel.append(groupsmodel.get(i))
 	}
-	return selectorModel;
-    }
-    
-    function getModel(){
-	if (showGroups)
-	    return getMixedModel()
-	else
-	    return getContactsModel()
+	contactlist.model = mixedModel;
     }
     
     function select(ind){return contactlist.select(ind);}
     function unSelect(ind){return contactlist.unSelect(ind);}
     
     ListModel{
-	id: selectorModel
+	id: mixedModel
     }    
     
     WAHeader{
@@ -78,11 +58,10 @@ WAPage{
     WAListView{
 	id: contactlist
 	defaultPicture: defaultProfilePicture
-	    anchors.top:header.bottom
-	    useRoundedImages: false
-	    model: getModel()
-	    
-	    onSelected:{ consoleDebug("from contacts"); contactsSelectorPage.selected(selectedItem);}
+	anchors.top:header.bottom
+	useRoundedImages: false
+	
+	onSelected:{ consoleDebug("from contacts"); contactsSelectorPage.selected(selectedItem);}
     }
     
 }
