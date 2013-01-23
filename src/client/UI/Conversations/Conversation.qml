@@ -1011,7 +1011,7 @@ Menu {
 	WAMenuItem{
 	    height: 80
 	    text: qsTr("Copy content")
-	    //singleItem: !profileMenuItem.visible
+	    topItem: !forwardItem.visible
 	    onClicked:{
 		copy_facilitator.selectAll()
 		copy_facilitator.copy()
