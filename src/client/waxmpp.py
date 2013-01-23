@@ -967,6 +967,49 @@ class WAEventHandler(QObject):
 			else:
 				self.interfaceHandler.call("presence_sendAvailable")
 		
+	def forwardMessage(self,jid,messageJid,messageId):
+		try:
+			messageJid.index('-')
+			message = WAXMPP.message_store.store.Groupmessage.create()
+		except ValueError:
+			message = WAXMPP.message_store.store.Message.create()
+		
+		message = message.findFirst({'id':messageId});
+		
+		fmsg = WAXMPP.message_store.createMessage(jid);
+		if fmsg.Conversation.type == "group":
+			contact = WAXMPP.message_store.store.Contact.getOrCreateContactByJid(self.conn.jid)
+			fmsg.setContact(contact);
+		
+		if message.media_id > 1:
+			media = message.getMedia()
+			url = media.remote_url.split(',')[0]
+			name = url.split('/')[-1]
+			size = str(media.size)
+
+			if media.mediatype_id == WAConstants.MEDIA_TYPE_IMAGE:
+				fmsg.content = QtCore.QCoreApplication.translate("WAEventHandler", "Forwarded Image")
+				returnedId = self.interfaceHandler.call("message_imageSend", (jid, url, name, size, media.preview))
+			elif media.mediatype_id == WAConstants.MEDIA_TYPE_AUDIO:
+				fmsg.content = QtCore.QCoreApplication.translate("WAEventHandler", "Forwarded Audio")
+				returnedId = self.interfaceHandler.call("message_audioSend", (jid, url, name, size))
+			elif media.mediatype_id == WAConstants.MEDIA_TYPE_VIDEO:
+				fmsg.content = QtCore.QCoreApplication.translate("WAEventHandler", "Forwarded Video")
+				returnedId = self.interfaceHandler.call("message_videoSend", (jid, url, name, size, media.preview))
+			media.transfer_status = 2
+			media.save()
+			
+			fmsg.Media = media
+		else:		    
+			fmsg.content = message.content
+
+			returnedId = self.interfaceHandler.call("message_send", (jid, message.content))
+			
+		fmsg.setData({"status":0,"type":1})
+		fmsg.key = Key(jid, True, returnedId).toString()
+		fmsg.save()
+		WAXMPP.message_store.pushMessage(jid,fmsg)
+	
 	
 	def sendMessage(self,jid,msg_text):
 		self._d("sending message now")

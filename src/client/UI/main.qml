@@ -106,6 +106,7 @@ WAStackWindow {
     signal consoleDebug(string text);
 
     signal changeStatus(string new_status)
+    signal forwardMessage(string jid, string msgjid, int msg_id)
     signal sendMessage(string jid, string msg);
     signal requestPresence(string jid);
     signal refreshContacts(string mode, string jid);
@@ -971,6 +972,8 @@ WAStackWindow {
         }
         messageDelivered(message_id,jid)
     }
+    
+    signal sleep(int delay);
 
         /**** Media ****/
    /* function onMediaTransferSuccess(jid,message_id,mediaObject){
@@ -1060,6 +1063,10 @@ WAStackWindow {
 
     LoadingPage{
         id:loadingPage
+    }
+    
+    Broadcast{
+	id: broadcastMessage
     }
 
     ListModel{

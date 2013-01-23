@@ -186,7 +186,8 @@ Item {
 		   		}
 
 				consoleDebug("OPENING: " + prefix + decodeURIComponent(localPath) + postfix)
-				Qt.openUrlExternally( prefix + decodeURIComponent(localPath) + postfix);
+				if (decodeURIComponent(localPath) != "")
+					Qt.openUrlExternally( prefix + decodeURIComponent(localPath) + postfix);
 			}
 
 			onUploadClicked: {
