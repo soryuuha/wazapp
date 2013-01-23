@@ -966,6 +966,8 @@ WAStackWindow {
         }
         messageDelivered(message_id,jid)
     }
+    
+    signal sleep(int delay);
 
         /**** Media ****/
    /* function onMediaTransferSuccess(jid,message_id,mediaObject){
