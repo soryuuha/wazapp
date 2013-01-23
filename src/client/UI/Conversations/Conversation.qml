@@ -981,6 +981,34 @@ Menu {
     MenuLayout {
 	
 	WAMenuItem{
+	    id: forwardItem
+	    
+	    function contactSelected(selectedItem){
+		genericSyncedContactsSelector.resetSelections()
+		genericSyncedContactsSelector.select(selectedItem.jid)
+	    }
+	    
+	    visible: selectedMessage?(selectedMessage.from_me==1?(selectedMessage.state_status=="delivered"?true:false):true):false
+	    height: visible?80:0
+	    text: qsTr("Forward")
+	    onClicked:{	
+		genericSyncedContactsSelector.tools = participantsSelectorTools
+		
+		genericSyncedContactsSelector.resetSelections()
+		genericSyncedContactsSelector.unbindSlots()
+		genericSyncedContactsSelector.positionViewAtBeginning()
+		
+		genericSyncedContactsSelector.multiSelectmode = false
+		genericSyncedContactsSelector.showGroups = true
+		genericSyncedContactsSelector.title = qsTr("Forward to")
+		
+		genericSyncedContactsSelector.selected.connect(contactSelected)
+		
+		pageStack.push(genericSyncedContactsSelector);
+	    }
+	}
+	
+	WAMenuItem{
 	    height: 80
 	    text: qsTr("Copy content")
 	    //singleItem: !profileMenuItem.visible
@@ -1022,6 +1050,30 @@ Menu {
 	    }
 	}
 	
+    }
+}
+
+ToolBarLayout {
+    id:participantsSelectorTools
+    visible:false
+    
+    ToolIcon{
+	platformIconId: "toolbar-back"
+	onClicked: pageStack.pop()
+    }
+    
+    ToolButton
+    {
+	anchors.horizontalCenter: parent.horizontalCenter
+	anchors.centerIn: parent
+	width: 300
+	text: qsTr("Done")
+	onClicked: {
+	    var jid = genericSyncedContactsSelector.getSelected()[0].data.jid
+	    forwardMessage(jid, selectedMessage.jid, selectedMessage.msg_id)
+	    genericSyncedContactsSelector.selected.disconnect(forwardItem.contactSelected)
+	    pageStack.pop()
+	}
     }
 }
 
