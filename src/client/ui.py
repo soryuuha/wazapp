@@ -98,6 +98,9 @@ class WAUI(QDeclarativeView):
 		#self._d("Processing events")
 		QtCore.QCoreApplication.processEvents()
 		
+	def sleep(self, delay):
+		time.sleep(delay)
+		
 	def initConnections(self,store):
 		self.store = store;
 		#self.setOrientation(QmlApplicationViewer.ScreenOrientationLockPortrait);
@@ -698,7 +701,8 @@ class WAUI(QDeclarativeView):
 		self.rootObject().populatePhoneContacts.connect(self.populatePhoneContacts)
 		self.rootObject().playSoundFile.connect(whatsapp.eventHandler.notifier.playSound)
 		self.rootObject().stopSoundFile.connect(whatsapp.eventHandler.notifier.stopSound)
-
+		
+		self.rootObject().sleep.connect(self.sleep)
 
 		#self.reg = Registration();
 		self.whatsapp = whatsapp;
