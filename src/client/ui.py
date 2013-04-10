@@ -602,7 +602,7 @@ class WAUI(QDeclarativeView):
 		
 		password = self.store.account.password;
 		usePushName = self.store.account.pushName
-		resource = "iPhone-2.8.3";
+		resource = "S40-2.4.7";
 		chatUserID = self.store.account.username;
 		domain ='s.whatsapp.net'
 		
@@ -668,7 +668,7 @@ class WAUI(QDeclarativeView):
 		self.rootObject().fetchMedia.connect(whatsapp.eventHandler.fetchMedia)
 		self.rootObject().fetchGroupMedia.connect(whatsapp.eventHandler.fetchGroupMedia)
 		self.rootObject().uploadMedia.connect(whatsapp.eventHandler.uploadMedia)
-		self.rootObject().uploadGroupMedia.connect(whatsapp.eventHandler.uploadGroupMedia)
+		self.rootObject().uploadGroupMedia.connect(whatsapp.eventHandler.uploadMedia)
 		self.rootObject().getGroupInfo.connect(whatsapp.eventHandler.getGroupInfo)
 		self.rootObject().getServerGroups.connect(whatsapp.eventHandler.getGroups)
 		self.rootObject().createGroupChat.connect(whatsapp.eventHandler.createGroupChat)
