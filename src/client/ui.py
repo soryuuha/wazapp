@@ -417,14 +417,14 @@ class WAUI(QDeclarativeView):
 			url = QtCore.QUrl("file://"+f).toEncoded()
 			m.update(url)
 			crypto = WAConstants.THUMBS_PATH + "/grid/" + m.hexdigest() + ".jpeg"
-			if not os.path.exists(crypto):
-				# Thumbnail does'n exist --> Generating...
-				if f.split(".")[-1] == "jpg" or f.split(".")[-1] == "JPG":
-					self.iface.Queue(str(url),"image/jpeg","grid", True)
-				elif f.split(".")[-1] == "png" or f.split(".")[-1] == "PNG":
-					self.iface.Queue(str(url),"image/png","grid", True)
-				elif f.split(".")[-1] == "gif" or f.split(".")[-1] == "GIF":
-					self.iface.Queue(str(url),"image/gif","grid", True)
+			#if not os.path.exists(crypto):
+			#	# Thumbnail does'n exist --> Generating...
+			#	if f.split(".")[-1] == "jpg" or f.split(".")[-1] == "JPG":
+			#		self.iface.Queue(str(url),"image/jpeg","grid", True)
+			#	elif f.split(".")[-1] == "png" or f.split(".")[-1] == "PNG":
+			#		self.iface.Queue(str(url),"image/png","grid", True)
+			#	elif f.split(".")[-1] == "gif" or f.split(".")[-1] == "GIF":
+			#		self.iface.Queue(str(url),"image/gif","grid", True)
 
 			myfiles.append({"fileName":f.split('/')[-1],"url":QtCore.QUrl("file://"+f).toEncoded(),"date":lastmod,"thumb":crypto}) 
 
