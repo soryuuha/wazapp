@@ -25,8 +25,8 @@ class Utilities():
 
 	debug_mode = 1;
 
-	waversion = "0.9.19"
-	wabuild = ".0.nightly21"
+	waversion = "0.9.20"
+	wabuild = ".0.nightly22"
 
 
 	@staticmethod
