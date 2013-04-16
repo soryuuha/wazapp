@@ -29,6 +29,8 @@ if __name__=="__main__":
 		sys.exit();
 	except dbus.exceptions.DBusException as e:
 		print "CAUGHT EXCEPT"
+		if not os.path.exists("/home/user/.wazapp"):
+			os.mkdir("/home/user/.wazapp")
 		os.system("exec /usr/bin/invoker -s -S /opt/waxmppplugin/bin/wazapp/UI/common/images/splash/wasplash.png --type=e /opt/waxmppplugin/bin/wazapp/wazapp > /home/user/.wazapp/walogs 2>&1");
 	
 
