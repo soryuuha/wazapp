@@ -179,7 +179,7 @@ PageStackWindow {
         ListElement{name: "Congo, Republic of the"; cc:"242"; mcc:"629"}
         ListElement{name: "Cook Islands"; cc:"682"; mcc:"548"}
         ListElement{name: "Costa Rica"; cc:"506"; mcc:"658"}
-        ListElement{name: "Cote d'Ivoire"; cc:"712"}
+        ListElement{name: "Cote d'Ivoire"; cc:"225"; mcc:"612"}
         ListElement{name: "Croatia"; cc:"385"; mcc:"219"}
         ListElement{name: "Cuba"; cc:"53"; mcc:"368"}
         ListElement{name: "Cyprus"; cc:"357"; mcc:"280"}
