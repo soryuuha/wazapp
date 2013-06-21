@@ -47,7 +47,7 @@ class ConnMonitor(QObject):
 		self.mobiledata = True
 		self.cellular = True
 		
-		self.wasForceRequest = False
+		self.wasError = False
 		
 		self.manager.onlineStateChanged.connect(self.onOnlineStateChanged)
 		self.manager.configurationChanged.connect(self.onConfigurationChanged)
@@ -56,6 +56,7 @@ class ConnMonitor(QObject):
 		#self.disconnected.connect(self.onOffline)
 		self.session =  QNetworkSession(self.manager.defaultConfiguration());
 		self.session.stateChanged.connect(self.sessionStateChanged)
+		self.session.error.connect(self.sessionError);
 		#self.session.closed.connect(self.disconnected);
 		#self.session.opened.connect(self.connected);
 		
@@ -65,11 +66,16 @@ class ConnMonitor(QObject):
 		self.mcenface.connect_to_signal("radio_states_ind", self.mceStateChanged)
 		
 		self.mceStateChanged(open("/var/lib/mce/radio_states.online", "r").read())
+
+	def sessionError(self,error):
+		self._d("Session error: " + str(error))
+		self._d("Session error: " + self.session.errorString())
+		self.wasError = True
 	
 	def mceStateChanged(self,state):
 		if int(state)&4:
 			self.mobiledata = True
-			self.wasForceRequest = False
+			self.wasError = False
 			self._d("mce mobile data enabled. can connect to network now")
 		else:
 			self.mobiledata = False
@@ -83,11 +89,10 @@ class ConnMonitor(QObject):
 		self._d("ConnMonitor.sessionStateChanged "+str(state));
 		if state==5: #QNetworkSession::Disconnected
 			self.disconnected.emit()
-			if not self.mobiledata and not self.wasForceRequest:
-				self.wasForceRequest = True
+			if not self.mobiledata and not self.wasError:
 				self.createSession()
-			elif self.wasForceRequest:
-				self._d("force connection request already used. cant auto connect to network now")
+			elif self.wasError:
+				self._d("connection request was aborted by user. cant auto connect to network now")
 			if self.mobiledata:
 				self.createSession()
 		if state==3:
@@ -100,6 +105,7 @@ class ConnMonitor(QObject):
 		self._d("ConnMonitor.createSession")
 		if not self.session.isOpen():
 			self.session.open();
+			self.sessionError(self.session.error())
 			if self.session.waitForOpened(-1):
 				self._d("Network session opened!")
 				self.connected.emit()
