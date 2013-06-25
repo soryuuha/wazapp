@@ -71,7 +71,7 @@ function addMessage(reverse,position,message)
                             "status":msg_status,
                             "author":author,
                             "pushname":message.pushname,
-                            "mediatype_id":message.media_id?message.media.mediatype_id:1,
+                            "mediatype_id":message.media_id?(typeof(message.media)!="undefined"?message.media.mediatype_id:1):1,
                             "media":message.media,
                             "progress":0})
 
